@@ -1,59 +1,178 @@
-# PadelClient
+# 🎾 Padel v1.0  
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.6.
+Aplicación **Fullstack** desarrollada con:  
 
-## Development server
+- **Frontend:** Angular + CSS  
+- **Backend:** NestJS  
+- **Base de datos:** MySQL  
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
-```
+## Cómo levantar el proyecto
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 1- Clonar repositorio
 
 ```bash
-ng generate component component-name
+git clone https://github.com/XAcademy-e-2-mayo-25/Padel-Client.git
+cd Padel-Client
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## 2- Cambiar a la rama de frontend
 
 ```bash
-ng generate --help
+git checkout frontend/home
 ```
 
-## Building
-
-To build the project run:
+## 3- Instalar dependencias
 
 ```bash
-ng build
+npm install
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## 4- Levantar el servidor de desarrollo
 
 ```bash
-ng test
+ng serve --open
 ```
 
-## Running end-to-end tests
+### Por defecto, se abrirá en: <http://localhost:4200/>
 
-For end-to-end (e2e) testing, run:
+## Requisitos
+
+Node.js: >= 18 (se recomienda v20+)
+
+npm: incluido con Node.js
+
+Angular CLI
 
 ```bash
-ng e2e
+npm install -g @angular/cli
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Comandos útiles
 
-## Additional Resources
+### Verificar versión de Angular y dependencias
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+```bash
+ng version
+
+```
+
+### Generar un nuevo componente
+
+```bash
+ng generate component nombre-componente
+```
+
+### Generar un nuevo servicio
+
+```bash
+ng generate service nombre-servicio
+```
+
+### Compilar para producción
+
+```bash
+ng build --configuration production
+```
+
+# RAMAS
+
+## 1- Antes de hacer commits, asegúrate de estar en la rama correcta:
+
+```bash
+git status
+
+```
+
+### 2- Crear una rama (desde master)
+
+### Situarte en master y traer los últimos cambios:
+
+```bash
+git checkout master
+git pull origin master
+```
+
+## 3- Crear la rama y moverte a ella:
+
+```bash
+git checkout -b nombre-rama
+# (alternativa moderna) git switch -c nombre-rama
+```
+
+## 4- Reemplazá nombre-rama por algo descriptivo, p.ej. feature/mi-cambio o fix/login-error.
+
+## Subir la rama al remoto y establecer el upstream (para poder hacer git push/git pull fácilmente):
+
+```bash
+git push -u origin nombre-rama
+```
+
+## 5- Trabajar, commitear y pushear normalmente:
+
+```bash
+git add .
+git commit -m "Mensaje corto y claro"
+git push
+```
+
+## 6- Eliminar la rama cuando ya no se use
+
+### Antes: asegurate de que la rama fue mergeada a master (o que realmente querés borrarla).
+
+## 7- Volver a master y actualizar:
+
+```bash
+git checkout master
+git pull origin master
+```
+
+### (Opcional) Ver qué ramas ya están fusionadas en master:
+
+```bash
+git branch --merged master
+```
+
+## 8- Borrar la rama local:
+
+```bash
+git branch -d nombre-rama   # usa -d si está mergeada
+# o, si querés forzar el borrado aunque no esté mergeada:
+git branch -D nombre-rama
+```
+
+## 9- Borrar la rama remota en GitHub:
+
+```bash
+git push origin --delete nombre-rama
+```
+
+## 10- Limpiar referencias remotas obsoletas en tu local:
+
+```bash
+git fetch --prune
+# o: git remote prune origin
+``` 
+
+# Comandos útiles para comprobar
+
+### Ver ramas locales: git branch
+
+### Ver ramas remotas: git branch -r
+
+### Ver todas: git branch -a
+
+### Nota importante
+
+### No podés borrar la rama en la que estás parado: cambiate a otra (ej. master) antes.
+
+Si la rama está protegida en GitHub (branch protection), GitHub no te permitirá borrarla desde remoto hasta que se quite la protección o tengas permisos suficientes.
+
+Si querés, te doy una línea que hace local+remoto (cambiate primero a master):
+
+```bash
+git checkout master && git pull origin master && git branch -d nombre-rama && git
+
+```
+
