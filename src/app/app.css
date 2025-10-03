@@ -1,0 +1,25 @@
+.btn-google{
+  background: white;
+  color: #3c4043;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  padding: 10px 24px;
+  font-weight: 500;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 0 auto;
+  max-width: 300px;
+}
+
+.btn-google:hover {
+  background: #0d6efd;
+  border-color: #0d6efd;
+  color: #fbfcfc;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.google-logo {
+  border-radius: 50%; /* Esto lo hace circular */
+}
