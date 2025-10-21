@@ -1,12 +1,4 @@
-:root {
-  --bg-1: #7ce0fc;
-  --bg-2: #b9f1ff;
-  --accent: #01091a;
-  --accent-dark: #1a414c;
-  --card-bg: rgba(255, 255, 255, 0.55);
-}
 
-/* === Fondo principal solo para este componente === */
 .not-found-wrapper {
   position: relative;
   min-block-size: 100vh;
@@ -16,50 +8,52 @@
   padding: 2rem;
   box-sizing: border-box;
 
-  /* ruta a tu fondo dentro de src/assets */
-  background-image: url('/assets/fondo.png');
+
+  background-image: url('../../../../public/fondo.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
 
-/* === Overlay oscuro (mejora legibilidad del contenido) === */
+
 .not-found-wrapper::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.3));
+  background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.15)); /* Reducí opacidad */
   z-index: 0;
 }
 
-/* === Tarjeta del mensaje === */
+
 .not-found-card {
   position: relative;
-  z-index: 1; /* sobre el overlay */
+  z-index: 1;
   inline-size: min(760px, 92%);
-  background: var(--card-bg);
-  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
   border-radius: 18px;
   padding: 2.2rem 2.4rem;
   text-align: center;
-  box-shadow: 0 18px 40px rgba(1, 9, 26, 0.25);
+  box-shadow: 0 18px 40px rgba(1, 9, 26, 0.4);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* === Título principal === */
+
 .not-found-card h1 {
   margin: 0;
   font-size: clamp(3rem, 6vw, 5rem);
-  color: var(--accent);
+  color: white;
   font-weight: 800;
   letter-spacing: 1px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* === Imagen de la raqueta === */
+
 .logo404 {
   position: relative;
   inline-size: 220px;
@@ -75,7 +69,7 @@
   display: block;
   animation: float 1.8s ease-in-out infinite;
   transform-origin: center;
-  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.3));
 }
 
 .logo404 .shadow {
@@ -87,57 +81,59 @@
   block-size: 10px;
   background: radial-gradient(
     ellipse at center,
-    rgba(0, 0, 0, 0.35),
+    rgba(0, 0, 0, 0.5),
     rgba(0, 0, 0, 0)
   );
   border-radius: 50%;
   filter: blur(4px);
 }
 
-/* === Textos secundarios === */
 .lead {
   margin: 0;
-  color: var(--accent);
+  color: white;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .sub {
   margin: 0;
-  color: var(--accent);
-  opacity: 0.85;
+  color: white;
+  opacity: 0.9;
   max-inline-size: 70ch;
-  line-height: 1.4;
+  line-height: 1.5;
+  font-size: 1.1rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
+
 /* === Botón “Volver al inicio” === */
 .btn-home {
   display: inline-block;
-  margin-block-start: 1.2rem;
-  padding: 0.8rem 1.8rem;
+  margin-block-start: 1.5rem;
+  padding: 0.9rem 2rem;
   border-radius: 30px;
-  background: var(--accent);
-  color: var(--bg-1);
+  background: #0d6efd;
+  color: white;
   font-weight: 700;
   text-decoration: none;
   letter-spacing: 0.5px;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(1, 9, 26, 0.25);
+  box-shadow: 0 4px 12px rgba(1, 9, 26, 0.3);
+  border: none;
+  cursor: pointer;
 }
 
 .btn-home:hover {
-  background: var(--accent-dark);
+  background: #15303a;
   color: white;
   transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(1, 9, 26, 0.35);
+  box-shadow: 0 8px 18px rgba(1, 9, 26, 0.4);
 }
 
 .btn-home:active {
   transform: translateY(1px);
-  box-shadow: 0 3px 8px rgba(1, 9, 26, 0.25);
+  box-shadow: 0 3px 8px rgba(1, 9, 26, 0.3);
 }
-
-
-
 
 /* === Animación de la raqueta === */
 @keyframes float {
@@ -153,29 +149,27 @@
 }
 
 /* === Responsivo === */
-
 @media (max-width: 420px) {
   .btn-home {
-    padding: 0.6rem 1.4rem;
-    font-size: 0.9rem;
+    padding: 0.7rem 1.6rem;
+    font-size: 0.95rem;
   }
-}
-@media (max-width: 420px) {
+
   .logo404 {
     inline-size: 150px;
   }
 
   .not-found-card {
-    padding: 1.4rem;
+    padding: 1.6rem;
     border-radius: 14px;
-    gap: 0.6rem;
+    gap: 0.8rem;
   }
 
   .not-found-card h1 {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
   }
 
   .sub {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
 }
