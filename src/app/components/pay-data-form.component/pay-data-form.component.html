@@ -1,0 +1,75 @@
+<div class="page">
+    <div class="col-md-5 text-center">
+      <img src="/brand.png" alt="Paddle Reserve" class="img-fluid" style="max-inline-size: 250px;" />
+    </div>
+
+  <div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-sm">
+        <div class="card-header bg-light text-center">
+          <h5 class="mb-0">DATOS PAGOS</h5>
+        </div>
+
+        <div class="card-body bg-light-subtle">
+          <form [formGroup]="form" (ngSubmit)="submit()">
+            <!-- Método de pago -->
+            <div class="mb-3">
+              <label class="form-label">Método de pago:</label>
+              <select class="form-select" formControlName="metodo">
+                <option></option> 
+              </select>
+              <div class="text-danger small">
+                Seleccioná un método
+              </div>
+            </div>
+
+            <!-- CBU / CVU -->
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">CBU:</label>
+                <input type="text" class="form-control" formControlName="cbu" placeholder="0000000000000000000000" />
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">CVU:</label>
+                <input type="text" class="form-control" formControlName="cvu" placeholder="0000000000000000000000" />
+              </div>
+            </div>
+
+            <!-- Alias -->
+            <div class="mb-3">
+              <label class="form-label">Alias:</label>
+              <input type="text" class="form-control" formControlName="alias" placeholder="Alias" />
+            </div>
+
+            <!-- Checkboxes -->
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="checkbox" id="aceptoDatos" formControlName="aceptoDatos" />
+              <label class="form-check-label" for="aceptoDatos">
+                Declaro que los datos ingresados son verídicos y autorizo su uso conforme a los términos y condiciones
+                de Paddle Reserve.
+              </label>
+            </div>
+            <div class="text-danger small mb-2">
+              Debes aceptar los términos para continuar.
+            </div>
+
+            <div class="form-check mb-4">
+              <input class="form-check-input" type="checkbox" id="aceptoConfidencial" formControlName="aceptoConfidencial" />
+              <label class="form-check-label" for="aceptoConfidencial">
+                La información de mis medios de pago será tratada de forma segura y confidencial.
+              </label>
+            </div>
+
+            <!-- Botones -->
+            <div class="d-flex justify-content-between">
+              <button type="button" class="btn btn-outline-primary" (click)="goBack()">VOLVER</button>
+              <button type="submit" class="btn btn-success">REGISTRARSE</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
