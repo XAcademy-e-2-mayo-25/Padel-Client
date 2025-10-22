@@ -11,7 +11,7 @@ import { CourtDataFormComponent } from './components/court-data-form.component/c
 import { RegisterFormComponent } from './components/register-form.component/register-form.component';
 import { PayDataFormComponent } from './components/pay-data-form.component/pay-data-form.component';
 import { RegisterSuccessComponent } from './components/register-success.component/register-success.component';
-
+import { RolSelectorComponent } from './components/rol-selector.component/rol-selector.component';
 @NgModule({
   declarations: [],
   imports: [
@@ -27,7 +27,8 @@ import { RegisterSuccessComponent } from './components/register-success.componen
     Error404,
     CourtDataFormComponent,
     PayDataFormComponent,
-    RegisterSuccessComponent
+    RegisterSuccessComponent,
+    RolSelectorComponent
 
   ],
   providers: [],

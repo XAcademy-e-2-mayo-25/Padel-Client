@@ -8,7 +8,7 @@ import { HomeComponent } from './components/home/home.component';
 import { PayDataFormComponent } from './components/pay-data-form.component/pay-data-form.component';
 import { RegisterSuccessComponent } from './components/register-success.component/register-success.component';
 import { RegisterWithoutCourtsComponent } from './components/register-without-courts.component/register-without-courts.component';
-
+import { RolSelectorComponent} from './components/rol-selector.component/rol-selector.component';
 export const routes: Routes = [
   { path: '', redirectTo: 'register', pathMatch: 'full' },
   { path: 'register', component: RegisterComponent },
@@ -19,6 +19,7 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'register-withouts', component: RegisterWithoutCourtsComponent },
   { path: 'court-form', component: CourtDataFormComponent },
+  { path: 'rol-selector', component: RolSelectorComponent},
   { path: '404', component: Error404 },
   { path: '**', redirectTo: '404' },
 ];

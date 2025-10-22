@@ -1,0 +1,30 @@
+<div class="container d-flex flex-column min-vh-100 py-5">
+  <!-- Botón cerrar sesión -->
+  <div class="d-flex justify-content-end mb-4">
+    <button class="btn btn-danger btn-ml" (click)="logout()">Cerrar Sesión</button>
+  </div>
+
+  <!-- Contenedor principal -->
+  <div class="row border rounded p-4 align-items-center bg-container flex-grow-1 justify-content-center">
+    <!-- Columna del logo -->
+    <div class="col-md-5 text-center mb-4 mb-md-0">
+      <img
+        src="/brand.png"
+        alt="Logo Paddle Reserve"
+        class="img-fluid"
+        style="max-inline-size: 250px"
+      />
+    </div>
+
+    <!-- Columna del texto -->
+    <div class="col-md-7 text-center">
+      <h1 class="fw-bold mb-3 text-md-start">¿Cómo quieres ingresar?</h1>
+      <div class="d-flex flex-wrap justify-content-center justify-content-md-start gap-3 p-3">
+        <button class="btn btn-success btn-lg">JUGADOR</button>
+        <button class="btn btn-primary btn-lg">CLUB</button>
+        <button class="btn btn-secondary btn-lg">ADMINISTRADOR</button>
+      </div>
+    </div>
+  </div>
+</div>
+
