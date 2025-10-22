@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { RegisterComponent } from './components/register-component/register-component';
-import { RegisterFormComponent } from './components/register-form.component/register-form.component';
-import { CourtDataFormComponent } from './components/court-data-form.component/court-data-form.component';
+import { RegisterFormComponent } from './components/register-form/register-form.component';
+import { CourtDataFormComponent } from './components/court-data-form/court-data-form.component';
 import { Error404 } from './components/error404/error404';
 import { HomeComponent } from './components/home/home.component';
-import { PayDataFormComponent } from './components/pay-data-form.component/pay-data-form.component';
-import { RegisterSuccessComponent } from './components/register-success.component/register-success.component';
-import { RegisterWithoutCourtsComponent } from './components/register-without-courts.component/register-without-courts.component';
-import { RolSelectorComponent} from './components/rol-selector.component/rol-selector.component';
+import { PayDataFormComponent } from './components/pay-data-form/pay-data-form.component';
+import { RegisterSuccessComponent } from './components/register-success/register-success.component';
+import { RegisterWithoutCourtsComponent } from './components/register-without-courts/register-without-courts.component';
+import { RolSelectorComponent} from './components/rol-selector/rol-selector.component';
 export const routes: Routes = [
   { path: '', redirectTo: 'register', pathMatch: 'full' },
   { path: 'register', component: RegisterComponent },
