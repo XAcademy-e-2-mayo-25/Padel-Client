@@ -1,0 +1,24 @@
+.bg-container {
+  background-color: #02020216;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-block-size: 35vh;
+}
+
+h1 {
+  color: #255a69;
+  font-size: 2.5rem;
+
+}
+.btn {
+  min-inline-size: 150px;
+  padding: 12px 24px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}

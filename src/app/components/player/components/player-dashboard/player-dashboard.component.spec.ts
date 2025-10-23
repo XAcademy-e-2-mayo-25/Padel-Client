@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Error404 } from './error404';
+import { PlayerDashboard } from './player-dashboard.component';
 
-describe('Error404', () => {
-  let component: Error404;
-  let fixture: ComponentFixture<Error404>;
+describe('PlayerDashboard', () => {
+  let component: PlayerDashboard;
+  let fixture: ComponentFixture<PlayerDashboard>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Error404]
+      imports: [PlayerDashboard]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(Error404);
+    fixture = TestBed.createComponent(PlayerDashboard);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
