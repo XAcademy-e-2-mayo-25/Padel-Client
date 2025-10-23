@@ -1,0 +1,72 @@
+<div class="daily-calendar-container">
+  <!-- Header super compacto -->
+  <div class="calendar-header text-center">
+    <h3 class="fw-bold mb-1 text-main-color">Reservas del Día</h3>
+
+    <div class="navigation-controls">
+      <button class="btn btn-outline-secondary btn-xs" (click)="previousDay()" title="Día anterior">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+
+      <button class="btn btn-xs me-1"
+              (click)="goToToday()"
+              [class.btn-primary]="isToday()"
+              [class.text-white]="isToday()"
+              [class.btn-outline-primary]="!isToday()">
+        {{ isToday() ? 'Hoy' : getFormattedDate() }}
+      </button>
+
+      <button class="btn btn-outline-secondary btn-xs" (click)="nextDay()" title="Día siguiente">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Grid del calendario diario - más angosto -->
+  <div class="daily-calendar-grid mt-2">
+    <!-- Header de canchas -->
+    <div class="grid-header">
+      <div class="time-label">Hora</div>
+      <div class="court-header">Cancha1</div>
+      <div class="court-header">Cancha2</div>
+      <div class="court-header">Cancha3</div>
+    </div>
+
+    <!-- Filas de horas - más compactas -->
+    <div *ngFor="let hour of hours; let i = index" class="time-row">
+      <div class="time-label">{{ hour }}</div>
+
+      <!-- Celdas para cada cancha -->
+      <div *ngFor="let court of courts; let j = index"
+           class="court-slot"
+           [class.has-reservation]="hasReservation(court, hour)"
+           [class.reservation-pendiente]="hasReservation(court, hour)?.status === 'pendiente'"
+           [class.reservation-cancelada]="hasReservation(court, hour)?.status === 'cancelada'"
+           [title]="hasReservation(court, hour) ?
+                   hasReservation(court, hour).playerName + ' - ' +
+                   hasReservation(court, hour).startTime + ' a ' +
+                   hasReservation(court, hour).endTime : 'Disponible'">
+
+        <div *ngIf="hasReservation(court, hour)" class="reservation-dot"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leyenda compacta -->
+  <div class="calendar-legend">
+    <div class="d-flex justify-content-center gap-5 small">
+      <div class="d-flex align-items-center">
+        <h5 class="legend-dot available me-1"></h5>
+        <h5>Libre</h5>
+      </div>
+      <div class="d-flex align-items-center">
+        <h5 class="legend-dot reserved me-1"></h5>
+        <h5>Ocupado</h5>
+      </div>
+      <div class="d-flex align-items-center">
+        <h5 class="legend-dot pending me-1"></h5>
+        <h5>Pendiente</h5>
+      </div>
+    </div>
+  </div>
+</div>

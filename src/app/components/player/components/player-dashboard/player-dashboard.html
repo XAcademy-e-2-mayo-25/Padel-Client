@@ -1,1 +1,134 @@
-<p>player-dashboard works!</p>
+<div class="container py-3">
+  <!-- Header con logo y cerrar sesión -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <!-- Logo -->
+    <div class="rounded px-3 py-2">
+      <img src="/brand.png" alt="logo de padle reserve" class="logo-placeholder" />
+    </div>
+
+    <!-- Saludo -->
+    <div class="text-center mb-4 flex-grow-1 mx-3">
+      <h1 class="fw-bold mb-2">¡Hola, {{ playerName }}!</h1>
+      <h3 class="lead">¿Listo para jugar un partido hoy?</h3>
+    </div>
+
+    <!-- Botón Cerrar Sesión -->
+    <button class="btn btn-danger btn-sm logout-btn" (click)="logout()">
+      <i class="fas fa-sign-out-alt me-1"></i>
+      Cerrar Sesión
+    </button>
+  </div>
+
+  <!-- Grid principal: 2 columnas (7 para cards, 5 para calendario) -->
+  <div class="row">
+    <!-- Columna izquierda: Cards -->
+    <div class="col-md-7">
+      <div class="row g-3">
+        <!-- Fila 1 -->
+        <div class="col-6">
+          <div
+            class="card h-100 option-card card-reservas"
+            routerLink="/reservar"
+            (click)="navigateTo('reservas')"
+          >
+            <div class="card-body text-center p-3">
+              <div class="icon-wrapper mb-2">
+                <i class="fas fa-calendar-alt fa-lg"></i>
+              </div>
+              <h6 class="card-title fw-bold mb-1">RESERVAS</h6>
+              <p class="card-text small mb-2">Buscá y reservá canchas fácilmente.</p>
+              <div class="action-link">
+                <span class="btn btn-card-action">IR →</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div
+            class="card h-100 option-card card-partidos"
+            routerLink="/partidos"
+            (click)="navigateTo('partidos')"
+          >
+            <div class="card-body text-center p-3">
+              <div class="icon-wrapper mb-2">
+                <i class="fas fa-table-tennis fa-lg"></i>
+              </div>
+              <h6 class="card-title fw-bold mb-1">PARTIDOS</h6>
+              <p class="card-text small mb-2">Unite o creá tu propio partido.</p>
+              <div class="action-link">
+                <span class="btn btn-card-action">IR →</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fila 2 -->
+        <div class="col-6">
+          <div
+            class="card h-100 option-card card-amigos"
+            routerLink="/amigos"
+            (click)="navigateTo('amigos')"
+          >
+            <div class="card-body text-center p-3">
+              <div class="icon-wrapper mb-2">
+                <i class="fas fa-users fa-lg"></i>
+              </div>
+              <h6 class="card-title fw-bold mb-1">AMIGOS</h6>
+              <p class="card-text small mb-2">Agregá compañeros y formá equipos.</p>
+              <div class="action-link">
+                <span class="btn btn-card-action">IR →</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div
+            class="card h-100 option-card card-perfil"
+            routerLink="/perfil"
+            (click)="navigateTo('perfil')"
+          >
+            <div class="card-body text-center p-3">
+              <div class="icon-wrapper mb-2">
+                <i class="fas fa-user-circle fa-lg"></i>
+              </div>
+              <h6 class="card-title fw-bold mb-1">PERFIL</h6>
+              <p class="card-text small mb-2">Actualizá tu nivel y preferencias.</p>
+              <div class="action-link">
+                <span class="btn btn-card-action">IR →</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fila 3 - Última card centrada -->
+        <div class="col-6 offset-3">
+          <div
+            class="card h-100 option-card card-ayuda"
+            routerLink="/ayuda"
+            (click)="navigateTo('ayuda')"
+          >
+            <div class="card-body text-center p-3">
+              <div class="icon-wrapper mb-2">
+                <i class="fas fa-question-circle fa-lg"></i>
+              </div>
+              <h6 class="card-title fw-bold mb-1">AYUDA</h6>
+              <p class="card-text small mb-2">Encontrá respuestas o contactanos.</p>
+              <div class="action-link">
+                <span class="btn btn-card-action">IR →</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Columna derecha: Calendario -->
+    <div class="col-md-5">
+      <div class="calendar-sidebar h-100">
+        <app-daily-calendar></app-daily-calendar>
+      </div>
+    </div>
+  </div>
+</div>

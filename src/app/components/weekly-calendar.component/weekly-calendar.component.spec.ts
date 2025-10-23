@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Error404 } from './error404';
+import { WeeklyCalendarComponent } from './weekly-calendar.component';
 
-describe('Error404', () => {
-  let component: Error404;
-  let fixture: ComponentFixture<Error404>;
+describe('WeeklyCalendarComponent', () => {
+  let component: WeeklyCalendarComponent;
+  let fixture: ComponentFixture<WeeklyCalendarComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Error404]
+      imports: [WeeklyCalendarComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(Error404);
+    fixture = TestBed.createComponent(WeeklyCalendarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

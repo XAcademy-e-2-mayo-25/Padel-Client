@@ -7,5 +7,12 @@ import { Component } from '@angular/core';
   styleUrl: './player-dashboard.css'
 })
 export class PlayerDashboard {
+navigateTo(arg0: string) {
+throw new Error('Method not implemented.');
+}
+playerName: any;
+logout() {
+throw new Error('Method not implemented.');
+}
 
 }
