@@ -9,5 +9,15 @@ import { Router } from '@angular/router';
   imports: [CommonModule]
 })
 export class CourtDataFormComponent {
+continuar() {
+throw new Error('Method not implemented.');
+}
+configurarDespues() {
+throw new Error('Method not implemented.');
+}
+volver() {
+throw new Error('Method not implemented.');
+}
+horarios: any;
 
 }

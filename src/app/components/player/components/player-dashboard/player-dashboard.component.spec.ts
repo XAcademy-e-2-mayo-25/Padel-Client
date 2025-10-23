@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PlayerDashboard } from './player-dashboard';
+import { PlayerDashboard } from './player-dashboard.component';
 
 describe('PlayerDashboard', () => {
   let component: PlayerDashboard;

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RegisterComponent } from './components/register-component/register-component';
+import { RegisterComponent } from './components/register-component/register.component';
 import { HomeComponent } from './components/home/home.component';
 import { Error404 } from './components/error404/error404.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -12,6 +12,7 @@ import { RegisterFormComponent } from './components/register-form/register-form.
 import { PayDataFormComponent } from './components/pay-data-form/pay-data-form.component';
 import { RegisterSuccessComponent } from './components/register-success/register-success.component';
 import { RolSelectorComponent } from './components/rol-selector/rol-selector.component';
+import { DailyCalendarComponent } from './components/daily-calendar/daily-calendar.component';
 @NgModule({
   declarations: [],
   imports: [
@@ -28,7 +29,8 @@ import { RolSelectorComponent } from './components/rol-selector/rol-selector.com
     CourtDataFormComponent,
     PayDataFormComponent,
     RegisterSuccessComponent,
-    RolSelectorComponent
+    RolSelectorComponent,
+    DailyCalendarComponent
 
   ],
   providers: [],

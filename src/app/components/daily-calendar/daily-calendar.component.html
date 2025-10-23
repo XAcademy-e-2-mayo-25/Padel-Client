@@ -8,12 +8,8 @@
         <i class="fas fa-chevron-left"></i>
       </button>
 
-      <button class="btn btn-xs me-1"
-              (click)="goToToday()"
-              [class.btn-primary]="isToday()"
-              [class.text-white]="isToday()"
-              [class.btn-outline-primary]="!isToday()">
-        {{ isToday() ? 'Hoy' : getFormattedDate() }}
+      <button class="btn btn-xs me-1" disabled>       
+              
       </button>
 
       <button class="btn btn-outline-secondary btn-xs" (click)="nextDay()" title="Día siguiente">
@@ -38,16 +34,10 @@
 
       <!-- Celdas para cada cancha -->
       <div *ngFor="let court of courts; let j = index"
-           class="court-slot"
-           [class.has-reservation]="hasReservation(court, hour)"
-           [class.reservation-pendiente]="hasReservation(court, hour)?.status === 'pendiente'"
-           [class.reservation-cancelada]="hasReservation(court, hour)?.status === 'cancelada'"
-           [title]="hasReservation(court, hour) ?
-                   hasReservation(court, hour).playerName + ' - ' +
-                   hasReservation(court, hour).startTime + ' a ' +
-                   hasReservation(court, hour).endTime : 'Disponible'">
+           class="court-slot"></div>
+           
 
-        <div *ngIf="hasReservation(court, hour)" class="reservation-dot"></div>
+        <div *ngIf="hasReservation(courts, hour)" class="reservation-dot"></div>
       </div>
     </div>
   </div>
@@ -69,4 +59,4 @@
       </div>
     </div>
   </div>
-</div>
+

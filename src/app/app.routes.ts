@@ -1,7 +1,7 @@
-import { DailyCalendarComponent } from './components/daily-calendar.component/daily-calendar.component';
+
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RegisterComponent } from './components/register-component/register-component';
+import { RegisterComponent } from './components/register-component/register.component';
 import { RegisterFormComponent } from './components/register-form/register-form.component';
 
 import { HomeComponent } from './components/home/home.component';
@@ -9,7 +9,7 @@ import { PayDataFormComponent } from './components/pay-data-form/pay-data-form.c
 import { RegisterSuccessComponent } from './components/register-success/register-success.component';
 import { RegisterWithoutCourtsComponent } from './components/register-without-courts/register-without-courts.component';
 import { RolSelectorComponent } from './components/rol-selector/rol-selector.component';
-import { PlayerDashboard } from './components/player/components/player-dashboard/player-dashboard';
+import { PlayerDashboard } from './components/player/components/player-dashboard/player-dashboard.component';
 import { CourtDataFormComponent } from './components/court-data-form/court-data-form.component';
 import { Error404 } from './components/error404/error404.component';
 
@@ -23,10 +23,9 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'register-withouts', component: RegisterWithoutCourtsComponent },
   { path: 'court-form', component: CourtDataFormComponent },
-  { path: 'daily-calendar', component: DailyCalendarComponent },
-
   { path: 'rol-selector', component: RolSelectorComponent },
   { path: 'player-dashboard', component: PlayerDashboard },
+
 
   { path: 'error404', component:  Error404},
   { path: '**', redirectTo: '404' },
