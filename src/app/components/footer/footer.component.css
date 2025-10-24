@@ -1,0 +1,29 @@
+/* Padel-Client/src/app/components/footer/footer.component.css */
+:host-context(app-root:has(app-error404)) {
+  display: none !important;
+}
+
+/* O esta alternativa */
+app-root:has(app-error404) app-footer {
+  display: none !important;
+}
+
+footer {
+  margin-block-start: auto;
+  background-color: #b0d7e4;
+  color: #275c6a;
+}
+
+footer a:hover {
+  color: #ffffff !important;
+  transition: color 0.3s ease;
+}
+
+footer .text-muted {
+  color: #adb5bd !important;
+}
+
+footer p {
+  font-size: 1rem;
+  font-weight: 400;
+}

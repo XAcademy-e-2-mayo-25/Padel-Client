@@ -1,12 +1,11 @@
+// src/app/components/register-component/register-component.ts
 import { Component } from '@angular/core';
 import { RouterOutlet } from "@angular/router";
 
 @Component({
   selector: 'app-register-component',
-  imports: [RouterOutlet],
   templateUrl: './register-component.html',
-  styleUrl: './register-component.css'
+  styleUrls: ['./register-component.css'],
+  imports: [RouterOutlet]
 })
-export class RegisterComponent {
-
-}
+export class RegisterComponent {}
