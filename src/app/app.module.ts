@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './components/register-component/register-component';
 import { HomeComponent } from './components/home/home.component';
-import { Error404 } from './components/error404/error404';
+import { Error404 } from './components/error404/error404.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';

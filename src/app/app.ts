@@ -1,11 +1,15 @@
-import { Component, signal } from '@angular/core';
+// src/app/app.component.ts
+import { Component } from '@angular/core';
+import { RouterOutlet } from "@angular/router";
+
 
 @Component({
+
   selector: 'app-root',
-  imports: [],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css'],
+  imports: [RouterOutlet]
 })
 export class App {
-  protected readonly title = signal('padel-client');
+
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
+ standalone: true,
   selector: 'app-register-form.component',
   imports: [],
   templateUrl: './register-form.component.html',
