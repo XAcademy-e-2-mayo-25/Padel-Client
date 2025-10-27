@@ -1,0 +1,79 @@
+<div class="container-fluid d-flex align-items-center justify-content-center min-vh-100 p-3" >
+  <div class="row rounded-4 overflow-hidden align-items-center position-relative border"
+       style="max-inline-size: 1100px; inline-size: 100%; background: white; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);">
+
+    <!-- Columna del logo (izquierda) -->
+    <div class="col-md-4 d-flex justify-content-center align-items-center p-3 position-relative" style="z-index: 1;">
+      <div class="text-center">
+        <img src="/brand.png" alt="Paddle Reserve" class="img-fluid" />
+      </div>
+    </div>
+
+    <!-- Columna del formulario (derecha) -->
+    <div class="col-md-8 p-4 position-relative" style="z-index: 1; background: linear-gradient(to bottom, #ffffff, #f8fafc);">
+      <div class="mb-3 text-center">
+        <h3 class="fw-bold mb-1" style="color: #275c6a;">DATOS DE PAGO</h3>
+        <h5 class="text-muted">Completá tu información de pagos</h5>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <!-- Método de pago -->
+        <div class="mb-3">
+          <label class="form-label fw-medium">Método de pago:</label>
+          <select class="form-select" formControlName="metodo">
+            <option selected>--Seleccionar--</option>
+            <option>Efectivo</option>
+            <option>Transferencia bancaria</option>
+            <option>Tarjeta de crédito/débito</option>
+          </select>
+          <div class="text-danger small mt-1">
+            Seleccioná un método
+          </div>
+        </div>
+
+        <!-- CBU / CVU -->
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label fw-medium">CBU:</label>
+            <input type="text" class="form-control" formControlName="cbu" placeholder="0000000000000000000000" />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label fw-medium">CVU:</label>
+            <input type="text" class="form-control" formControlName="cvu" placeholder="0000000000000000000000" />
+          </div>
+        </div>
+
+        <!-- Alias -->
+        <div class="mb-3">
+          <label class="form-label fw-medium">Alias:</label>
+          <input type="text" class="form-control" formControlName="alias" placeholder="Alias" />
+        </div>
+
+        <!-- Checkboxes -->
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="checkbox" id="aceptoDatos" formControlName="aceptoDatos" />
+          <label class="form-check-label small" for="aceptoDatos">
+            Declaro que los datos ingresados son verídicos y autorizo su uso conforme a los términos y condiciones
+            de Paddle Reserve.
+          </label>
+        </div>
+        <div class="text-danger small mb-2">
+          Debes aceptar los términos para continuar.
+        </div>
+
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="checkbox" id="aceptoConfidencial" formControlName="aceptoConfidencial" />
+          <label class="form-check-label small" for="aceptoConfidencial">
+            La información de mis medios de pago será tratada de forma segura y confidencial.
+          </label>
+        </div>
+
+        <!-- Botones -->
+        <div class="d-flex justify-content-between mt-4">
+          <button type="button" class="btn btn-outline-primary px-3 py-2 fw-medium" (click)="goBack()">VOLVER</button>
+          <button type="submit" class="btn btn-success px-3 py-2 fw-medium">REGISTRARSE</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,137 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <!-- Encabezado con logo y título -->
+      <div class="position-relative mb-4" style="block-size: 120px;">
+        <img
+          src="/brand.png"
+          alt="logo padel"
+          class="position-absolute start-0"
+          style="max-inline-size: 120px; block-size: auto; inset-block-start: 50%; transform: translateY(-50%);"
+        />
+
+        <div
+          class="position-absolute start-50 translate-middle-x text-center"
+          style="inset-block-start: 30%; transform: translate(-50%, -50%)"
+        >
+          <h1 class="mb-1" style="color: #275c6a">Calendario de Reservas</h1>
+          <h3 class="text-muted mb-0">Gestiona tus canchas y horarios</h3>
+        </div>
+      </div>
+
+      <!-- Barra de herramientas -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-body py-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+              <button 
+                type="button" 
+                class="btn btn-outline-primary btn-sm"
+                [class.active]="currentView === 'month'"
+                (click)="changeView('month')"
+                [style.background-color]="currentView === 'month' ? '#275c6a' : 'transparent'"
+                [style.color]="currentView === 'month' ? 'white' : '#275c6a'"
+                style="border-color: #275c6a;">
+                Mensual
+              </button>
+              <button 
+                type="button" 
+                class="btn btn-outline-primary btn-sm"
+                [class.active]="currentView === 'week'"
+                (click)="changeView('week')"
+                [style.background-color]="currentView === 'week' ? '#275c6a' : 'transparent'"
+                [style.color]="currentView === 'week' ? 'white' : '#275c6a'"
+                style="border-color: #275c6a;">
+                Semanal
+              </button>
+              <button 
+                type="button" 
+                class="btn btn-outline-primary btn-sm"
+                [class.active]="currentView === 'day'"
+                (click)="changeView('day')"
+                [style.background-color]="currentView === 'day' ? '#275c6a' : 'transparent'"
+                [style.color]="currentView === 'day' ? 'white' : '#275c6a'"
+                style="border-color: #275c6a;">
+                Diario
+              </button>
+            </div>
+
+            <div>
+              <a [href]="googleCalendarCreateUrl" 
+                 target="_blank" 
+                 class="btn btn-primary btn-sm me-2"
+                 style="background-color: #275c6a; border-color: #275c6a; color: white;">
+                + Crear Reserva
+              </a>
+              <button class="btn btn-outline-secondary btn-sm" (click)="refreshCalendar()">
+                🔄 Actualizar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Google Calendar -->
+      <div class="card shadow-lg border-0">
+        <div class="card-body p-3" style="background-color: #275c6a !important; border-radius: 8px;">
+          <div class="calendar-embed">
+            <iframe 
+              #calendarIframe
+              [src]="calendarUrl"
+              width="100%" 
+              height="600" 
+              frameborder="0" 
+              scrolling="no"
+              style="border: 0; border-radius: 4px;"
+              (load)="onCalendarLoad()"
+              referrerpolicy="no-referrer">
+            </iframe>
+          </div>
+        </div>
+      </div>
+
+      <!-- Información adicional -->
+      <div class="row mt-4">
+        <div class="col-md-6">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 style="color: #275c6a">Cómo usar el calendario</h5>
+              <ul class="list-unstyled text-muted">
+                <li>📅 <strong>Crear reserva:</strong> Haz clic en "Crear Reserva"</li>
+                <li>👀 <strong>Ver detalles:</strong> Haz clic en cualquier evento</li>
+                <li>🔄 <strong>Sincronizar:</strong> Los cambios se guardan automáticamente</li>
+                <li>📱 <strong>Móvil:</strong> Accede desde cualquier dispositivo</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 style="color: #275c6a">Accesos directos</h5>
+              <div class="d-grid gap-2">
+                <a [href]="googleCalendarSettingsUrl" 
+                   target="_blank" 
+                   class="btn  btn-sm"
+                   style="color: #275c6a; border-color: #275c6a;">
+                  ⚙️ Configurar Calendario
+                </a>
+                <a [href]="googleCalendarShareUrl" 
+                   target="_blank" 
+                   class="btn  btn-sm"
+                   style="color: #275c6a; border-color: #275c6a;">
+                  👥 Compartir Calendario
+                </a>
+                <button class="btn btn-sm" (click)="showInstructions()"
+                style="color: #275c6a; border-color: #275c6a;">
+                  ❓ Ayuda
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

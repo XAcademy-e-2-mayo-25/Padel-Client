@@ -1,0 +1,144 @@
+<div class="container py-3 dashboard-container">
+  <!-- Header compacto -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <!-- Logo más pequeño -->
+    <div class="logo-container">
+      <img src="/brand.png" alt="logo de padle reserve" class="dashboard-logo" />
+    </div>
+
+    <!-- Saludo centrado -->
+    <div class="text-center flex-grow-1 mx-2">
+      <h1 class="fw-bold mb-1 dashboard-title">¡Hola, {{ playerName }}!</h1>
+      <h3 class="dashboard-subtitle">¿Listo para jugar un partido hoy?</h3>
+    </div>
+
+    <!-- Botón Cerrar Sesión compacto -->
+    <button class="btn btn-danger btn-sm logout-btn" (click)="logout()">
+      <i class="fas fa-sign-out-alt me-1"></i>
+      Cerrar Sesión
+    </button>
+  </div>
+
+  <!-- Grid principal optimizado -->
+  <div class="row g-2">
+    <!-- Columna izquierda: Cards -->
+    <div class="col-md-7">
+      <div class="row g-2">
+        <!-- Fila 1 -->
+        <div class="col-6">
+          <div class="card h-100 option-card card-reservas" routerLink="/reservar">
+            <div class="card-body text-center p-2">
+              <div class="icon-wrapper mb-1">
+                <i class="fas fa-calendar-alt"></i>
+              </div>
+              <h6 class="card-title fw-bold mb-1">RESERVAS</h6>
+              <p class="card-text small mb-1">Buscá y reservá canchas</p>
+              <div class="action-link">
+                <span class="btn btn-card-action">IR →</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="card h-100 option-card card-partidos" routerLink="/partidos">
+            <div class="card-body text-center p-2">
+              <div class="icon-wrapper mb-1">
+                <i class="fas fa-table-tennis"></i>
+              </div>
+              <h6 class="card-title fw-bold mb-1">PARTIDOS</h6>
+              <p class="card-text small mb-1">Unite o creá partido</p>
+              <div class="action-link">
+                <span class="btn btn-card-action">IR →</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fila 2 -->
+        <div class="col-6">
+          <div class="card h-100 option-card card-amigos" routerLink="/amigos">
+            <div class="card-body text-center p-2">
+              <div class="icon-wrapper mb-1">
+                <i class="fas fa-users"></i>
+              </div>
+              <h6 class="card-title fw-bold mb-1">AMIGOS</h6>
+              <p class="card-text small mb-1">Agregá compañeros</p>
+              <div class="action-link">
+                <span class="btn btn-card-action">IR →</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="card h-100 option-card card-perfil" routerLink="/perfil">
+            <div class="card-body text-center p-2">
+              <div class="icon-wrapper mb-1">
+                <i class="fas fa-user-circle"></i>
+              </div>
+              <h6 class="card-title fw-bold mb-1">PERFIL</h6>
+              <p class="card-text small mb-1">Actualizá tu nivel</p>
+              <div class="action-link">
+                <span class="btn btn-card-action">IR →</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fila 3 - Última card centrada -->
+        <div class="col-6 offset-3">
+          <div class="card h-100 option-card card-ayuda" routerLink="/ayuda">
+            <div class="card-body text-center p-2">
+              <div class="icon-wrapper mb-1">
+                <i class="fas fa-question-circle"></i>
+              </div>
+              <h6 class="card-title fw-bold mb-1">AYUDA</h6>
+              <p class="card-text small mb-1">Encontrá respuestas</p>
+              <div class="action-link">
+                <span class="btn btn-card-action">IR →</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Columna derecha: Calendario optimizado -->
+    <div class="col-md-5">
+      <div class="calendar-container h-100">
+        <div class="card h-100">
+          <div class="card-body p-2 calendar-card-body">
+            <!-- Calendario compacto -->
+            <div class="calendar-compact">
+              <iframe 
+                [src]="calendarUrl"
+                width="100%" 
+                height="320" 
+                frameborder="0" 
+                scrolling="no"
+                style="border: 0; border-radius: 4px;"
+                referrerpolicy="no-referrer">
+              </iframe>
+            </div>
+            
+            <!-- Controles del calendario -->
+            <div class="calendar-controls mt-2">
+              <div class="btn-group w-100" role="group">
+                <button type="button" class="btn btn-outline-primary btn-sm active">Mes</button>
+                <button type="button" class="btn btn-outline-primary btn-sm">Sem</button>
+                <button type="button" class="btn btn-outline-primary btn-sm">Día</button>
+              </div>
+              
+              <div class="mt-2 text-center">
+                <a [href]="googleCalendarCreateUrl" target="_blank" class="btn btn-primary btn-sm w-100">
+                  + Nueva Reserva
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

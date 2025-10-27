@@ -1,0 +1,109 @@
+.bg-container {
+  background-color: #f8f9fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 35vh;
+  border: 1px solid #e9ecef !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+  color: #275c6a;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1rem !important;
+}
+
+.btn {
+  min-width: 140px;
+  padding: 10px 20px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  font-size: 0.9rem;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* Botón JUGADOR */
+.btn-jugador {
+  background-color: #28a745;
+}
+
+.btn-jugador:hover {
+  background-color: #218838;
+}
+
+/* Botón CLUB  */
+.btn-club {
+  background-color: #275c6a;
+}
+
+.btn-club:hover {
+  background-color: #1e4954;
+}
+
+/* Botón ADMINISTRADOR  */
+.btn-administrador {
+  background-color: #fd7e14;
+}
+
+.btn-administrador:hover {
+  background-color: #e66a0a;
+}
+
+/* Botón CERRAR SESIÓN  */
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  font-size: 0.875rem;
+  padding: 6px 12px;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .bg-container {
+    min-height: 30vh;
+    padding: 1rem !important;
+  }
+  
+  h1 {
+    font-size: 1.5rem;
+    text-align: center !important;
+    margin-bottom: 0.75rem !important;
+  }
+  
+  .btn {
+    min-width: 120px;
+    width: 100%;
+    margin-bottom: 6px;
+    padding: 8px 16px;
+  }
+  
+  .d-flex.flex-wrap {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem !important;
+  }
+  
+  .container {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+  
+  .col-md-5 {
+    margin-bottom: 1rem !important;
+  }
+}

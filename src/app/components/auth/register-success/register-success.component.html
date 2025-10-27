@@ -1,0 +1,63 @@
+<div class="container-fluid d-flex flex-column min-vh-100 p-4">
+  <!-- Botón cerrar sesión -->
+  <div class="d-flex justify-content-end mb-4">
+    <button class="btn btn-danger btn-md shadow-sm" (click)="logout()">Cerrar Sesión</button>
+  </div>
+
+  <!-- Contenedor principal -->
+  <div
+    class="row rounded-4 overflow-hidden align-items-center position-relative border flex-grow-1 mx-auto"
+    style="
+      max-inline-size: 1000px;
+      inline-size: 100%;
+      background: white;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    "
+  >
+    <!-- Efecto decorativo -->
+    <div
+      class="position-absolute top-0 start-0 w-100 h-100"
+      style="
+        background: radial-gradient(
+          circle at 30% 70%,
+          rgba(74, 144, 226, 0.05) 0%,
+          transparent 50%
+        );
+        z-index: 0;
+      "
+    ></div>
+
+    <!-- Columna del logo -->
+    <div class="col-md-5 text-center p-4 position-relative" style="z-index: 1">
+      <img
+        src="/brand.png"
+        alt="Logo Paddle Reserve"
+        class="img-fluid mb-3"
+        style="max-inline-size: 240px"
+      />
+    </div>
+
+    <!-- Columna del texto -->
+    <div
+      class="col-md-7 text-center text-md-start p-4 position-relative"
+      style="z-index: 1; background: linear-gradient(to bottom, #ffffff, #f8fafc)"
+    >
+      <h1 class="fw-bold mb-3" style="color: #275c6a">¡Gracias por registrar tu club!</h1>
+
+      <h5 class="mb-3 lh-base text-dark">
+        ¡Tu club ya está en camino! Mientras revisamos tus datos, empezá a cargar canchas y armar
+        turnos. Te vamos a avisar por mail apenas tu cuenta quede habilitada para recibir reservas.
+      </h5>
+
+      <div class="text-center text-md-start mt-4">
+        <button
+          class="btn btn-primary px-4 py-2 fw-medium shadow-sm"
+          (click)="goToHome()"
+          style="border-radius: 8px; font-size: 1rem"
+        >
+          CONTINUAR
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
