@@ -1,6 +1,8 @@
 // src/app/app.component.ts
 import { Component } from '@angular/core';
 import { RouterOutlet } from "@angular/router";
+import { FooterComponent } from "./components/shared/footer/footer.component";
+
 
 
 @Component({
@@ -8,7 +10,7 @@ import { RouterOutlet } from "@angular/router";
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrls: ['./app.css'],
-  imports: [RouterOutlet]
+  imports: [RouterOutlet, FooterComponent]
 })
 export class App {
 

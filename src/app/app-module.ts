@@ -16,6 +16,7 @@ import { RegisterSuccessComponent } from './components/auth/register-success/reg
 import { RolSelectorComponent } from './components/auth/rol-selector/rol-selector.component';
 import { PlayerDashboard } from './components/player/player-dashboard/player-dashboard.component';
 import { CalendarComponent } from './components/shared/calendar/calendar.component';
+import { FooterComponent } from './components/shared/footer/footer.component';
 
 @NgModule({
   declarations: [],
@@ -29,6 +30,7 @@ import { CalendarComponent } from './components/shared/calendar/calendar.compone
     RegisterFormComponent,
     HomeComponent,
     Error404,
+    FooterComponent,
     CourtDataFormComponent,
     PayDataFormComponent,
     RegisterSuccessComponent,
