@@ -1,0 +1,35 @@
+/* Padel-Client/src/app/components/footer/footer.component.css */
+:host-context(app-root:has(app-error404)) {
+  display: none !important;
+}
+app-root:has(app-error404) app-footer {
+  display: none !important;
+}
+
+footer {
+  margin-block-start: auto;
+  background-color: #275c6a;
+  color: #edf0f0;
+}
+
+footer a:hover {
+  color: #ffffff !important;
+  transition: color 0.3s ease;
+}
+
+footer .text-muted {
+  color: #adb5bd !important;
+}
+
+footer p {
+  font-size: 1rem;
+  font-weight: 400;
+}
+.text-decoration-none {
+  color: #edf0f0;
+}
+.text-decoration-none:hover {
+  color: #ffffff !important;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}

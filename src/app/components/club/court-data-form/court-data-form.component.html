@@ -1,0 +1,196 @@
+<!-- court-data-form.component.html -->
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="position-relative mb-4" style="block-size: 100px">
+        <img
+          src="/brand.png"
+          alt="logo padel"
+          class="position-absolute start-0"
+          style="
+            max-inline-size: 120px;
+            margin-block-start: 25px;
+            block-size: auto;
+            inset-block-start: 50%;
+            transform: translateY(-50%);
+          "
+        />
+
+        <div
+          class="position-absolute start-50 translate-middle-x text-center"
+          style="inset-block-start: 50%; transform: translate(-50%, -50%)"
+        >
+          <h2 class="fw-bold mb-1" style="color: #275c6a">CONFIGURÁ TUS CANCHAS</h2>
+        </div>
+      </div>
+
+      <div class="card shadow-lg border-0" style="margin-block-start: 50px">
+        <div class="card-body p-5">
+          <h5 class="mb-4 border-bottom pb-2" style="color: #275c6a">DATOS DE CANCHA</h5>
+
+          <form>
+            <!-- Nombre/Denominación -->
+            <div class="row mb-3">
+              <div class="col-12">
+                <label for="nombreCancha" class="form-label"
+                  >Nombre/Denominación de la cancha</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nombreCancha"
+                  placeholder="Ingresa el nombre de la cancha"
+                />
+              </div>
+            </div>
+
+            <!-- Tipo de superficie -->
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="superficie" class="form-label">Tipo de superficie</label>
+                <select class="form-select" id="superficie">
+                  <option selected>--Seleccionar--</option>
+                  <option>Césped sintético</option>
+                  <option>Cemento</option>
+                  <option>Parquet</option>
+                  <option>Moqueta</option>
+                  <option>Arcilla</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Iluminación y Techada -->
+            <div class="row mb-4">
+              <div class="col-md-6">
+                <label class="form-label">Iluminación</label>
+                <div class="d-flex gap-4">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="iluminacion"
+                      id="iluminacionSi"
+                    />
+                    <label class="form-check-label" for="iluminacionSi">Si</label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="iluminacion"
+                      id="iluminacionNo"
+                    />
+                    <label class="form-check-label" for="iluminacionNo">No</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Techada</label>
+                <div class="d-flex gap-4">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="techada" id="techadaSi" />
+                    <label class="form-check-label" for="techadaSi">Si</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="techada" id="techadaNo" />
+                    <label class="form-check-label" for="techadaNo">No</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <hr />
+
+            <!-- HORARIOS -->
+            <div class="mb-3">
+              <h5 style="color: #275c6a">HORARIOS</h5>
+            </div>
+
+            <!-- Días que no abre -->
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="diasNoAbre" class="form-label">Días que no abre</label>
+                <select class="form-select" id="diasNoAbre">
+                  <option selected>--Seleccionar--</option>
+                  <option>Lunes</option>
+                  <option>Martes</option>
+                  <option>Miércoles</option>
+                  <option>Jueves</option>
+                  <option>Viernes</option>
+                  <option>Sábado</option>
+                  <option>Domingo</option>
+                  <option>Nunca cierra</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Horarios de apertura y cierre -->
+            <div class="row mb-4">
+              <div class="col-md-6">
+                <label for="apertura" class="form-label">Hora de apertura</label>
+                <select class="form-select" id="apertura">
+                  <option selected>--Seleccionar--</option>
+                  <option *ngFor="let hora of horarios" [value]="hora">{{ hora }}</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="cierre" class="form-label">Hora de cierre</label>
+                <select class="form-select" id="cierre">
+                  <option selected>--Seleccionar--</option>
+                  <option *ngFor="let hora of horarios" [value]="hora">{{ hora }}</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Configurar luego -->
+            <div class="row mb-4">
+              <div class="col-12">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="configurarLuego" />
+                  <label class="form-check-label" for="configurarLuego"> Configurar luego </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Agregar Cancha -->
+            <div class="row mb-4">
+              <div class="col-12">
+                <label for="agregarCancha" class="form-label">AGREGAR CANCHA</label>
+                <select class="form-select" id="agregarCancha">
+                  <option selected>--Seleccionar--</option>
+                  <option>Cancha 1</option>
+                  <option>Cancha 2</option>
+                  <option>Cancha 3</option>
+                  <option>Agregar nueva cancha</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Botones -->
+            <div class="row mt-4">
+              <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                  <button type="button" class="btn btn-outline-primary" (click)="volver()">
+                    Volver
+                  </button>
+
+                  <div class="d-flex gap-2">
+                    <!-- Botón para configurar después -->
+                    <button type="button" class="btn btn-primary" (click)="configurarDespues()">
+                      Configurar después
+                    </button>
+
+                    <!-- Botón para continuar (guardar datos) -->
+                    <button type="button" class="btn btn-success" (click)="continuar()">
+                      Guardar y Continuar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+      .btn-spacing {
+        margin-inline-end: 10px;
+      }
+      .logo-container {
+        block-size: 100px;
+        position: relative;
+      }
+      .card-form {
+        margin-block-start: 50px;
+      }

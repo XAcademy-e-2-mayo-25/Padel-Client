@@ -1,0 +1,265 @@
+/* ===== VARIABLES GLOBALES ===== */
+:root {
+  --main-color: #255a69;
+  --main-color-light: #3a7a8c;
+  --main-color-dark: #1a4754;
+  --text-color: #2c3e50;
+  --text-muted: #6c757d;
+}
+
+/* ===== CONTENEDOR PRINCIPAL ===== */
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ===== HEADER ===== */
+.logo-container {
+  flex: 0 0 auto;
+}
+
+.dashboard-logo {
+  width: 80px;
+  height: auto;
+}
+
+.dashboard-title {
+  color: var(--main-color);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-block-end: 0.25rem !important;
+}
+
+.dashboard-subtitle {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 400;
+  margin-block-end: 0 !important;
+}
+
+/* ===== BOTONES ===== */
+.logout-btn {
+  font-size: 0.8rem;
+  padding: 0.4rem 0.8rem;
+  flex: 0 0 auto;
+}
+
+.btn-card-action {
+  font-size: 0.7rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--main-color);
+  color: var(--main-color);
+  background: transparent;
+  border-radius: 15px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-card-action:hover {
+  background: var(--main-color);
+  color: white;
+  transform: translateX(3px);
+}
+
+/* ===== CARDS DE OPCIONES ===== */
+.option-card {
+  transition: all 0.3s ease;
+  border-radius: 12px;
+  cursor: pointer;
+  border: 1px solid #e0e0e0;
+  background: white;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(37, 90, 105, 0.1);
+}
+
+.option-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--main-color), var(--main-color-light));
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.option-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--main-color);
+  box-shadow: 0 8px 20px rgba(37, 90, 105, 0.2);
+}
+
+.option-card:hover::before {
+  transform: scaleX(1);
+}
+
+/* ===== ICONOS ===== */
+.icon-wrapper {
+  inline-size: 45px;
+  block-size: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 8px;
+  background: var(--main-color);
+  color: white;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.option-card:hover .icon-wrapper {
+  transform: scale(1.1);
+  background: var(--main-color-dark);
+}
+
+/* ===== TIPOGRAFÍA ===== */
+/* Títulos de las cards de opciones */
+.option-card .card-title {
+  font-size: 0.85rem;
+  letter-spacing: 0.3px;
+  margin-bottom: 0.25rem;
+  color: var(--main-color);
+  font-weight: 700;
+}
+
+/* Título del calendario - ESTILO ESPECÍFICO */
+.calendar-title {
+  font-size: 1.1rem !important;
+  font-weight: 700;
+  color: var(--main-color) !important;
+  border-bottom: 2px solid var(--main-color);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem !important;
+}
+
+.card-text {
+  font-size: 0.75rem;
+  line-height: 1.3;
+  margin-bottom: 0.5rem;
+  color: var(--text-muted);
+}
+
+/* ===== CALENDARIO ===== */
+.calendar-container {
+  height: 100%;
+}
+
+.calendar-sidebar {
+  position: sticky;
+  top: 1rem;
+}
+
+.calendar-sidebar .card {
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(37, 90, 105, 0.1);
+}
+
+.calendar-card-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar-compact {
+  flex: 1;
+  min-height: 320px;
+}
+
+.calendar-controls .btn-group .btn {
+  font-size: 0.75rem;
+  padding: 0.3rem 0.5rem;
+}
+
+.calendar-controls .btn-outline-primary {
+  color: var(--main-color);
+  border-color: var(--main-color);
+}
+
+.calendar-controls .btn-outline-primary.active {
+  background-color: var(--main-color);
+  color: white;
+  border-color: var(--main-color);
+}
+
+app-calendar {
+  display: block;
+  height: 100%;
+}
+
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 1rem !important;
+  }
+
+  .dashboard-title {
+    font-size: 1.25rem;
+  }
+
+  .dashboard-subtitle {
+    font-size: 0.8rem;
+  }
+
+  .dashboard-logo {
+    width: 60px;
+  }
+
+  .option-card {
+    min-height: 110px;
+  }
+
+  .icon-wrapper {
+    width: 40px;
+    height: 40px;
+    font-size: 0.8rem;
+  }
+
+  .calendar-compact {
+    min-height: 280px;
+  }
+
+  .col-6.offset-3 {
+    margin-left: 25% !important;
+    width: 50% !important;
+  }
+
+  .calendar-sidebar {
+    margin-top: 1.5rem;
+    position: static;
+  }
+
+  .calendar-sidebar .card {
+    min-height: 400px;
+  }
+
+  .calendar-title {
+    font-size: 1rem !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .d-flex.justify-content-between.align-items-center {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .logo-container {
+    margin-bottom: 1rem;
+  }
+
+  .logout-btn {
+    margin-top: 1rem;
+  }
+
+  .col-6.offset-3 {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+}

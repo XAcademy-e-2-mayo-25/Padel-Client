@@ -1,0 +1,16 @@
+.btn-outline-primary.active {
+  background-color: #275c6a !important;
+  color: white !important;
+  border-color: #275c6a !important;
+}
+
+.btn-outline-primary:not(.active) {
+  background-color: transparent !important;
+  color: #275c6a !important;
+  border-color: #275c6a !important;
+}
+
+.btn-outline-primary:hover {
+  background-color: #275c6a !important;
+  color: white !important;
+}
