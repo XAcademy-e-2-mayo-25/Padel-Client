@@ -14,7 +14,7 @@ import { RegisterFormComponent } from './components/auth/register-form/register-
 import { PayDataFormComponent } from './components/club/pay-data-form/pay-data-form.component';
 import { RegisterSuccessComponent } from './components/auth/register-success/register-success.component';
 import { RolSelectorComponent } from './components/auth/rol-selector/rol-selector.component';
-import { PlayerDashboard } from './components/player/player-dashboard/player-dashboard.component';
+import { PlayerDashboardComponent } from './components/player/player-dashboard/player-dashboard.component';
 import { CalendarComponent } from './components/shared/calendar/calendar.component';
 import { FooterComponent } from './components/shared/footer/footer.component';
 
@@ -35,7 +35,7 @@ import { FooterComponent } from './components/shared/footer/footer.component';
     PayDataFormComponent,
     RegisterSuccessComponent,
     RolSelectorComponent,
-    PlayerDashboard,
+    PlayerDashboardComponent,
     CalendarComponent,
     RolSelectorComponent,
 

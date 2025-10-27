@@ -9,7 +9,7 @@ import { PayDataFormComponent } from './components/club/pay-data-form/pay-data-f
 import { RegisterSuccessComponent } from './components/auth/register-success/register-success.component';
 import { RegisterWithoutCourtsComponent } from './components/auth/register-without-courts/register-without-courts.component';
 import { RolSelectorComponent } from './components/auth/rol-selector/rol-selector.component';
-import { PlayerDashboard } from './components/player/player-dashboard/player-dashboard.component';
+import { PlayerDashboardComponent } from './components/player/player-dashboard/player-dashboard.component';
 import { FooterComponent } from './components/shared/footer/footer.component';
 import { CalendarComponent } from './components/shared/calendar/calendar.component';
 
@@ -36,7 +36,7 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent },
 
   // COMPONENTES PARA DASHBOARD DE JUGADOR
-  { path: 'player-dashboard', component: PlayerDashboard },
+  { path: 'player/dashboard', component: PlayerDashboardComponent },
   
   { path: 'footer', component: FooterComponent },
   { path: '404', component: Error404 },
