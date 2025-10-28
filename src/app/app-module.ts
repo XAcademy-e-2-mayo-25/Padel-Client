@@ -18,6 +18,7 @@ import { PlayerDashboardComponent } from './components/player/player-dashboard/p
 import { CalendarComponent } from './components/shared/calendar/calendar.component';
 import { FooterComponent } from './components/shared/footer/footer.component';
 
+
 @NgModule({
   declarations: [],
   imports: [
@@ -38,6 +39,7 @@ import { FooterComponent } from './components/shared/footer/footer.component';
     PlayerDashboardComponent,
     CalendarComponent,
     RolSelectorComponent,
+  
 
   ],
   providers: [],
