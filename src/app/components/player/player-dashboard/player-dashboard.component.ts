@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { SafeResourceUrl } from "@angular/platform-browser";
+import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { CalendarComponent } from "../../shared/calendar/calendar.component";
 
@@ -10,13 +10,15 @@ import { CalendarComponent } from "../../shared/calendar/calendar.component";
   imports: [CalendarComponent]
 })
 export class PlayerDashboardComponent implements OnInit {
-  playerName: string = 'Jugador'; // Ejemplo
+  playerName: string = 'Jugador';
   calendarUrl!: SafeResourceUrl;
   currentView: string = 'week';
-  calendarId: string = 'primary'; // Cambia por tu calendar ID
-  sanitizer: any;
+  calendarId: string = 'primary';
 
-
+  constructor(
+    private router: Router,
+    private sanitizer: DomSanitizer 
+  ) {}
 
   ngOnInit() {
     this.updateCalendarUrl();
@@ -38,12 +40,11 @@ export class PlayerDashboardComponent implements OnInit {
     return `https://calendar.google.com/calendar/r/eventedit?src=${this.calendarId}`;
   }
 
-  constructor(private router: Router) {}
-
-  // Añade estos métodos que faltan
   logout(): void {
     // Lógica para cerrar sesión
     console.log('Cerrando sesión...');
+    // Ejemplo: this.authService.logout();
+    // this.router.navigate(['/login']);
   }
 
   navigateTo(destination: string): void {
