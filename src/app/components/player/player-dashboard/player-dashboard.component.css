@@ -1,11 +1,4 @@
-/* ===== VARIABLES GLOBALES ===== */
-:root {
-  --main-color: #255a69;
-  --main-color-light: #3a7a8c;
-  --main-color-dark: #1a4754;
-  --text-color: #2c3e50;
-  --text-muted: #6c757d;
-}
+
 
 /* ===== CONTENEDOR PRINCIPAL ===== */
 .dashboard-container {
