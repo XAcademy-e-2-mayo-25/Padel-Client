@@ -1,1 +1,192 @@
-<p>player-reservations.component works!</p>
+<div class="container py-3 dashboard-container">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <!-- Logo -->
+    <div class="logo-container">
+      <img src="/brand.png" alt="logo de padel reserve" class="dashboard-logo" />
+    </div>
+
+    <!-- Saludo centrado -->
+    <div class="text-center flex-grow-1 mx-2">
+      <h1 class="fw-bold mb-1 dashboard-title">Mis Reservas</h1>
+      
+    </div>
+
+    <!-- Botón Cerrar Sesión -->
+    <button class="btn btn-danger btn-sm logout-btn" (click)="logout()">
+      <i class="bi bi-box-arrow-right me-1"></i>
+      Cerrar Sesión
+    </button>
+  </div>
+
+  <!-- Controles de Filtro y Búsqueda -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row g-3 align-items-center">
+            <div class="col-md-4">
+              <label class="form-label small fw-bold text-secondary">Filtrar por estado</label>
+              <select class="form-select form-select-sm">
+                <option selected>Todas las reservas</option>
+                <option>Confirmadas</option>
+                <option>Pendientes</option>
+                <option>Canceladas</option>
+                <option>Completadas</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label small fw-bold text-secondary">Buscar por cancha</label>
+              <input type="text" class="form-control form-control-sm" placeholder="Nombre de la cancha...">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label small fw-bold text-secondary">Rango de fechas</label>
+              <input type="date" class="form-control form-control-sm">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lista de Reservas -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header bg-light">
+          <h5 class="card-title mb-0">Próximas Reservas</h5>
+        </div>
+        <div class="card-body">
+          <div class="reservation-list">
+            <!-- Reserva 1 -->
+            <div class="reservation-item border-bottom pb-3 mb-3">
+              <div class="row align-items-center">
+                <div class="col-md-3">
+                  <div class="d-flex align-items-center">
+                    <div class="reservation-icon me-3">
+                      <i class="fas fa-calendar-check text-success"></i>
+                    </div>
+                    <div>
+                      <h6 class="mb-1 fw-bold">Cancha 1 - Club Central</h6>
+                      <small class="text-muted">Reserva #001</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="text-center">
+                    <div class="fw-bold">15 Nov</div>
+                    <small class="text-muted">18:00 - 19:30</small>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <span class="badge bg-success">Confirmada</span>
+                </div>
+                <div class="col-md-2">
+                  <div class="text-end">
+                    <strong>$ 1.200</strong>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="btn-group btn-group-sm">
+                    <button class="btn btn-outline-primary">Ver</button>
+                    <button class="btn btn-outline-danger">Cancelar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Reserva 2 -->
+            <div class="reservation-item border-bottom pb-3 mb-3">
+              <div class="row align-items-center">
+                <div class="col-md-3">
+                  <div class="d-flex align-items-center">
+                    <div class="reservation-icon me-3">
+                      <i class="fas fa-clock text-warning"></i>
+                    </div>
+                    <div>
+                      <h6 class="mb-1 fw-bold">Cancha 2 - Sports Padel</h6>
+                      <small class="text-muted">Reserva #002</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="text-center">
+                    <div class="fw-bold">17 Nov</div>
+                    <small class="text-muted">20:00 - 21:30</small>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <span class="badge bg-warning text-dark">Pendiente</span>
+                </div>
+                <div class="col-md-2">
+                  <div class="text-end">
+                    <strong>$ 1.500</strong>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="btn-group btn-group-sm">
+                    <button class="btn btn-outline-primary">Ver</button>
+                    <button class="btn btn-outline-danger">Cancelar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Reserva 3 -->
+            <div class="reservation-item">
+              <div class="row align-items-center">
+                <div class="col-md-3">
+                  <div class="d-flex align-items-center">
+                    <div class="reservation-icon me-3">
+                      <i class="fas fa-users text-info"></i>
+                    </div>
+                    <div>
+                      <h6 class="mb-1 fw-bold">Cancha 3 - Padel Pro</h6>
+                      <small class="text-muted">Reserva #003</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="text-center">
+                    <div class="fw-bold">20 Nov</div>
+                    <small class="text-muted">16:00 - 17:30</small>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <span class="badge bg-info">En partido</span>
+                </div>
+                <div class="col-md-2">
+                  <div class="text-end">
+                    <strong>$ 1.800</strong>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="btn-group btn-group-sm">
+                    <button class="btn btn-outline-primary">Ver</button>
+                    <button class="btn btn-outline-secondary" disabled>Cancelar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Calendario de Reservas -->
+  <div class="row">
+    <div class="col-12">
+      <div class="calendar-full-width">
+        <div class="card">
+          <div class="card-body">
+            
+            <div class="calendar-container-wrapper">
+              <app-calendar></app-calendar>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

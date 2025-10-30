@@ -1,0 +1,511 @@
+/* ===== ESTILOS PARA CREACIÓN DE PARTIDOS ===== */
+
+.logo-container {
+  flex: 0 0 auto;
+}
+
+.dashboard-logo {
+  width: 100px; 
+  height: auto;
+}
+
+.dashboard-title {
+  color: var(--main-color);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-block-end: 0.25rem !important; 
+}
+
+.dashboard-subtitle {
+  color: var(--main-color);
+  font-size: 1rem;
+  font-weight: 700;
+  margin-block-end: 0.25rem !important;
+}
+
+.creation-progress {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(37, 90, 105, 0.1);
+}
+
+.progress-steps {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.progress-steps::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: #e0e0e0;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.step {
+  position: relative;
+  z-index: 2;
+  background: white;
+  padding: 0 1rem;
+  text-align: center;
+  flex: 1;
+}
+
+.step-number {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: #e0e0e0;
+  color: #6c757d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin: 0 auto 0.5rem;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.step.active .step-number {
+  background: var(--main-color);
+  color: white;
+  transform: scale(1.1);
+}
+
+.step.completed .step-number {
+  background: #28a745;
+  color: white;
+}
+
+.step-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6c757d;
+  text-align: center;
+}
+
+.step.active .step-label {
+  color: var(--main-color);
+}
+
+/* Contenido de los pasos */
+.step-content {
+  min-height: 400px;
+}
+
+.step-pane {
+  display: none;
+}
+
+.step-pane.active {
+  display: block;
+}
+
+.section-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--main-color);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--main-color-light);
+}
+
+/* Opciones del formulario */
+.form-options {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.form-option {
+  flex: 1;
+  min-width: 120px;
+}
+
+.form-option input[type="radio"] {
+  display: none;
+}
+
+.form-option .option-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  height: 100%;
+}
+
+.form-option input[type="radio"]:checked + .option-card {
+  border-color: var(--main-color);
+  background: rgba(37, 90, 105, 0.05);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 90, 105, 0.15);
+}
+
+.option-icon {
+  font-size: 1.5rem;
+  color: var(--main-color);
+  margin-bottom: 0.5rem;
+}
+
+.option-text {
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 0.9rem;
+}
+
+/* Formularios */
+.form-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 0.75rem;
+}
+
+.form-control, .form-select {
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  padding: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--main-color);
+  box-shadow: 0 0 0 0.2rem rgba(37, 90, 105, 0.1);
+}
+
+/* Navegación entre pasos */
+.step-navigation {
+  border-top: 1px solid #e0e0e0 !important;
+}
+
+.btn {
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: var(--main-color);
+  border-color: var(--main-color);
+}
+
+.btn-primary:hover {
+  background: var(--main-color-dark);
+  border-color: var(--main-color-dark);
+  transform: translateY(-1px);
+}
+
+.btn-outline-secondary {
+  border-color: #6c757d;
+  color: #6c757d;
+}
+
+.btn-outline-secondary:hover:not(:disabled) {
+  background: #6c757d;
+  border-color: #6c757d;
+  transform: translateY(-1px);
+}
+/* ===== ESTILOS PARA PASO 2 - JUGADORES ===== */
+.search-box {
+  position: relative;
+}
+
+.search-box .form-control {
+  padding-left: 2.5rem;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+}
+
+.players-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.player-item {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  background: white;
+  transition: all 0.3s ease;
+}
+
+.player-item:hover {
+  border-color: var(--main-color-light);
+  transform: translateY(-1px);
+}
+
+.player-item.selected {
+  border-color: var(--main-color);
+  background: rgba(37, 90, 105, 0.05);
+}
+
+.player-item.invited {
+  border-color: #ffc107;
+  background: rgba(255, 193, 7, 0.05);
+}
+
+.player-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 1rem;
+}
+
+.player-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.player-info {
+  flex: 1;
+}
+
+.player-name {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: var(--text-color);
+}
+
+.player-level {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.player-status {
+  margin-left: auto;
+}
+
+.invite-btn {
+  min-width: 80px;
+}
+
+/* ===== ESTILOS PARA PASO 3 - HORARIO ===== */
+.price-summary {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 2px solid #e0e0e0;
+}
+
+.price-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.price-total {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0 0;
+  border-top: 2px solid var(--main-color);
+  margin-top: 0.5rem;
+  font-size: 1.1rem;
+}
+
+/* ===== ESTILOS PARA PASO 4 - CONFIRMACIÓN ===== */
+.confirmation-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.summary-section {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 2px solid #e0e0e0;
+}
+
+.summary-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--main-color);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.summary-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summary-item span:first-child {
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.summary-item span:last-child {
+  color: var(--text-muted);
+}
+
+.players-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.player-summary {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.player-summary.empty {
+  background: transparent;
+  border: 2px dashed #e0e0e0;
+  color: var(--text-muted);
+  justify-content: center;
+}
+
+.player-avatar-sm {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.payment-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.payment-method {
+  margin-top: 1rem;
+}
+
+/* Botón de confirmación */
+.btn-success {
+  background: #28a745;
+  border-color: #28a745;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+}
+
+.btn-success:hover {
+  background: #218838;
+  border-color: #1e7e34;
+  transform: translateY(-2px);
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .player-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .player-avatar {
+    margin-right: 0;
+  }
+  
+  .player-status, .player-actions {
+    margin-left: 0;
+  }
+  
+  .summary-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+  
+  .btn-success {
+    width: 100%;
+    margin-top: 1rem;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .progress-steps {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .progress-steps::before {
+    display: none;
+  }
+
+  .step {
+    flex: 0 0 calc(50% - 0.5rem);
+  }
+
+  .form-options {
+    flex-direction: column;
+  }
+
+  .form-option {
+    min-width: auto;
+  }
+
+  .step-navigation .btn {
+    width: 48%;
+  }
+}
+
+@media (max-width: 576px) {
+  .creation-progress {
+    padding: 1rem;
+  }
+
+  .step {
+    flex: 0 0 100%;
+    margin-bottom: 1rem;
+  }
+
+  .step-number {
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+  }
+
+  .step-label {
+    font-size: 0.7rem;
+  }
+
+  .card-body {
+    padding: 1.5rem !important;
+  }
+}

@@ -1,0 +1,428 @@
+<div class="container py-2 dashboard-container">
+  <!-- Header-->
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <!-- Logo -->
+    <div class="logo-container">
+      <img src="/brand.png" alt="logo de padel reserve" class="dashboard-logo" />
+    </div>
+
+    <!-- Saludo  -->
+    <div class="text-center flex-grow-1 mx-2">
+      <h1 class="fw-bold mb-0 dashboard-title">Crear Partido</h1>
+      <h3 class="dashboard-subtitle">Organiza tu partido de pádel</h3>
+    </div>
+
+    <!-- Botón Cerrar Sesión -->
+    <button class="btn btn-danger btn-sm logout-btn" (click)="logout()">
+      <i class="bi bi-box-arrow-right me-1"></i>
+      Cerrar Sesión
+    </button>
+  </div>
+
+  <!-- Progreso de creación -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="creation-progress">
+        <div class="progress-steps">
+          <div class="step active" data-step="1">
+            <div class="step-number">1</div>
+            <div class="step-label">Configuración</div>
+          </div>
+          <div class="step" data-step="2">
+            <div class="step-number">2</div>
+            <div class="step-label">Jugadores</div>
+          </div>
+          <div class="step" data-step="3">
+            <div class="step-number">3</div>
+            <div class="step-label">Horario</div>
+          </div>
+          <div class="step" data-step="4">
+            <div class="step-number">4</div>
+            <div class="step-label">Confirmación</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Formulario de creación -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body p-4">
+          <div class="step-content">
+            <!-- Paso 1: Configuración básica -->
+            <div class="step-pane active" id="step1">
+              <h4 class="section-title mb-4">Configuración del Partido</h4>
+              
+              <div class="row g-3">
+                <!-- Tipo de Partido -->
+                <div class="col-md-6">
+                  <label class="form-label fw-bold">Tipo de Partido</label>
+                  <div class="form-options">
+                    <div class="form-option">
+                      <input type="radio" name="matchType" id="doubles" value="doubles" checked>
+                      <label for="doubles" class="option-card">
+                        <i class="fas fa-users option-icon"></i>
+                        <span class="option-text">Dobles (4 jugadores)</span>
+                      </label>
+                    </div>
+                    <div class="form-option">
+                      <input type="radio" name="matchType" id="singles" value="singles">
+                      <label for="singles" class="option-card">
+                        <i class="fas fa-user option-icon"></i>
+                        <span class="option-text">Individuales (2 jugadores)</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Nivel de Juego -->
+                <div class="col-md-6">
+                  <label class="form-label fw-bold">Nivel de Juego</label>
+                  <select class="form-select">
+                    <option selected>Selecciona un nivel</option>
+                    <option value="beginner">Principiante</option>
+                    <option value="intermediate">Intermedio</option>
+                    <option value="advanced">Avanzado</option>
+                    <option value="expert">Experto</option>
+                  </select>
+                </div>
+
+                <!-- Modalidad -->
+                <div class="col-md-6">
+                  <label class="form-label fw-bold">Modalidad</label>
+                  <div class="form-options">
+                    <div class="form-option">
+                      <input type="radio" name="matchMode" id="competitive" value="competitive" checked>
+                      <label for="competitive" class="option-card">
+                        <i class="fas fa-trophy option-icon"></i>
+                        <span class="option-text">Competitivo</span>
+                      </label>
+                    </div>
+                    <div class="form-option">
+                      <input type="radio" name="matchMode" id="friendly" value="friendly">
+                      <label for="friendly" class="option-card">
+                        <i class="fas fa-smile option-icon"></i>
+                        <span class="option-text">Amistoso</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Visibilidad -->
+                <div class="col-md-6">
+                  <label class="form-label fw-bold">Visibilidad</label>
+                  <div class="form-options">
+                    <div class="form-option">
+                      <input type="radio" name="visibility" id="public" value="public" checked>
+                      <label for="public" class="option-card">
+                        <i class="fas fa-globe option-icon"></i>
+                        <span class="option-text">Público</span>
+                      </label>
+                    </div>
+                    <div class="form-option">
+                      <input type="radio" name="visibility" id="private" value="private">
+                      <label for="private" class="option-card">
+                        <i class="fas fa-lock option-icon"></i>
+                        <span class="option-text">Privado</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Descripción -->
+                <div class="col-12">
+                  <label class="form-label fw-bold">Descripción (opcional)</label>
+                  <textarea class="form-control" rows="3" placeholder="Agrega una descripción para tu partido..."></textarea>
+                </div>
+              </div>
+
+              <div class="step-navigation">
+                <div class="d-flex justify-content-between">
+                  <button class="btn btn-outline-secondary" disabled>
+                    <i class="fas fa-arrow-left me-2"></i>Anterior
+                  </button>
+                  <button class="btn btn-primary next-step" data-next="2">
+                    Siguiente <i class="fas fa-arrow-right ms-2"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Paso 2: Selección de Jugadores -->
+            <div class="step-pane" id="step2">
+              <h4 class="section-title mb-4">Selección de Jugadores</h4>
+              <p class="text-muted mb-4">Selecciona los jugadores para tu partido (3 jugadores más necesarios)</p>
+              
+              <!-- Búsqueda de jugadores -->
+              <div class="row mb-4">
+                <div class="col-12">
+                  <div class="search-box">
+                    <input type="text" class="form-control" placeholder="Buscar jugadores...">
+                    <i class="fas fa-search search-icon"></i>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Lista de jugadores -->
+              <div class="players-list">
+                <div class="player-item selected">
+                  <div class="player-avatar">
+                    <img src="/assets/default-avatar.png" alt="Tú">
+                  </div>
+                  <div class="player-info">
+                    <h6 class="player-name">Tú (Organizador)</h6>
+                    <span class="player-level">Nivel: Intermedio</span>
+                  </div>
+                  <div class="player-status">
+                    <span class="badge bg-primary">Organizador</span>
+                  </div>
+                </div>
+
+                <div class="player-item">
+                  <div class="player-avatar">
+                    <img src="/assets/avatar1.png" alt="Juan Pérez">
+                  </div>
+                  <div class="player-info">
+                    <h6 class="player-name">Juan Pérez</h6>
+                    <span class="player-level">Nivel: Avanzado</span>
+                  </div>
+                  <div class="player-actions">
+                    <button class="btn btn-sm btn-outline-success invite-btn">Invitar</button>
+                  </div>
+                </div>
+
+                <div class="player-item">
+                  <div class="player-avatar">
+                    <img src="/assets/avatar2.png" alt="María García">
+                  </div>
+                  <div class="player-info">
+                    <h6 class="player-name">María García</h6>
+                    <span class="player-level">Nivel: Intermedio</span>
+                  </div>
+                  <div class="player-actions">
+                    <button class="btn btn-sm btn-outline-success invite-btn">Invitar</button>
+                  </div>
+                </div>
+
+                <div class="player-item invited">
+                  <div class="player-avatar">
+                    <img src="/assets/avatar3.png" alt="Carlos López">
+                  </div>
+                  <div class="player-info">
+                    <h6 class="player-name">Carlos López</h6>
+                    <span class="player-level">Nivel: Principiante</span>
+                  </div>
+                  <div class="player-status">
+                    <span class="badge bg-warning text-dark">Invitado</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="step-navigation">
+                <div class="d-flex justify-content-between">
+                  <button class="btn btn-outline-secondary prev-step" data-prev="1">
+                    <i class="fas fa-arrow-left me-2"></i>Anterior
+                  </button>
+                  <button class="btn btn-primary next-step" data-next="3">
+                    Siguiente <i class="fas fa-arrow-right ms-2"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Paso 3: Horario y Cancha -->
+            <div class="step-pane" id="step3">
+              <h4 class="section-title mb-4">Horario y Cancha</h4>
+              
+              <div class="row g-3">
+                <!-- Fecha -->
+                <div class="col-md-6">
+                  <label class="form-label fw-bold">Fecha del Partido</label>
+                  <input type="date" class="form-control">
+                </div>
+
+                <!-- Hora -->
+                <div class="col-md-6">
+                  <label class="form-label fw-bold">Hora</label>
+                  <select class="form-select">
+                    <option selected>Selecciona una hora</option>
+                    <option>08:00 - 09:30</option>
+                    <option>10:00 - 11:30</option>
+                    <option>12:00 - 13:30</option>
+                    <option>14:00 - 15:30</option>
+                    <option>16:00 - 17:30</option>
+                    <option>18:00 - 19:30</option>
+                    <option>20:00 - 21:30</option>
+                  </select>
+                </div>
+
+                <!-- Duración -->
+                <div class="col-md-6">
+                  <label class="form-label fw-bold">Duración</label>
+                  <div class="form-options">
+                    <div class="form-option">
+                      <input type="radio" name="duration" id="90min" value="90" checked>
+                      <label for="90min" class="option-card">
+                        <i class="fas fa-clock option-icon"></i>
+                        <span class="option-text">90 min</span>
+                      </label>
+                    </div>
+                    <div class="form-option">
+                      <input type="radio" name="duration" id="120min" value="120">
+                      <label for="120min" class="option-card">
+                        <i class="fas fa-clock option-icon"></i>
+                        <span class="option-text">120 min</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Cancha -->
+                <div class="col-md-6">
+                  <label class="form-label fw-bold">Cancha</label>
+                  <select class="form-select">
+                    <option selected>Selecciona una cancha</option>
+                    <option>Cancha 1 - Cristal</option>
+                    <option>Cancha 2 - Pared</option>
+                    <option>Cancha 3 - Cristal</option>
+                    <option>Cancha 4 - Pared</option>
+                  </select>
+                </div>
+
+                <!-- Precio -->
+                <div class="col-12">
+                  <div class="price-summary">
+                    <div class="price-item">
+                      <span>Alquiler de cancha (90 min)</span>
+                      <span>$ 1.200</span>
+                    </div>
+                    <div class="price-item">
+                      <span>Dividido entre 4 jugadores</span>
+                      <span>$ 300 c/u</span>
+                    </div>
+                    <div class="price-total">
+                      <strong>Total por jugador</strong>
+                      <strong>$ 300</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="step-navigation">
+                <div class="d-flex justify-content-between">
+                  <button class="btn btn-outline-secondary prev-step" data-prev="2">
+                    <i class="fas fa-arrow-left me-2"></i>Anterior
+                  </button>
+                  <button class="btn btn-primary next-step" data-next="4">
+                    Siguiente <i class="fas fa-arrow-right ms-2"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Paso 4: Confirmación -->
+            <div class="step-pane" id="step4">
+              <h4 class="section-title mb-4">Confirmación del Partido</h4>
+              
+              <div class="confirmation-summary">
+                <div class="summary-section">
+                  <h5 class="summary-title">Detalles del Partido</h5>
+                  <div class="summary-content">
+                    <div class="summary-item">
+                      <span>Tipo:</span>
+                      <span>Dobles (4 jugadores)</span>
+                    </div>
+                    <div class="summary-item">
+                      <span>Nivel:</span>
+                      <span>Intermedio</span>
+                    </div>
+                    <div class="summary-item">
+                      <span>Modalidad:</span>
+                      <span>Competitivo</span>
+                    </div>
+                    <div class="summary-item">
+                      <span>Visibilidad:</span>
+                      <span>Público</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="summary-section">
+                  <h5 class="summary-title">Jugadores</h5>
+                  <div class="players-summary">
+                    <div class="player-summary">
+                      <img src="/assets/default-avatar.png" alt="Tú" class="player-avatar-sm">
+                      <span>Tú (Organizador)</span>
+                    </div>
+                    <div class="player-summary">
+                      <img src="/assets/avatar3.png" alt="Carlos López" class="player-avatar-sm">
+                      <span>Carlos López</span>
+                    </div>
+                    <div class="player-summary empty">
+                      <i class="fas fa-user-plus"></i>
+                      <span>2 jugadores pendientes</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="summary-section">
+                  <h5 class="summary-title">Horario y Lugar</h5>
+                  <div class="summary-content">
+                    <div class="summary-item">
+                      <span>Fecha:</span>
+                      <span>15 de Noviembre, 2024</span>
+                    </div>
+                    <div class="summary-item">
+                      <span>Hora:</span>
+                      <span>18:00 - 19:30</span>
+                    </div>
+                    <div class="summary-item">
+                      <span>Cancha:</span>
+                      <span>Cancha 1 - Cristal</span>
+                    </div>
+                    <div class="summary-item">
+                      <span>Duración:</span>
+                      <span>90 minutos</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="summary-section">
+                  <h5 class="summary-title">Pago</h5>
+                  <div class="payment-summary">
+                    <div class="price-item">
+                      <span>Total por jugador:</span>
+                      <span>$ 300</span>
+                    </div>
+                    <div class="payment-method">
+                      <label class="form-label fw-bold">Método de Pago</label>
+                      <select class="form-select">
+                        <option selected>Tarjeta de Crédito</option>
+                        <option>Tarjeta de Débito</option>
+                        <option>Mercado Pago</option>
+                        <option>Efectivo en cancha</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="step-navigation">
+                <div class="d-flex justify-content-between">
+                  <button class="btn btn-outline-secondary prev-step" data-prev="3">
+                    <i class="fas fa-arrow-left me-2"></i>Anterior
+                  </button>
+                  <button class="btn btn-success btn-lg confirm-match">
+                    <i class="fas fa-check me-2"></i>Confirmar Partido
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
