@@ -17,6 +17,8 @@ import { RolSelectorComponent } from './components/auth/rol-selector/rol-selecto
 import { PlayerDashboardComponent } from './components/player/player-dashboard/player-dashboard.component';
 import { CalendarComponent } from './components/shared/calendar/calendar.component';
 import { FooterComponent } from './components/shared/footer/footer.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 
 @NgModule({
@@ -42,7 +44,9 @@ import { FooterComponent } from './components/shared/footer/footer.component';
   
 
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [],
 })
 export class AppModule {}
