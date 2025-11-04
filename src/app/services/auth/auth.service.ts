@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 const apiUrl = 'http://localhost:3000';
 
@@ -17,6 +18,13 @@ export class AuthService {
     window.location.href = `${this.apiUrl}/google`;
   }
 
+  verifyToken(): Observable<any> {
+    const token = this.getToken();
+    return this.http.get(`${this.apiUrl}/verify`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+  }
+
   // Método que guarda el token JWT en localStorage
   setToken(token: string) {
     localStorage.setItem('token', token);
@@ -28,7 +36,6 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     const token = this.getToken();
-    // Podés validar más cosas (expiración), pero con esto basta para empezar
     return !!token;
   }
 

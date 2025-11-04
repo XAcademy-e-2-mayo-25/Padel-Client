@@ -4,11 +4,10 @@ import { FooterComponent } from '../../components/shared/footer/footer.component
 
 @Component({
   selector: 'app-auth-layout',
-  template: `}
+  template: `
     <router-outlet></router-outlet>
-    <app-footer></app-footer>
   `,
   standalone: true,
-  imports: [RouterOutlet, FooterComponent]
+  imports: [RouterOutlet]
 })
 export class AuthLayoutComponent {}
