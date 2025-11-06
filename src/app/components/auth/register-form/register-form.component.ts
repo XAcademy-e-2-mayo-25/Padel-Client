@@ -114,5 +114,9 @@ throw new Error('Method not implemented.');
       this.router.navigate(['/register-withouts']);
     }
   }
+
+  saltarPaso() {
+    this.router.navigate(['/home']);
+  }
 }
 

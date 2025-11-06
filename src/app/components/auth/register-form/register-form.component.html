@@ -167,24 +167,29 @@
                       <label for="categoria" class="form-label">Categoría</label>
                       <select class="form-select" id="categoria">
                         <option selected>--Seleccionar--</option>
-                        <option>Principiante</option>
-                        <option>Intermedio</option>
-                        <option>Avanzado</option>
-                        <option>Profesional</option>
+                        <option>8va</option>
+                        <option>7ma</option>
+                        <option>6ta</option>
+                        <option>5ta</option>
+                        <option>4ta</option>
+                        <option>3ra</option>
+                        <option>2da</option>
+                        <option>1ra</option>
                       </select>
                     </div>
                     <div class="col-md-6">
                       <label for="posicion" class="form-label">Posición</label>
                       <select class="form-select" id="posicion">
                         <option selected>--Seleccionar--</option>
-                        <option>Derecha</option>
+                        <option>Drive</option>
                         <option>Revés</option>
-                        <option>Ambas</option>
+                        <option>No definido</option>
                       </select>
                     </div>
                   </div>
 
-                  <!-- ¿Tiene canchas? -->
+                  <!-- Esto no correspondería aca, chequear y eliminar -->
+                  <!-- ¿Tiene canchas?
                   <div class="mb-5">
                     <label class="form-check-label me-3">¿Tenés canchas para gestionar?</label>
                     <div class="form-check form-check-inline">
@@ -207,7 +212,7 @@
                       />
                       <label class="form-check-label" for="tieneNo">No</label>
                     </div>
-                  </div>
+                  </div> -->
 
                   <!-- Botones de acción -->
                   <div class="d-flex justify-content-end mt-4">
@@ -215,6 +220,9 @@
                       Volver
                     </button>
                     <button type="submit" class="btn btn-success">Continuar</button>
+                    <button type="submit" class="btn btn-skip" (click)="saltarPaso()">
+                      Completar luego
+                    </button>
                   </div>
                 </div>
               </form>
