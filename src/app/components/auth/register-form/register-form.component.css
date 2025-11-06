@@ -8,3 +8,9 @@
       .card-form {
         margin-block-start: 50px;
       }
+
+      .btn-skip {
+        margin-left: 9px;
+        background-color: rgb(79, 115, 182) ;
+        color: white ;
+      }

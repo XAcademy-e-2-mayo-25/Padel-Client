@@ -28,7 +28,6 @@ export const routes: Routes = [
     canActivate: [NotAuthGuard],
     children: [
       { path: 'register', component: RegisterComponent },
-      { path: 'register-form', component: RegisterFormComponent },
       { path: 'register-withouts', component: RegisterWithoutCourtsComponent },
       { path: 'register-success', component: RegisterSuccessComponent },
     ]
@@ -41,6 +40,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'home', component: HomeComponent },
+      { path: 'register-form', component: RegisterFormComponent }, //esta vista va acá porque necesita estar logueado para actualizar la información (evaluar si es mejor renombrar el modulo a "update-profile")
       { path: 'court-data', component: CourtDataFormComponent },
       { path: 'pay-data', component: PayDataFormComponent },
       { path: 'rol-selector', component: RolSelectorComponent },
