@@ -24,7 +24,7 @@ export class RegisterComponent  {
       const token = params['token'];
       if (token) {
         this.authService.setToken(token);
-        this.router.navigate(['/home']); // acá redirigimos donde queramos
+        this.router.navigate(['/update-profile']); // acá redirigimos donde queramos
       } else {
         this.router.navigate(['/register']);
       }

@@ -5,7 +5,7 @@ import { NotAuthGuard } from './guards/not-auth.guard';
 
 // Componentes Auth
 import { RegisterComponent } from './components/auth/register-component/register-component';
-import { RegisterFormComponent } from './components/auth/register-form/register-form.component';
+import { UpdateProfileComponent } from './components/player/update-profile/update-profile.component';
 import { RegisterWithoutCourtsComponent } from './components/auth/register-without-courts/register-without-courts.component';
 import { RegisterSuccessComponent } from './components/auth/register-success/register-success.component';
 
@@ -28,8 +28,6 @@ export const routes: Routes = [
     canActivate: [NotAuthGuard],
     children: [
       { path: 'register', component: RegisterComponent },
-      { path: 'register-withouts', component: RegisterWithoutCourtsComponent },
-      { path: 'register-success', component: RegisterSuccessComponent },
     ]
   },
 
@@ -40,7 +38,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'home', component: HomeComponent },
-      { path: 'register-form', component: RegisterFormComponent }, //esta vista va acá porque necesita estar logueado para actualizar la información (evaluar si es mejor renombrar el modulo a "update-profile")
+      { path: 'update-profile', component: UpdateProfileComponent }, 
       { path: 'court-data', component: CourtDataFormComponent },
       { path: 'pay-data', component: PayDataFormComponent },
       { path: 'rol-selector', component: RolSelectorComponent },
@@ -48,6 +46,9 @@ export const routes: Routes = [
         path: 'player',
         loadChildren: () => import('./components/player/player.module').then(m => m.PlayerModule)
       },
+      //esta vistas van acá porque se necesita estar logueado para ver esa información
+      { path: 'register-withouts', component: RegisterWithoutCourtsComponent },
+      { path: 'register-success', component: RegisterSuccessComponent },
     ]
   },
 
