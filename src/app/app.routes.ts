@@ -27,6 +27,7 @@ export const routes: Routes = [
     component: AuthLayoutComponent,
     canActivate: [NotAuthGuard],
     children: [
+      { path: '', redirectTo: 'register', pathMatch: 'full' },  //  AGREGADO
       { path: 'register', component: RegisterComponent },
     ]
   },

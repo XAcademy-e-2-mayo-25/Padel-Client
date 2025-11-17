@@ -17,7 +17,6 @@ import { RolSelectorComponent } from './components/auth/rol-selector/rol-selecto
 import { PlayerDashboardComponent } from './components/player/player-dashboard/player-dashboard.component';
 import { CalendarComponent } from './components/shared/calendar/calendar.component';
 import { FooterComponent } from './components/shared/footer/footer.component';
-import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 
@@ -30,7 +29,6 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     RouterModule,
     // Componentes
     RegisterComponent,
-    UpdateProfileComponent,
     HomeComponent,
     Error404,
     FooterComponent,
@@ -44,9 +42,6 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
   
 
   ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
-  ],
-  bootstrap: [],
+  
 })
 export class AppModule {}
