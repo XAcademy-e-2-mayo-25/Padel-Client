@@ -10,7 +10,6 @@ import { Error404 } from './components/shared/error404/error404';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CourtDataFormComponent } from './components/club/court-data-form/court-data-form.component';
-import { UpdateProfileComponent } from './components/player/update-profile/update-profile.component';
 import { PayDataFormComponent } from './components/club/pay-data-form/pay-data-form.component';
 import { RegisterSuccessComponent } from './components/auth/register-success/register-success.component';
 import { RolSelectorComponent } from './components/auth/rol-selector/rol-selector.component';
@@ -30,7 +29,6 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     RouterModule,
     // Componentes
     RegisterComponent,
-    UpdateProfileComponent,
     HomeComponent,
     Error404,
     FooterComponent,
@@ -41,7 +39,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     PlayerDashboardComponent,
     CalendarComponent,
     RolSelectorComponent,
-  
+
 
   ],
   providers: [

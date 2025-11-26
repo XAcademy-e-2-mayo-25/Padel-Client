@@ -29,7 +29,7 @@
           <!-- Formulario de registro -->
           <div class="card shadow-lg border-0 card-form">
             <div class="card-body p-5">
-              <form>
+              <form [formGroup]="form" (ngSubmit)="continuar()">
                 <!-- DATOS PERSONALES -->
                 <div class="mb-5">
                   <h5 class="mb-4 border-bottom pb-2" style="color: #275c6a">DATOS PERSONALES</h5>
@@ -42,6 +42,7 @@
                         type="text"
                         class="form-control"
                         id="nombre"
+                        formControlName="nombres"
                         placeholder="Ingresa tu nombre"
                       />
                     </div>
@@ -51,6 +52,7 @@
                         type="text"
                         class="form-control"
                         id="apellido"
+                        formControlName="apellidos"
                         placeholder="Ingresa tu apellido"
                       />
                     </div>
@@ -64,6 +66,7 @@
                         type="text"
                         class="form-control"
                         id="dni"
+                        formControlName="dni"
                         placeholder="Ingresa tu DNI"
                       />
                     </div>
@@ -73,6 +76,7 @@
                         type="tel"
                         class="form-control"
                         id="telefono"
+                        formControlName="telefono"
                         placeholder="Ingresa tu teléfono"
                       />
                     </div>
@@ -86,6 +90,7 @@
                         type="text"
                         class="form-control"
                         id="direccion"
+                        formControlName="direccion"
                         placeholder="Ingresa tu dirección"
                       />
                     </div>
@@ -99,13 +104,14 @@
                         type="text"
                         class="form-control"
                         id="localidad"
+                        formControlName="localidad"
                         placeholder="Ingresa tu localidad"
                       />
                     </div>
                     <div class="col-md-6">
                       <label for="provincia" class="form-label">Provincia</label>
-                      <select class="form-select" id="provincia">
-                        <option selected>--Seleccionar--</option>
+                      <select class="form-select" id="provincia" formControlName="provincia">
+                        <option value="">--Seleccionar--</option>
                         <option>Buenos Aires</option>
                         <option>Catamarca</option>
                         <option>Chaco</option>
@@ -165,8 +171,8 @@
                   <div class="row mb-4">
                     <div class="col-md-6">
                       <label for="categoria" class="form-label">Categoría</label>
-                      <select class="form-select" id="categoria">
-                        <option selected>--Seleccionar--</option>
+                      <select class="form-select" id="categoria" formControlName="categoria">
+                        <option value="">--Seleccionar--</option>
                         <option>8va</option>
                         <option>7ma</option>
                         <option>6ta</option>
@@ -179,8 +185,8 @@
                     </div>
                     <div class="col-md-6">
                       <label for="posicion" class="form-label">Posición</label>
-                      <select class="form-select" id="posicion">
-                        <option selected>--Seleccionar--</option>
+                      <select class="form-select" id="posicion" formControlName="posicion">
+                        <option value="">--Seleccionar--</option>
                         <option>Drive</option>
                         <option>Revés</option>
                         <option>No definido</option>

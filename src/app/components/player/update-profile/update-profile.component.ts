@@ -1,13 +1,18 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { UsuarioService } from '../../../services/usuario/usuario.service';
+import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-update-profile',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './update-profile.component.html',
   styleUrls: ['./update-profile.component.css']
 })
-export class UpdateProfileComponent {
+export class UpdateProfileComponent implements OnInit {
 refreshCalendar() {
 throw new Error('Method not implemented.');
 }
@@ -19,6 +24,7 @@ throw new Error('Method not implemented.');
   form: FormGroup;
   submitting = false;
   photoPreview: string | null = null; // para preview si subís foto
+  userId: number | null = null;
 
   provincias = [
     'Buenos Aires','Catamarca','Chaco','Chubut','Ciudad Autónoma de Buenos Aires','Córdoba','Corrientes',
@@ -29,10 +35,15 @@ throw new Error('Method not implemented.');
   categorias = ['Principiante','Intermedio','Avanzado','Profesional'];
   posiciones = ['Derecha','Revés','Ambas'];
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private usuarioService: UsuarioService,
+    private authService: AuthService
+  ) {
     this.form = this.fb.group({
-      nombre: ['', Validators.required],
-      apellido: ['', Validators.required],
+      nombres: ['', Validators.required],
+      apellidos: ['', Validators.required],
       dni: ['', [Validators.required]],
       telefono: ['', Validators.required],
       direccion: [''],
@@ -43,6 +54,52 @@ throw new Error('Method not implemented.');
       posicion: [''],
       // campo para decidir el flujo: ¿tenés canchas?
       tieneCanchas: [false]
+    });
+  }
+
+  ngOnInit() {
+    // Obtener el usuario actual desde el backend
+    console.log('Verificando token...');
+    this.authService.verifyToken().subscribe({
+      next: (response) => {
+        console.log('Respuesta de verify:', response);
+        if (response && response.id) {
+          this.userId = response.id;
+          console.log('User ID obtenido:', this.userId);
+          // Cargar datos del usuario si existen
+          this.cargarDatosUsuario(response.id);
+        } else {
+          console.error('No se recibió ID en la respuesta');
+        }
+      },
+      error: (error) => {
+        console.error('Error verificando token:', error);
+        alert('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
+        this.router.navigate(['/login']);
+      }
+    });
+  }
+
+  cargarDatosUsuario(id: number) {
+    this.usuarioService.obtenerUsuario(id).subscribe({
+      next: (usuario) => {
+        if (usuario) {
+          this.form.patchValue({
+            nombres: usuario.nombres || '',
+            apellidos: usuario.apellidos || '',
+            dni: usuario.dni || '',
+            telefono: usuario.telefono || '',
+            direccion: usuario.direccion || '',
+            localidad: usuario.localidad || '',
+            provincia: usuario.provincia || '',
+            categoria: usuario.categoria || '',
+            posicion: usuario.posicion || ''
+          });
+        }
+      },
+      error: (error) => {
+        console.error('Error cargando usuario:', error);
+      }
     });
   }
 
@@ -89,6 +146,7 @@ throw new Error('Method not implemented.');
   // Continuar: validamos el formulario; luego decidimos a dónde ir según tieneCanchas
   continuar() {
     this.submitting = true;
+    console.log('Intentando actualizar perfil. User ID:', this.userId);
 
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -96,23 +154,53 @@ throw new Error('Method not implemented.');
       return;
     }
 
+    if (!this.userId) {
+      console.error('userId es null o undefined');
+      alert('Error: No se pudo identificar el usuario');
+      this.submitting = false;
+      return;
+    }
+
     const payload = this.form.value;
     console.log('Datos de registro:', payload);
 
-    // Aquí normalmente enviarías payload a tu API:
-    // this.authService.registerClub(payload).subscribe(...)
+    // Filtrar solo los campos que el backend acepta
+    const datosParaEnviar = {
+      nombres: payload.nombres,
+      apellidos: payload.apellidos,
+      dni: payload.dni,
+      telefono: payload.telefono,
+      direccion: payload.direccion,
+      localidad: payload.localidad,
+      provincia: payload.provincia
+    };
 
-    // Simulamos una respuesta y redirigimos según el campo "tieneCanchas"
-    const tieneCanchas = !!payload.tieneCanchas;
+    console.log('Datos filtrados para enviar:', datosParaEnviar);
 
-    // redirecciones:
-    if (tieneCanchas) {
-      // si tiene canchas: vamos al formulario para cargar canchas
-      this.router.navigate(['/court-data']); 
-    } else {
-      // si no tiene canchas: mostramos la pantalla de "registro exitoso / sin canchas"
-      this.router.navigate(['/register-withouts']);
-    }
+    // Enviar datos al backend
+    this.usuarioService.editarUsuario(this.userId, datosParaEnviar).subscribe({
+      next: (response) => {
+        console.log('Usuario actualizado:', response);
+
+        // Redirecciones según tieneCanchas
+        const tieneCanchas = !!payload.tieneCanchas;
+        if (tieneCanchas) {
+          this.router.navigate(['/court-data']);
+        } else {
+          this.router.navigate(['/register-withouts']);
+        }
+        this.submitting = false;
+      },
+      error: (error) => {
+        console.error('Error actualizando usuario:', error);
+        console.error('Detalles del error:', error.error);
+        if (error.error && error.error.message) {
+          console.error('Mensajes de validación:', error.error.message);
+        }
+        alert('Error al actualizar el perfil. Por favor, intenta de nuevo.');
+        this.submitting = false;
+      }
+    });
   }
 
   saltarPaso() {
