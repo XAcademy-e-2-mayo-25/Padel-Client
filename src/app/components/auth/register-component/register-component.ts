@@ -10,8 +10,8 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './register-component.html',
   styleUrls: ['./register-component.css']
 })
+export class RegisterComponent implements OnInit {
 
-export class RegisterComponent  {
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
@@ -20,19 +20,26 @@ export class RegisterComponent  {
   ) {}
 
   ngOnInit(): void {
+    console.log('[RegisterComponent] ngOnInit');
+
     this.route.queryParams.subscribe(params => {
+      console.log('[RegisterComponent] queryParams:', params);
+
       const token = params['token'];
+
       if (token) {
+        console.log('[RegisterComponent] Token recibido por query param:', token);
         this.authService.setToken(token);
-        this.router.navigate(['/update-profile']); // acá redirigimos donde queramos
+        console.log('[RegisterComponent] Navegando a /update-profile');
+        this.router.navigate(['/update-profile']);
       } else {
-        this.router.navigate(['/register']);
+        console.log('[RegisterComponent] No hay token en query params, mostrando formulario');
       }
     });
   }
 
   loginWithGoogle(): void {
-  this.authService.loginWithGoogle();
-}
-
+    console.log('[RegisterComponent] loginWithGoogle clicked');
+    this.authService.loginWithGoogle();
+  }
 }
