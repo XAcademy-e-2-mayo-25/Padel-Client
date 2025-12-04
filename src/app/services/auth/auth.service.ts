@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, tap, switchMap, of } from 'rxjs';
+import { RolService, UserWithRoles } from '../rol/rol.service';
 
 const apiUrl = 'http://localhost:3000';
 
@@ -10,8 +11,13 @@ const apiUrl = 'http://localhost:3000';
 })
 export class AuthService {
   private apiUrl = `${apiUrl}/auth`;
+  private usuariosUrl = `${apiUrl}/usuarios`;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private rolService: RolService
+  ) {}
 
   loginWithGoogle() {
     console.log('[AuthService] loginWithGoogle -> redirigiendo a', `${this.apiUrl}/google`);
@@ -26,10 +32,41 @@ export class AuthService {
     });
   }
 
-  // Método que guarda el token JWT en localStorage
-  setToken(token: string) {
+  /**
+   * Guarda el token y carga los datos del usuario incluyendo roles
+   */
+  setToken(token: string): void {
     console.log('[AuthService] setToken -> guardando token:', token);
     localStorage.setItem('token', token);
+  }
+
+  /**
+   * Carga los datos del usuario después del login para obtener los roles
+   */
+  loadUserData(): Observable<UserWithRoles | null> {
+    return this.verifyToken().pipe(
+      switchMap(response => {
+        if (response.valid && response.user?.id) {
+          // Obtener datos completos del usuario incluyendo roles
+          return this.http.get<UserWithRoles>(`${this.usuariosUrl}/${response.user.id}`);
+        }
+        return of(null);
+      }),
+      tap(userData => {
+        if (userData) {
+          console.log('[AuthService] Usuario cargado con roles:', userData);
+          this.rolService.setUserData(userData);
+        }
+      })
+    );
+  }
+
+  /**
+   * Obtiene el ID del usuario actual desde el token verificado
+   */
+  getCurrentUserId(): number | null {
+    const userData = this.rolService.getUserData();
+    return userData?.idUsuario ?? null;
   }
 
   getToken(): string | null {
@@ -46,8 +83,9 @@ export class AuthService {
   }
 
   logout() {
-    console.log('[AuthService] logout -> borrando token y navegando a /register');
+    console.log('[AuthService] logout -> borrando token, roles y navegando a /register');
     localStorage.removeItem('token');
+    this.rolService.clearRoles();
     this.router.navigate(['/register']);
   }
 }

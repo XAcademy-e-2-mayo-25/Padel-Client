@@ -1,0 +1,211 @@
+/* ===== CONTENEDOR PRINCIPAL ===== */
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== HEADER ===== */
+.logo-container {
+  flex: 0 0 auto;
+}
+
+.dashboard-logo {
+  width: 80px;
+  height: auto;
+}
+
+.dashboard-title {
+  color: #28a745;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-block-end: 0.25rem !important;
+}
+
+.dashboard-subtitle {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 400;
+  margin-block-end: 0 !important;
+}
+
+/* ===== BADGE DE ROL ===== */
+.role-badge {
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+}
+
+/* ===== BOTONES ===== */
+.logout-btn {
+  font-size: 0.8rem;
+  padding: 0.4rem 0.8rem;
+  flex: 0 0 auto;
+}
+
+.btn-card-action {
+  font-size: 0.7rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid #28a745;
+  color: #28a745;
+  background: transparent;
+  border-radius: 15px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-card-action:hover {
+  background: #28a745;
+  color: white;
+  transform: translateX(3px);
+}
+
+/* ===== CARDS DE OPCIONES ===== */
+.option-card {
+  transition: all 0.3s ease;
+  border-radius: 12px;
+  cursor: pointer;
+  border: 1px solid #e0e0e0;
+  background: white;
+  min-height: 140px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.1);
+}
+
+.option-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #28a745, #5cb85c);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.option-card:hover {
+  transform: translateY(-4px);
+  border-color: #28a745;
+  box-shadow: 0 8px 20px rgba(40, 167, 69, 0.2);
+}
+
+.option-card:hover::before {
+  transform: scaleX(1);
+}
+
+/* ===== ICONOS ===== */
+.icon-wrapper {
+  inline-size: 50px;
+  block-size: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+  background: white;
+  color: #28a745;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  border: 2px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.option-card:hover .icon-wrapper {
+  transform: scale(1.1);
+  background: #28a745;
+  color: white;
+  border-color: #28a745;
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+
+/* ===== TIPOGRAFIA ===== */
+.option-card .card-title {
+  font-size: 0.9rem;
+  letter-spacing: 0.3px;
+  margin-bottom: 0.25rem;
+  color: #28a745;
+  font-weight: 700;
+}
+
+.card-text {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+  color: var(--text-muted);
+}
+
+/* ===== INFO CARD ===== */
+.info-card {
+  background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+  border: 1px solid #28a745;
+  border-radius: 12px;
+}
+
+.info-card .card-title {
+  color: #155724;
+  font-weight: 600;
+}
+
+.info-card .card-text {
+  color: #155724;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 1rem !important;
+  }
+
+  .dashboard-title {
+    font-size: 1.25rem;
+  }
+
+  .dashboard-subtitle {
+    font-size: 0.8rem;
+  }
+
+  .dashboard-logo {
+    width: 60px;
+  }
+
+  .option-card {
+    min-height: 120px;
+  }
+
+  .icon-wrapper {
+    width: 40px;
+    height: 40px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .d-flex.justify-content-between.align-items-center {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .logo-container {
+    margin-bottom: 1rem;
+  }
+
+  .logout-btn {
+    margin-top: 1rem;
+  }
+
+  .col-6.col-md-4 {
+    width: 50% !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .col-6.col-md-4 {
+    width: 100% !important;
+  }
+}
