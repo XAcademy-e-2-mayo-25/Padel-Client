@@ -1,0 +1,141 @@
+<div class="container py-3 dashboard-container">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="logo-container">
+      <img src="/brand.png" alt="logo de padle reserve" class="dashboard-logo" />
+    </div>
+
+    <div class="text-center flex-grow-1 mx-2">
+      <h1 class="fw-bold mb-1 dashboard-title">Panel de Club</h1>
+      <h3 class="dashboard-subtitle">Bienvenido, {{ clubName }}</h3>
+    </div>
+
+    <button class="btn btn-danger btn-sm logout-btn" (click)="logout()">
+      <i class="bi bi-box-arrow-right me-1"></i>
+      Cerrar Sesion
+    </button>
+  </div>
+
+  <!-- Badge de Rol -->
+  <div class="text-center mb-4">
+    <span class="badge bg-success role-badge">ROL: CLUB</span>
+  </div>
+
+  <!-- Cards de opciones -->
+  <div class="row g-3 mb-4">
+    <div class="col-12">
+      <div class="row g-3">
+        <!-- Gestionar Canchas -->
+        <div class="col-6 col-md-4">
+          <div class="card h-100 option-card card-canchas" (click)="navigateTo('club/canchas')">
+            <div class="card-body text-center p-3">
+              <div class="icon-wrapper mb-2">
+                <i class="fas fa-futbol"></i>
+              </div>
+              <h6 class="card-title fw-bold mb-1">CANCHAS</h6>
+              <p class="card-text small mb-2">Gestiona tus canchas</p>
+              <div class="action-link">
+                <span class="btn btn-card-action">IR</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reservas -->
+        <div class="col-6 col-md-4">
+          <div class="card h-100 option-card card-reservas" (click)="navigateTo('club/reservas')">
+            <div class="card-body text-center p-3">
+              <div class="icon-wrapper mb-2">
+                <i class="fas fa-calendar-check"></i>
+              </div>
+              <h6 class="card-title fw-bold mb-1">RESERVAS</h6>
+              <p class="card-text small mb-2">Ver todas las reservas</p>
+              <div class="action-link">
+                <span class="btn btn-card-action">IR</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Horarios -->
+        <div class="col-6 col-md-4">
+          <div class="card h-100 option-card card-horarios" (click)="navigateTo('club/horarios')">
+            <div class="card-body text-center p-3">
+              <div class="icon-wrapper mb-2">
+                <i class="fas fa-clock"></i>
+              </div>
+              <h6 class="card-title fw-bold mb-1">HORARIOS</h6>
+              <p class="card-text small mb-2">Configura disponibilidad</p>
+              <div class="action-link">
+                <span class="btn btn-card-action">IR</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Precios -->
+        <div class="col-6 col-md-4">
+          <div class="card h-100 option-card card-precios" (click)="navigateTo('club/precios')">
+            <div class="card-body text-center p-3">
+              <div class="icon-wrapper mb-2">
+                <i class="fas fa-dollar-sign"></i>
+              </div>
+              <h6 class="card-title fw-bold mb-1">PRECIOS</h6>
+              <p class="card-text small mb-2">Gestiona tarifas</p>
+              <div class="action-link">
+                <span class="btn btn-card-action">IR</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estadisticas -->
+        <div class="col-6 col-md-4">
+          <div class="card h-100 option-card card-stats" (click)="navigateTo('club/estadisticas')">
+            <div class="card-body text-center p-3">
+              <div class="icon-wrapper mb-2">
+                <i class="fas fa-chart-bar"></i>
+              </div>
+              <h6 class="card-title fw-bold mb-1">ESTADISTICAS</h6>
+              <p class="card-text small mb-2">Reportes y metricas</p>
+              <div class="action-link">
+                <span class="btn btn-card-action">IR</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Perfil del Club -->
+        <div class="col-6 col-md-4">
+          <div class="card h-100 option-card card-perfil" (click)="navigateTo('club/perfil')">
+            <div class="card-body text-center p-3">
+              <div class="icon-wrapper mb-2">
+                <i class="fas fa-building"></i>
+              </div>
+              <h6 class="card-title fw-bold mb-1">PERFIL</h6>
+              <p class="card-text small mb-2">Datos del club</p>
+              <div class="action-link">
+                <span class="btn btn-card-action">IR</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Info adicional -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card info-card">
+        <div class="card-body">
+          <h5 class="card-title"><i class="fas fa-info-circle me-2"></i>Panel de Gestion de Club</h5>
+          <p class="card-text">
+            Desde aqui puedes gestionar todas las operaciones de tu club: canchas, reservas, horarios y precios.
+            Esta vista es exclusiva para usuarios con rol de <strong>CLUB</strong>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

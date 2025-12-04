@@ -30,8 +30,20 @@ export class RegisterComponent implements OnInit {
       if (token) {
         console.log('[RegisterComponent] Token recibido por query param:', token);
         this.authService.setToken(token);
-        console.log('[RegisterComponent] Navegando a /update-profile');
-        this.router.navigate(['/update-profile']);
+
+        // Cargar datos del usuario incluyendo roles antes de navegar
+        this.authService.loadUserData().subscribe({
+          next: (userData) => {
+            console.log('[RegisterComponent] Datos de usuario cargados:', userData);
+            console.log('[RegisterComponent] Navegando a /home');
+            this.router.navigate(['/home']);
+          },
+          error: (err) => {
+            console.error('[RegisterComponent] Error al cargar datos del usuario:', err);
+            // Navegar de todos modos, los guards manejarán el caso
+            this.router.navigate(['/home']);
+          }
+        });
       } else {
         console.log('[RegisterComponent] No hay token en query params, mostrando formulario');
       }
