@@ -6,6 +6,7 @@ import { FriendsComponent } from './friends/friends.component';
 import { PlayerProfileComponent } from './player-profile/player-profile.component';
 import { CalendarComponent } from '../shared/calendar/calendar.component';
 import { PlayerDashboardComponent } from './player-dashboard/player-dashboard.component';
+import { CourtBookingComponent } from './court-booking/court-booking.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'player-dashboard', pathMatch: 'full' },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'friends', component: FriendsComponent },
   { path: 'profile', component: PlayerProfileComponent },
   { path: 'calendar', component: CalendarComponent },
+  { path: 'booking', component: CourtBookingComponent },
 ];
 
 @NgModule({
