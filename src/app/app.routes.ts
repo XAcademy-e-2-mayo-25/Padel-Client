@@ -2,6 +2,7 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/not-auth.guard';
+import { PlayerGuard, ClubGuard, AdminGuard } from './guards/role.guard';
 
 // Componentes Auth
 import { RegisterComponent } from './components/auth/register-component/register-component';
@@ -14,6 +15,14 @@ import { HomeComponent } from './components/shared/home/home.component';
 import { CourtDataFormComponent } from './components/club/court-data-form/court-data-form.component';
 import { PayDataFormComponent } from './components/club/pay-data-form/pay-data-form.component';
 import { RolSelectorComponent } from './components/auth/rol-selector/rol-selector.component';
+
+// Dashboards por rol
+import { PlayerDashboardComponent } from './components/player/player-dashboard/player-dashboard.component';
+import { ClubDashboardComponent } from './components/club/club-dashboard/club-dashboard.component';
+import { AdminDashboardComponent } from './components/admin/admin-dashboard/admin-dashboard.component';
+
+// Testing
+import { RoleSwitcherComponent } from './components/shared/role-switcher/role-switcher.component';
 
 // Error
 import { Error404 } from './components/shared/error404/error404';
@@ -49,6 +58,36 @@ export const routes: Routes = [
       //esta vistas van acá porque se necesita estar logueado para ver esa información
       { path: 'register-withouts', component: RegisterWithoutCourtsComponent },
       { path: 'register-success', component: RegisterSuccessComponent },
+
+      // ========== RUTAS PROTEGIDAS POR ROL ==========
+
+      // Dashboard de Jugador (rol 2) - protegido
+      {
+        path: 'player-dashboard',
+        component: PlayerDashboardComponent,
+        canActivate: [PlayerGuard]
+      },
+
+      // Dashboard de Club (rol 3) - protegido
+      {
+        path: 'club-dashboard',
+        component: ClubDashboardComponent,
+        canActivate: [ClubGuard]
+      },
+
+      // Dashboard de Admin (rol 1) - protegido
+      {
+        path: 'admin-dashboard',
+        component: AdminDashboardComponent,
+        canActivate: [AdminGuard]
+      },
+
+      // ========== HERRAMIENTA DE TESTING ==========
+      // Permite cambiar de rol para probar las vistas
+      {
+        path: 'role-switcher',
+        component: RoleSwitcherComponent
+      },
     ]
   },
 

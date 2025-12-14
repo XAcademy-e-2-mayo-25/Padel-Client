@@ -9,6 +9,7 @@ import { UsuarioService } from '../../../services/usuario/usuario.service';
   imports: [],
   templateUrl: './register-component.html',
   styleUrls: ['./register-component.css']
+
 })
 export class RegisterComponent implements OnInit {
   constructor(
