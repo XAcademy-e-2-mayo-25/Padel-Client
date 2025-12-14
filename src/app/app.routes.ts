@@ -21,45 +21,38 @@ import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 import { MainLayoutComponent } from './layouts/main/main-layout.component';
 
 export const routes: Routes = [
-  // ---------- AUTH LAYOUT ----------
+  // Layout Auth (para registro o inicio de sesión)
   {
     path: '',
     component: AuthLayoutComponent,
     canActivate: [NotAuthGuard],
     children: [
-      // 👈 REDIRECT QUE HACE QUE / VAYA A /register
-      { path: '', redirectTo: 'register', pathMatch: 'full' },
-
       { path: 'register', component: RegisterComponent },
     ]
   },
 
-  // ---------- MAIN LAYOUT (PROTEGIDO POR LOGIN) ----------
+  // Layout Main (para contenido protegido)
   {
     path: '',
     component: MainLayoutComponent,
     canActivate: [AuthGuard],
     children: [
       { path: 'home', component: HomeComponent },
-      { path: 'update-profile', component: UpdateProfileComponent },
+      { path: 'update-profile', component: UpdateProfileComponent }, 
       { path: 'court-data', component: CourtDataFormComponent },
       { path: 'pay-data', component: PayDataFormComponent },
       { path: 'rol-selector', component: RolSelectorComponent },
       {
         path: 'player',
-        loadChildren: () =>
-          import('./components/player/player.module').then(m => m.PlayerModule)
+        loadChildren: () => import('./components/player/player.module').then(m => m.PlayerModule)
       },
-
-      // Estas requieren login
+      //esta vistas van acá porque se necesita estar logueado para ver esa información
       { path: 'register-withouts', component: RegisterWithoutCourtsComponent },
       { path: 'register-success', component: RegisterSuccessComponent },
     ]
   },
 
-  // ---------- ERRORES ----------
+  // Rutas de error (pueden acceder todos)
   { path: '404', component: Error404 },
-
-  // REDIRECT CATCH-ALL
   { path: '**', redirectTo: '404' },
 ];
