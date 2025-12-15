@@ -13,7 +13,7 @@ export class RegisterWithoutCourtsComponent {
 
   // Ir al formulario para agregar canchas
   goToCourtForm() {
-    this.router.navigate(['/court-form']);
+    this.router.navigate(['/court-data']);
   }
 
   // Continuar como jugador / ir al menú jugador
