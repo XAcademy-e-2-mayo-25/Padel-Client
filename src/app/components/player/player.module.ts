@@ -14,8 +14,7 @@ import { PlayerProfileComponent } from './player-profile/player-profile.componen
     PlayerRoutingModule,
     PlayerDashboardComponent,
     PlayerReservationsComponent,
-    PlayerMatchesComponent,
-    FriendsComponent,    
+    PlayerMatchesComponent,    
     PlayerProfileComponent,
   ],
 })
