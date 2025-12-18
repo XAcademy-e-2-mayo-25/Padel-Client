@@ -28,13 +28,16 @@ import { RoleSwitcherComponent } from './components/shared/role-switcher/role-sw
 import { Error404 } from './components/shared/error404/error404';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 import { MainLayoutComponent } from './layouts/main/main-layout.component';
+import { ClubCanchasComponent } from './components/club/club-canchas/club-canchas';
+import { ClubReservasComponent } from './components/club/club-reservas/club-reservas';
+import { ClubProfileComponent } from './components/club/club-profile/club-profile';
 
 export const routes: Routes = [
   // ---------- AUTH LAYOUT ----------
   {
     path: '',
     component: AuthLayoutComponent,
-    canActivate: [NotAuthGuard],
+    canActivate: [AuthGuard],
     children: [
       // 👈 REDIRECT QUE HACE QUE / VAYA A /register
       { path: '', redirectTo: 'register', pathMatch: 'full' },
@@ -73,11 +76,16 @@ export const routes: Routes = [
         canActivate: [PlayerGuard]
       },
 
-      // Dashboard de Club (rol 3) - protegido
-      {
-        path: 'club-dashboard',
-        component: ClubDashboardComponent,
-        canActivate: [ClubGuard]
+      // Rutas de Club (rol 3) - protegido
+     {
+        path: 'club',
+        canActivate: [ClubGuard],
+        children:[
+          { path: 'club-dashboard', component: ClubDashboardComponent},
+          { path: 'club-canchas', component: ClubCanchasComponent},
+          { path: 'club-reservas', component: ClubReservasComponent},
+          { path: 'club-profile', component: ClubProfileComponent}
+        ]
       },
 
       // Dashboard de Admin (rol 1) - protegido

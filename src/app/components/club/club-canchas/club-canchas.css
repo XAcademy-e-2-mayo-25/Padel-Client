@@ -1,0 +1,47 @@
+/* ===== CARD CANCHA ===== */
+.cancha-card {
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.1);
+  transition: all 0.3s ease;
+}
+
+.cancha-card:hover {
+  transform: translateY(-4px);
+  border-color: #28a745;
+  box-shadow: 0 8px 20px rgba(40, 167, 69, 0.2);
+}
+
+/* ===== TITULO CANCHA ===== */
+.cancha-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #28a745;
+  margin-bottom: 0.25rem;
+}
+
+/* ===== UBICACION ===== */
+.cancha-location {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.btn-card-action {
+  font-size: 0.8rem;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #28a745;
+  color: #28a745;
+  background: transparent;
+  border-radius: 15px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+/* HOVER VERDE */
+.btn-card-action:hover {
+  background-color: #28a745;
+  color: #ffffff;
+  border-color: #28a745;
+  transform: translateX(3px);
+  box-shadow: 0 4px 10px rgba(40, 167, 69, 0.35);
+}

@@ -1,0 +1,31 @@
+/* ===== CARD RESERVA ===== */
+.reserva-card {
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.1);
+  transition: all 0.3s ease;
+}
+
+.reserva-card:hover {
+  transform: translateY(-3px);
+  border-color: #28a745;
+  box-shadow: 0 6px 16px rgba(40, 167, 69, 0.2);
+}
+
+/* ===== TEXTO ===== */
+.reserva-cancha {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #28a745;
+}
+
+.reserva-fecha {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.reserva-hora {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #155724;
+}
