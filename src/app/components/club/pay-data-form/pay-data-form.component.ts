@@ -54,7 +54,7 @@ export class PayDataFormComponent {
     ).subscribe({
       next: () => {
         this.loading = false;
-        this.router.navigate(['/player/player-dashboard']);
+        this.router.navigate(['/club-dashboard']);
       },
       error: (error) => {
         this.loading = false;

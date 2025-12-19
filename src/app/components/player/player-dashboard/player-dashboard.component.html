@@ -24,13 +24,18 @@
     <div>
       <h5 class="mb-1 fw-bold">
         <i class="bi bi-building me-2"></i>
-        ¿Tenés un club para sumar?
+        ¿Tu club todavía no está completo?
       </h5>
-      <p class="mb-0">Registralo ahora mismo para cargar canchas y administrar tus reservas.</p>
+      <p class="mb-0">Actualizá tus datos y sumá nuevas canchas para abrir más turnos.</p>
     </div>
-    <button class="btn btn-primary px-4" (click)="navigateTo('court-data')">
-      Registrar mi club
-    </button>
+    <div class="d-flex justify-content-center flex-wrap gap-2">
+      <button class="btn btn-primary btn-role-switch" (click)="navigateTo('club-form')">
+        Registrar mi club
+      </button>
+      <button class="btn btn-outline-success btn-role-switch" (click)="goToRoleSelector()">
+        Cambiar de rol
+      </button>
+    </div>
   </div>
 
   <!-- Sección de Cards -->

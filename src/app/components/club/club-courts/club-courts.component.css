@@ -1,0 +1,36 @@
+.courts-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.card {
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.card-title {
+  color: #1a4754;
+  font-weight: 600;
+}
+
+.list-group-item {
+  border: 1px solid #f0f0f0;
+}
+
+.list-group-item .badge {
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+}
+
+.bg-outline-secondary {
+  border: 1px solid #adb5bd;
+  color: #6c757d;
+  background: transparent;
+}
+
+@media (max-width: 768px) {
+  .courts-container {
+    padding: 1rem !important;
+  }
+}

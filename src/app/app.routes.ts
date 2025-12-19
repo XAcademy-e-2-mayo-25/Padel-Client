@@ -15,6 +15,7 @@ import { HomeComponent } from './components/shared/home/home.component';
 import { CourtDataFormComponent } from './components/club/court-data-form/court-data-form.component';
 import { PayDataFormComponent } from './components/club/pay-data-form/pay-data-form.component';
 import { RolSelectorComponent } from './components/auth/rol-selector/rol-selector.component';
+import { ClubCourtsComponent } from './components/club/club-courts/club-courts.component';
 
 // Dashboards por rol
 import { PlayerDashboardComponent } from './components/player/player-dashboard/player-dashboard.component';
@@ -36,6 +37,7 @@ export const routes: Routes = [
     component: AuthLayoutComponent,
     canActivate: [NotAuthGuard],
     children: [
+      { path: '', redirectTo: 'register', pathMatch: 'full' },
       { path: 'register', component: RegisterComponent },
     ]
   },
@@ -49,7 +51,9 @@ export const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'update-profile', component: UpdateProfileComponent }, 
       { path: 'court-data', component: CourtDataFormComponent },
+      { path: 'club-form', component: CourtDataFormComponent },
       { path: 'pay-data', component: PayDataFormComponent },
+      { path: 'club/canchas', component: ClubCourtsComponent, canActivate: [ClubGuard] },
       { path: 'rol-selector', component: RolSelectorComponent },
       {
         path: 'player',

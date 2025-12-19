@@ -9,14 +9,13 @@ import { UsuarioService } from '../../../services/usuario/usuario.service';
   imports: [],
   templateUrl: './register-component.html',
   styleUrls: ['./register-component.css']
-
 })
 export class RegisterComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
-    private router: Router,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -32,9 +31,16 @@ export class RegisterComponent implements OnInit {
   }
 
   private redirectAfterLogin(): void {
+    this.authService.loadUserData().subscribe({
+      next: () => this.evaluateProfileCompletion(),
+      error: () => this.authService.logout()
+    });
+  }
+
+  private evaluateProfileCompletion(): void {
     this.authService.verifyToken().subscribe({
       next: (response) => {
-        const userId = response?.id;
+        const userId = response?.id ?? response?.user?.id;
 
         if (!userId) {
           this.router.navigate(['/update-profile']);
@@ -43,7 +49,8 @@ export class RegisterComponent implements OnInit {
 
         this.usuarioService.obtenerUsuario(userId).subscribe({
           next: (usuario) => {
-            if (this.isProfileComplete(usuario)) {
+            const perfil = this.normalizeUsuario(usuario);
+            if (perfil && this.isProfileComplete(perfil)) {
               this.router.navigate(['/player/player-dashboard']);
             } else {
               this.router.navigate(['/update-profile']);
@@ -52,10 +59,13 @@ export class RegisterComponent implements OnInit {
           error: () => this.router.navigate(['/update-profile'])
         });
       },
-      error: () => {
-        this.authService.logout();
-      }
+      error: () => this.authService.logout()
     });
+  }
+
+  private normalizeUsuario(usuario: any): any | null {
+    if (!usuario) return null;
+    return usuario.usuario ?? usuario;
   }
 
   private isProfileComplete(usuario: any): boolean {

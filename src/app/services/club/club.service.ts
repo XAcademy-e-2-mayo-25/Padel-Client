@@ -38,6 +38,14 @@ export interface CrearCanchaPayload {
   observaciones?: string | null;
 }
 
+export interface Cancha {
+  idCancha: number;
+  idClub: number;
+  denominacion: string;
+  cubierta: boolean;
+  observaciones?: string | null;
+}
+
 export interface CrearDatosPagoPayload {
   idClub: number;
   metodoPago: string;
@@ -58,6 +66,19 @@ export interface Paginado<T> {
   total: number;
   totalPages: number;
   items: T[];
+}
+
+export interface ListarClubParams {
+  page?: number;
+  limit?: number;
+  idEstadoClub?: number;
+  idUsuario?: number;
+}
+
+export interface ListarCanchaParams {
+  idClub: number;
+  page?: number;
+  limit?: number;
 }
 
 @Injectable({
@@ -81,6 +102,32 @@ export class ClubService {
 
   crearDatosPago(payload: CrearDatosPagoPayload): Observable<any> {
     return this.http.post(`${this.apiUrl}/datos-pago`, payload);
+  }
+
+  listarClubs(params: ListarClubParams): Observable<Paginado<Club>> {
+    let httpParams = new HttpParams();
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        httpParams = httpParams.set(key, String(value));
+      }
+    });
+
+    return this.http.get<Paginado<Club>>(this.apiUrl, { params: httpParams });
+  }
+
+  actualizarClub(idClub: number, data: Partial<CrearClubPayload> & { idEstadoClub?: number }): Observable<Club> {
+    return this.http.patch<Club>(`${this.apiUrl}/${idClub}`, data);
+  }
+
+  listarCanchas(params: ListarCanchaParams): Observable<Paginado<Cancha>> {
+    let httpParams = new HttpParams();
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        httpParams = httpParams.set(key, String(value));
+      }
+    });
+
+    return this.http.get<Paginado<Cancha>>(`${this.apiUrl}/canchas`, { params: httpParams });
   }
 
   obtenerClub(idClub: number): Observable<Club> {
