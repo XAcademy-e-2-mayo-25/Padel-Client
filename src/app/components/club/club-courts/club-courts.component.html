@@ -20,14 +20,43 @@
               <input type="text" class="form-control" formControlName="denominacion" placeholder="Ej: Cancha 1 Techada">
             </div>
 
+            <div class="mb-3">
+              <label class="form-label">Superficie</label>
+              <input type="text" class="form-control" formControlName="superficie" placeholder="Césped sintético, cemento, etc.">
+            </div>
+
             <div class="form-check form-switch mb-3">
               <input class="form-check-input" type="checkbox" formControlName="cubierta" id="cubiertaSwitch">
               <label class="form-check-label" for="cubiertaSwitch">La cancha está cubierta</label>
             </div>
 
             <div class="mb-3">
+              <label class="form-label">Iluminación</label>
+              <select class="form-select" formControlName="iluminacion">
+                <option value="si">Sí</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Días que no abre</label>
+              <input type="text" class="form-control" formControlName="diasNoAbre" placeholder="Ej: Lunes, feriados">
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col">
+                <label class="form-label">Hora de apertura</label>
+                <input type="time" class="form-control" formControlName="apertura">
+              </div>
+              <div class="col">
+                <label class="form-label">Hora de cierre</label>
+                <input type="time" class="form-control" formControlName="cierre">
+              </div>
+            </div>
+
+            <div class="mb-3">
               <label class="form-label">Observaciones</label>
-              <textarea class="form-control" rows="3" formControlName="observaciones" placeholder="Tipo de piso, iluminación, notas..."></textarea>
+              <textarea class="form-control" rows="3" formControlName="observaciones" placeholder="Notas adicionales sobre la cancha"></textarea>
             </div>
 
             <button class="btn btn-primary w-100" type="submit" [disabled]="submitting">
@@ -54,20 +83,24 @@
             Aún no registraste canchas. Completá el formulario para comenzar.
           </div>
 
-          <div class="list-group">
+          <div class="list-group" *ngIf="canchas.length > 0">
             <div class="list-group-item list-group-item-action mb-2 rounded shadow-sm" *ngFor="let cancha of canchas">
               <div class="d-flex justify-content-between flex-wrap gap-2">
                 <div>
                   <h6 class="mb-1 fw-bold">{{ cancha.denominacion }}</h6>
-                  <p class="mb-0 text-muted">{{ cancha.observaciones || 'Sin observaciones adicionales' }}</p>
+                  <p class="mb-1 text-muted">{{ cancha.observaciones || 'Sin observaciones adicionales' }}</p>
+                  <div class="small text-muted d-flex flex-wrap gap-2">
+                    <span class="badge bg-light text-dark border">{{ cancha.cubierta ? 'Cubierta' : 'Descubierta' }}</span>
+                  </div>
                 </div>
                 <div class="text-end">
-                  <span class="badge" [ngClass]="cancha.cubierta ? 'bg-success' : 'bg-outline-secondary'">
-                    {{ cancha.cubierta ? 'Cubierta' : 'Descubierta' }}
-                  </span>
+                  <small class="text-muted">ID #{{ cancha.idCancha }}</small>
                 </div>
               </div>
             </div>
+          </div>
+          <div *ngIf="!loading && canchas.length === 0" class="text-center text-muted py-3">
+            Aún no registraste canchas. Completá el formulario para comenzar.
           </div>
         </div>
       </div>

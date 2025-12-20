@@ -1,0 +1,81 @@
+<div class="container py-3 schedules-container">
+  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+    <div>
+      <h1 class="fw-bold mb-1">Horarios del Club</h1>
+      <p class="text-muted mb-0">Configura los días y rangos horarios disponibles para reservas.</p>
+    </div>
+  </div>
+
+ 
+  <div *ngIf="feedback" class="alert alert-success">{{ feedback }}</div>
+
+  <div class="row g-4">
+    <div class="col-lg-5">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title mb-3">Agregar horario</h5>
+          <form [formGroup]="form" (ngSubmit)="addSchedule()">
+            <div class="mb-3">
+              <label class="form-label">Fecha específica (opcional)</label>
+              <input type="date" class="form-control" formControlName="fecha">
+              <small class="text-muted">Completá fecha o elegí un día fijo semanal.</small>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Día (opcional)</label>
+              <select class="form-select" formControlName="diaSemana">
+                <option value="">Seleccioná un día fijo</option>
+                <option *ngFor="let dia of dias" [value]="dia.value.toString()">{{ dia.label }}</option>
+              </select>
+            </div>
+
+            <div class="row g-3">
+              <div class="col">
+                <label class="form-label">Apertura</label>
+                <input type="time" class="form-control" formControlName="horaDesde">
+              </div>
+              <div class="col">
+                <label class="form-label">Cierre</label>
+                <input type="time" class="form-control" formControlName="horaHasta">
+              </div>
+            </div>
+
+            <button class="btn btn-primary w-100" type="submit" [disabled]="submitting">
+              <span *ngIf="submitting" class="spinner-border spinner-border-sm me-2"></span>
+              Guardar horario
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-7">
+      <div class="card h-100">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">Horarios configurados</h5>
+          <span class="badge bg-secondary">{{ horarios.length }}</span>
+        </div>
+        <div class="card-body">
+          <div *ngIf="loading" class="text-center text-muted py-3">Cargando horarios...</div>
+          <div *ngIf="!loading && horarios.length === 0" class="text-center text-muted py-3">
+            Todavía no configuraste horarios. Agregá tus primeros turnos disponibles.
+          </div>
+
+          <div class="list-group" *ngIf="horarios.length > 0">
+            <div class="list-group-item list-group-item-action mb-2 rounded shadow-sm" *ngFor="let h of horarios">
+              <div class="d-flex justify-content-between flex-wrap gap-2 align-items-center">
+                <div>
+                  <h6 class="mb-1 fw-bold">{{ h.fecha ? ('Fecha ' + h.fecha) : getDiaLabel(h) }}</h6>
+                  <p class="mb-1 text-muted">{{ h.horaDesde }} - {{ h.horaHasta }}</p>
+                </div>
+                <div>
+                  <span class="badge bg-success">Activo</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

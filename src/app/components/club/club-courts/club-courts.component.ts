@@ -29,6 +29,11 @@ export class ClubCourtsComponent implements OnInit {
     this.form = this.fb.group({
       denominacion: ['', Validators.required],
       cubierta: [false],
+      superficie: [''],
+      iluminacion: ['si'],
+      diasNoAbre: [''],
+      apertura: [''],
+      cierre: [''],
       observaciones: ['']
     });
   }
@@ -62,7 +67,7 @@ export class ClubCourtsComponent implements OnInit {
   loadCanchas(): void {
     if (!this.idClub) return;
     this.loading = true;
-    this.clubService.listarCanchas({ idClub: this.idClub, page: 1, limit: 50 }).pipe(
+    this.clubService.listarCanchas(this.idClub, { page: 1, limit: 50 }).pipe(
       finalize(() => this.loading = false)
     ).subscribe({
       next: (resp: any) => {
@@ -93,7 +98,7 @@ export class ClubCourtsComponent implements OnInit {
       idClub: this.idClub,
       denominacion: value.denominacion,
       cubierta: value.cubierta,
-      observaciones: value.observaciones || null
+      observaciones: this.armarObservaciones()
     };
 
     this.submitting = true;
@@ -105,12 +110,40 @@ export class ClubCourtsComponent implements OnInit {
     ).subscribe({
       next: () => {
         this.feedback = 'Cancha registrada correctamente.';
-        this.form.reset({ cubierta: false });
+        this.form.reset({
+          cubierta: false,
+          iluminacion: 'si'
+        });
         this.loadCanchas();
       },
       error: () => {
         this.error = 'No pudimos registrar la cancha. Intentá nuevamente.';
       }
     });
+  }
+
+  private armarObservaciones(): string | null {
+    const value = this.form.value;
+    const partes: string[] = [];
+
+    if (value.observaciones) {
+      partes.push(value.observaciones);
+    }
+
+    if (value.superficie) {
+      partes.push(`Superficie: ${value.superficie}`);
+    }
+
+    partes.push(`Iluminación: ${value.iluminacion === 'si' ? 'Si' : 'No'}`);
+
+    if (value.diasNoAbre) {
+      partes.push(`No abre: ${value.diasNoAbre}`);
+    }
+
+    if (value.apertura && value.cierre) {
+      partes.push(`Horario: ${value.apertura} - ${value.cierre}`);
+    }
+
+    return partes.length ? partes.join(' | ') : null;
   }
 }

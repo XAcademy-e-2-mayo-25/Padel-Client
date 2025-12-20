@@ -16,6 +16,8 @@ import { CourtDataFormComponent } from './components/club/court-data-form/court-
 import { PayDataFormComponent } from './components/club/pay-data-form/pay-data-form.component';
 import { RolSelectorComponent } from './components/auth/rol-selector/rol-selector.component';
 import { ClubCourtsComponent } from './components/club/club-courts/club-courts.component';
+import { ClubSchedulesComponent } from './components/club/club-schedules/club-schedules.component';
+import { ClubPricesComponent } from './components/club/club-prices/club-prices.component';
 
 // Dashboards por rol
 import { PlayerDashboardComponent } from './components/player/player-dashboard/player-dashboard.component';
@@ -54,6 +56,8 @@ export const routes: Routes = [
       { path: 'club-form', component: CourtDataFormComponent },
       { path: 'pay-data', component: PayDataFormComponent },
       { path: 'club/canchas', component: ClubCourtsComponent, canActivate: [ClubGuard] },
+      { path: 'club/horarios', component: ClubSchedulesComponent, canActivate: [ClubGuard] },
+      { path: 'club/precios', component: ClubPricesComponent, canActivate: [ClubGuard] },
       { path: 'rol-selector', component: RolSelectorComponent },
       {
         path: 'player',

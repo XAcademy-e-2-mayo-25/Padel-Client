@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { RolService } from "../../../services/rol/rol.service";
 import { AuthService } from "../../../services/auth/auth.service";
+import { ROLES } from "../../../services/rol/rol.service";
 
 @Component({
   selector: 'app-club-dashboard',
@@ -33,5 +34,9 @@ export class ClubDashboardComponent implements OnInit {
 
   navigateTo(destination: string): void {
     this.router.navigate([`/${destination}`]);
+  }
+
+  goToRoleSelector(): void {
+    this.router.navigate(['/rol-selector']);
   }
 }

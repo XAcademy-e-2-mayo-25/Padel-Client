@@ -1,0 +1,32 @@
+.schedules-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.card {
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.card-title {
+  color: #1a4754;
+  font-weight: 600;
+}
+
+.badge {
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+}
+
+.bg-outline-secondary {
+  border: 1px solid #adb5bd;
+  color: #6c757d;
+  background: transparent;
+}
+
+@media (max-width: 768px) {
+  .schedules-container {
+    padding: 1rem !important;
+  }
+}
