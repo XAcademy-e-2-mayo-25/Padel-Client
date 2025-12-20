@@ -1,0 +1,94 @@
+<div class="container py-3 prices-container">
+  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+    <div>
+      <h1 class="fw-bold mb-1">Precios y slots</h1>
+      <p class="text-muted mb-0">Asigná turnos a canchas y definí el precio de cada reserva.</p>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  <div *ngIf="feedback" class="alert alert-success">{{ feedback }}</div>
+
+  <div class="row g-4">
+    <div class="col-lg-5">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title mb-3">Crear nuevo slot</h5>
+          <form [formGroup]="form" (ngSubmit)="addSlot()">
+            <div class="mb-3">
+              <label class="form-label">Cancha</label>
+              <select class="form-select" formControlName="idCancha">
+                <option value="" disabled selected>Seleccioná una cancha</option>
+                <option *ngFor="let cancha of canchas" [value]="cancha.idCancha">
+                  {{ cancha.denominacion }}
+                </option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Turno</label>
+              <select class="form-select" formControlName="idTurno">
+                <option value="" disabled selected>Seleccioná un turno</option>
+                <option *ngFor="let turno of turnos" [value]="turno.idTurno">
+                  {{ getTurnoLabel(turno) }}
+                </option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Precio ($)</label>
+              <input type="number" class="form-control" formControlName="precio" min="0" step="0.01">
+            </div>
+
+            <div class="form-check form-switch mb-3">
+              <input class="form-check-input" type="checkbox" formControlName="disponible" id="disponibleSwitch" checked>
+              <label class="form-check-label" for="disponibleSwitch">Disponible para reservar</label>
+            </div>
+
+            <button class="btn btn-primary w-100" type="submit" [disabled]="submitting">
+              <span *ngIf="submitting" class="spinner-border spinner-border-sm me-2"></span>
+              Guardar slot
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-7">
+      <div class="card h-100">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">Slots configurados</h5>
+          <span class="badge bg-secondary">{{ slots.length }}</span>
+        </div>
+        <div class="card-body">
+          <div *ngIf="loading" class="text-center text-muted py-3">Cargando slots...</div>
+          <div *ngIf="!loading && slots.length === 0" class="text-center text-muted py-3">
+            Aún no creaste slots. Combiná una cancha con un turno para asignar precio.
+          </div>
+
+          <div class="list-group" *ngIf="slots.length > 0">
+            <div class="list-group-item list-group-item-action mb-2 rounded shadow-sm" *ngFor="let slot of slots">
+              <div class="d-flex justify-content-between flex-wrap gap-2 align-items-center">
+                <div>
+                  <h6 class="mb-1 fw-bold">
+                    {{ slot.cancha?.denominacion || ('Cancha #' + slot.idCancha) }}
+                  </h6>
+                  <p class="mb-1 text-muted">
+                    {{ slot.turno ? getTurnoLabel(slot.turno) : ('Turno #' + slot.idTurno) }}
+                  </p>
+                  <small class="text-muted">ID Slot #{{ slot.idCanchaTurno }}</small>
+                </div>
+                <div class="text-end">
+                  <div class="fw-bold mb-1">${{ slot.precio | number:'1.2-2' }}</div>
+                  <span class="badge" [ngClass]="slot.disponible ? 'bg-success' : 'bg-outline-secondary'">
+                    {{ slot.disponible ? 'Disponible' : 'No disponible' }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

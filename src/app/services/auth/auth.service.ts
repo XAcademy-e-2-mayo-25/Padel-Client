@@ -20,23 +20,19 @@ export class AuthService {
   ) {}
 
   loginWithGoogle() {
-    console.log('[AuthService] loginWithGoogle -> redirigiendo a', `${this.apiUrl}/google`);
+    // Redirige al endpoint del backend que inicia el flujo de Google OAuth
     window.location.href = `${this.apiUrl}/google`;
   }
 
   verifyToken(): Observable<any> {
     const token = this.getToken();
-    console.log('[AuthService] verifyToken -> token actual:', token);
     return this.http.get(`${this.apiUrl}/verify`, {
       headers: { Authorization: `Bearer ${token}` }
     });
   }
 
-  /**
-   * Guarda el token y carga los datos del usuario incluyendo roles
-   */
-  setToken(token: string): void {
-    console.log('[AuthService] setToken -> guardando token:', token);
+  // Método que guarda el token JWT en localStorage
+  setToken(token: string) {
     localStorage.setItem('token', token);
   }
 
@@ -70,20 +66,15 @@ export class AuthService {
   }
 
   getToken(): string | null {
-    const t = localStorage.getItem('token');
-    console.log('[AuthService] getToken ->', t);
-    return t;
+    return localStorage.getItem('token');
   }
 
   isAuthenticated(): boolean {
     const token = this.getToken();
-    const result = !!token;
-    console.log('[AuthService] isAuthenticated ->', result);
-    return result;
+    return !!token;
   }
 
   logout() {
-    console.log('[AuthService] logout -> borrando token, roles y navegando a /register');
     localStorage.removeItem('token');
     this.rolService.clearRoles();
     this.router.navigate(['/register']);

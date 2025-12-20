@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { CalendarComponent } from "../../shared/calendar/calendar.component";
+import { RolService, ROLES } from "../../../services/rol/rol.service";
 
 @Component({
   selector: 'app-player-dashboard',
@@ -17,7 +18,8 @@ export class PlayerDashboardComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private sanitizer: DomSanitizer 
+    private sanitizer: DomSanitizer,
+    private rolService: RolService
   ) {}
 
   ngOnInit() {
@@ -49,5 +51,9 @@ export class PlayerDashboardComponent implements OnInit {
 
   navigateTo(destination: string): void {
     this.router.navigate([`/${destination}`]);
+  }
+
+  goToRoleSelector(): void {
+    this.router.navigate(['/rol-selector']);
   }
 }

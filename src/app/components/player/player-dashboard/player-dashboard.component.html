@@ -19,6 +19,25 @@
     </button>
   </div>
 
+  <!-- CTA para registrar club -->
+  <div class="alert alert-info d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
+    <div>
+      <h5 class="mb-1 fw-bold">
+        <i class="bi bi-building me-2"></i>
+        ¿Tu club todavía no está completo?
+      </h5>
+      <p class="mb-0">Actualizá tus datos y sumá nuevas canchas para abrir más turnos.</p>
+    </div>
+    <div class="d-flex justify-content-center flex-wrap gap-2">
+      <button class="btn btn-primary btn-role-switch" (click)="navigateTo('club-form')">
+        Registrar mi club
+      </button>
+      <button class="btn btn-outline-success btn-role-switch" (click)="goToRoleSelector()">
+        Cambiar de rol
+      </button>
+    </div>
+  </div>
+
   <!-- Sección de Cards -->
   <div class="row g-3 mb-4">
     <div class="col-12">
