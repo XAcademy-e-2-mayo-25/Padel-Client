@@ -58,27 +58,30 @@ throw new Error('Method not implemented.');
   }
 
   ngOnInit() {
-    // Obtener el usuario actual desde el backend
-    console.log('Verificando token...');
-    this.authService.verifyToken().subscribe({
-      next: (response) => {
-        console.log('Respuesta de verify:', response);
-        if (response && response.id) {
-          this.userId = response.id;
-          console.log('User ID obtenido:', this.userId);
-          // Cargar datos del usuario si existen
-          this.cargarDatosUsuario(response.id);
-        } else {
-          console.error('No se recibió ID en la respuesta');
-        }
-      },
-      error: (error) => {
-        console.error('Error verificando token:', error);
-        alert('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
-        this.router.navigate(['/login']);
+  console.log('Verificando token...');
+
+  this.authService.verifyToken().subscribe({
+    next: (response) => {
+      console.log('Respuesta de verify:', response);
+        //Si el token es valido extrae y almacena el ID
+      if (response?.valid && response.id) {
+        const userId = response.id;
+        this.userId = userId;
+        console.log('User ID obtenido:', this.userId);
+
+        this.cargarDatosUsuario(userId);
+      } else {
+        console.error('Token inválido o sin ID');
       }
-    });
-  }
+    },
+    error: (error) => {
+      console.error('Error verificando token:', error);
+      alert('Tu sesión ha expirado. Iniciá sesión nuevamente.');
+      this.router.navigate(['/login']);
+    }
+  });
+}
+
 
   cargarDatosUsuario(id: number) {
     this.usuarioService.obtenerUsuario(id).subscribe({

@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
-import { Router } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 import { CalendarComponent } from "../../shared/calendar/calendar.component";
 import { RolService, ROLES } from "../../../services/rol/rol.service";
 
@@ -8,7 +8,7 @@ import { RolService, ROLES } from "../../../services/rol/rol.service";
   selector: 'app-player-dashboard',
   templateUrl: './player-dashboard.component.html',
   styleUrls: ['./player-dashboard.component.css'],
-  imports: [CalendarComponent]
+  imports: [CalendarComponent, RouterModule]
 })
 export class PlayerDashboardComponent implements OnInit {
   playerName: string = 'Jugador';

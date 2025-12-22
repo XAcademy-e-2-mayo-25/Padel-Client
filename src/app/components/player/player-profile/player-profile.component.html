@@ -1,1 +1,96 @@
-<p>player-profile.component works!</p>
+<!-- BLOQUEO DE RENDER HASTA QUE PLAYER EXISTA -->
+
+  <!-- HEADER -->
+  <div class="header-fixed-top bg-white shadow-sm">
+    <div
+      class="container py-2 dashboard-container d-flex justify-content-between align-items-center"
+    >
+      <!-- Logo -->
+      <div class="logo-container">
+        <img src="/brand.png" alt="logo de padel reserve" class="dashboard-logo" />
+      </div>
+
+      <!-- Saludo centrado -->
+      <div class="text-center flex-grow-1 mx-2">
+        <h1 class="player-greeting-title">¡Hola, {{ player.nombres }}!</h1>
+
+        <h3 class="player-greeting-subtitle">¿Listo para jugar un partido hoy?</h3>
+      </div>
+
+      <!-- Logout -->
+      <button class="btn btn-danger btn-sm logout-btn" (click)="logout()">
+        <i class="bi bi-box-arrow-right me-1"></i>
+        Cerrar Sesión
+      </button>
+    </div>
+  </div>
+
+  <!-- PERFIL -->
+  <div class="profile-container">
+    <!-- COLUMNA IZQUIERDA -->
+    <div class="profile-left">
+      <!-- FOTO + INFO BÁSICA -->
+      <img
+        class="profile-photo"
+        [src]="player.fotoPerfil || 'assets/img/player-placeholder.jpg'"
+        alt="Foto de perfil"
+      />
+
+      <h2 class="player-name">{{ player.nombres }} {{ player.apellidos }}</h2>
+
+      <!-- (Posición no existe en el modelo, se deja fuera por ahora) -->
+
+      <!-- TARJETA DE INFORMACIÓN -->
+      <div class="profile-info-card card">
+        <h2 class="section-title">Información del Jugador</h2>
+
+        <div class="info-grid">
+          <div class="info-item">
+            <label>DNI:</label>
+            <span>{{ player.dni || '-' }}</span>
+          </div>
+
+          <div class="info-item">
+            <label>Email:</label>
+            <span>{{ player.email }}</span>
+          </div>
+
+          <div class="info-item">
+            <label>Provincia:</label>
+            <span>{{ player.provincia || '-' }}</span>
+          </div>
+
+          <div class="info-item">
+            <label>Localidad:</label>
+            <span>{{ player.localidad || '-' }}</span>
+          </div>
+
+          <div class="info-item">
+            <label>Categoría:</label>
+            <span>{{ player.idCategoria || '-' }}</span>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn edit-btn" (click)="goToUpdateProfile()">Editar perfil</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLUMNA CENTRAL -->
+    <div class="profile-center">
+      <div class="profile-bio-card card">
+        <h2 class="section-title">Bio</h2>
+        <p class="bio-text">
+          Amante del pádel desde hace años. Me gusta jugar partidos dinámicos y disfruto competir
+          los fines de semana. Estoy buscando mejorar mi nivel y conocer nuevos jugadores para armar
+          partidos.
+        </p>
+      </div>
+    </div>
+  </div>
+
+<!-- OPCIONAL: MENSAJE DE CARGA -->
+<div *ngIf="loading" class="text-center mt-5">
+  <p>Cargando perfil...</p>
+</div>

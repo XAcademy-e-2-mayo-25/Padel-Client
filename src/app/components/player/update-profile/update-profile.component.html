@@ -1,201 +1,200 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <!-- Encabezado con logo y bienvenida -->
+      <div class="logo-container mb-4">
+        <img
+          src="/brand.png"
+          alt="logo padel"
+          class="position-absolute start-0"
+          style="
+            max-inline-size: 120px;
+            margin-block-start: 25px;
+            block-size: auto;
+            inset-block-start: 50%;
+            transform: translateY(-50%);
+          "
+        />
 
-    <div class="container mt-4">
-      <div class="row justify-content-center">
-        <div class="col-lg-10">
-          <!-- Encabezado con logo y bienvenida -->
-          <div class="logo-container mb-4">
-            <img
-              src="/brand.png"
-              alt="logo padel"
-              class="position-absolute start-0"
-              style="
-                max-inline-size: 120px;
-                margin-block-start: 25px;
-                block-size: auto;
-                inset-block-start: 50%;
-                transform: translateY(-50%);
-              "
-            />
+        <div
+          class="position-absolute start-50 translate-middle-x text-center"
+          style="inset-block-start: 50%; transform: translate(-50%, -50%)"
+        >
+          <h1 class="mb-1" style="color: #275c6a">Hola USUARIO, bienvenido!</h1>
+          <h3 class="text-muted mb-0">Registrate antes de continuar</h3>
+        </div>
+      </div>
 
-            <div
-              class="position-absolute start-50 translate-middle-x text-center"
-              style="inset-block-start: 50%; transform: translate(-50%, -50%)"
-            >
-              <h1 class="mb-1" style="color: #275c6a">Hola USUARIO, bienvenido!</h1>
-              <h3 class="text-muted mb-0">Registrate antes de continuar</h3>
-            </div>
-          </div>
+      <!-- Formulario de registro -->
+      <div class="card shadow-lg border-0 card-form">
+        <div class="card-body p-5">
+          <form [formGroup]="form" (ngSubmit)="continuar()">
+            <!-- DATOS PERSONALES -->
+            <div class="mb-5">
+              <h5 class="mb-4 border-bottom pb-2" style="color: #275c6a">DATOS PERSONALES</h5>
 
-          <!-- Formulario de registro -->
-          <div class="card shadow-lg border-0 card-form">
-            <div class="card-body p-5">
-              <form [formGroup]="form" (ngSubmit)="continuar()">
-                <!-- DATOS PERSONALES -->
-                <div class="mb-5">
-                  <h5 class="mb-4 border-bottom pb-2" style="color: #275c6a">DATOS PERSONALES</h5>
+              <!-- Nombre y Apellido -->
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label for="nombre" class="form-label">Nombre</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="nombre"
+                    formControlName="nombres"
+                    placeholder="Ingresa tu nombre"
+                  />
+                </div>
+                <div class="col-md-6">
+                  <label for="apellido" class="form-label">Apellido</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="apellido"
+                    formControlName="apellidos"
+                    placeholder="Ingresa tu apellido"
+                  />
+                </div>
+              </div>
 
-                  <!-- Nombre y Apellido -->
-                  <div class="row mb-3">
-                    <div class="col-md-6">
-                      <label for="nombre" class="form-label">Nombre</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="nombre"
-                        formControlName="nombres"
-                        placeholder="Ingresa tu nombre"
-                      />
-                    </div>
-                    <div class="col-md-6">
-                      <label for="apellido" class="form-label">Apellido</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="apellido"
-                        formControlName="apellidos"
-                        placeholder="Ingresa tu apellido"
-                      />
-                    </div>
+              <!-- DNI y Teléfono -->
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label for="dni" class="form-label">DNI</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="dni"
+                    formControlName="dni"
+                    placeholder="Ingresa tu DNI"
+                  />
+                </div>
+                <div class="col-md-6">
+                  <label for="telefono" class="form-label">Teléfono</label>
+                  <input
+                    type="tel"
+                    class="form-control"
+                    id="telefono"
+                    formControlName="telefono"
+                    placeholder="Ingresa tu teléfono"
+                  />
+                </div>
+              </div>
+
+              <!-- Dirección -->
+              <div class="row mb-3">
+                <div class="col-12">
+                  <label for="direccion" class="form-label">Dirección</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="direccion"
+                    formControlName="direccion"
+                    placeholder="Ingresa tu dirección"
+                  />
+                </div>
+              </div>
+
+              <!-- Localidad y Provincia -->
+              <div class="row mb-4">
+                <div class="col-md-6">
+                  <label for="localidad" class="form-label">Localidad</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="localidad"
+                    formControlName="localidad"
+                    placeholder="Ingresa tu localidad"
+                  />
+                </div>
+                <div class="col-md-6">
+                  <label for="provincia" class="form-label">Provincia</label>
+                  <select class="form-select" id="provincia" formControlName="provincia">
+                    <option value="">--Seleccionar--</option>
+                    <option>Buenos Aires</option>
+                    <option>Catamarca</option>
+                    <option>Chaco</option>
+                    <option>Chubut</option>
+                    <option>Ciudad Autónoma de Buenos Aires</option>
+                    <option>Córdoba</option>
+                    <option>Corrientes</option>
+                    <option>Entre Ríos</option>
+                    <option>Formosa</option>
+                    <option>Jujuy</option>
+                    <option>La Pampa</option>
+                    <option>La Rioja</option>
+                    <option>Mendoza</option>
+                    <option>Misiones</option>
+                    <option>Neuquén</option>
+                    <option>Río Negro</option>
+                    <option>Salta</option>
+                    <option>San Juan</option>
+                    <option>San Luis</option>
+                    <option>Santa Cruz</option>
+                    <option>Santa Fe</option>
+                    <option>Santiago del Estero</option>
+                    <option>Tierra del Fuego, Antártida e Islas del Atlántico Sur</option>
+                    <option>Tucumán</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Foto de perfil -->
+              <div class="row mb-4">
+                <div class="col-12">
+                  <label class="form-label">Foto de Perfil</label>
+                  <div class="d-flex gap-3 align-items-center">
+                    <button type="button" class="btn btn-outline-primary" (click)="subirFoto()">
+                      Subir Foto
+                    </button>
+                    <span class="text-muted">o</span>
+                    <button
+                      type="button"
+                      class="btn btn-outline-success"
+                      (click)="usarFotoGoogle()"
+                    >
+                      Usar foto de Google
+                    </button>
                   </div>
+                </div>
+              </div>
 
-                  <!-- DNI y Teléfono -->
-                  <div class="row mb-3">
-                    <div class="col-md-6">
-                      <label for="dni" class="form-label">DNI</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="dni"
-                        formControlName="dni"
-                        placeholder="Ingresa tu DNI"
-                      />
-                    </div>
-                    <div class="col-md-6">
-                      <label for="telefono" class="form-label">Teléfono</label>
-                      <input
-                        type="tel"
-                        class="form-control"
-                        id="telefono"
-                        formControlName="telefono"
-                        placeholder="Ingresa tu teléfono"
-                      />
-                    </div>
-                  </div>
+              <hr class="my-4" />
 
-                  <!-- Dirección -->
-                  <div class="row mb-3">
-                    <div class="col-12">
-                      <label for="direccion" class="form-label">Dirección</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="direccion"
-                        formControlName="direccion"
-                        placeholder="Ingresa tu dirección"
-                      />
-                    </div>
-                  </div>
+              <!-- PREFERENCIAS DE JUEGO -->
+              <div class="mb-4">
+                <h5 style="color: #275c6a">PREFERENCIAS DE JUEGO</h5>
+              </div>
 
-                  <!-- Localidad y Provincia -->
-                  <div class="row mb-4">
-                    <div class="col-md-6">
-                      <label for="localidad" class="form-label">Localidad</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="localidad"
-                        formControlName="localidad"
-                        placeholder="Ingresa tu localidad"
-                      />
-                    </div>
-                    <div class="col-md-6">
-                      <label for="provincia" class="form-label">Provincia</label>
-                      <select class="form-select" id="provincia" formControlName="provincia">
-                        <option value="">--Seleccionar--</option>
-                        <option>Buenos Aires</option>
-                        <option>Catamarca</option>
-                        <option>Chaco</option>
-                        <option>Chubut</option>
-                        <option>Ciudad Autónoma de Buenos Aires</option>
-                        <option>Córdoba</option>
-                        <option>Corrientes</option>
-                        <option>Entre Ríos</option>
-                        <option>Formosa</option>
-                        <option>Jujuy</option>
-                        <option>La Pampa</option>
-                        <option>La Rioja</option>
-                        <option>Mendoza</option>
-                        <option>Misiones</option>
-                        <option>Neuquén</option>
-                        <option>Río Negro</option>
-                        <option>Salta</option>
-                        <option>San Juan</option>
-                        <option>San Luis</option>
-                        <option>Santa Cruz</option>
-                        <option>Santa Fe</option>
-                        <option>Santiago del Estero</option>
-                        <option>Tierra del Fuego, Antártida e Islas del Atlántico Sur</option>
-                        <option>Tucumán</option>
-                      </select>
-                    </div>
-                  </div>
+              <!-- Categoría y Posición -->
+              <div class="row mb-4">
+                <div class="col-md-6">
+                  <label for="categoria" class="form-label">Categoría</label>
+                  <select class="form-select" id="categoria" formControlName="categoria">
+                    <option value="">--Seleccionar--</option>
+                    <option>8va</option>
+                    <option>7ma</option>
+                    <option>6ta</option>
+                    <option>5ta</option>
+                    <option>4ta</option>
+                    <option>3ra</option>
+                    <option>2da</option>
+                    <option>1ra</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label for="posicion" class="form-label">Posición</label>
+                  <select class="form-select" id="posicion" formControlName="posicion">
+                    <option value="">--Seleccionar--</option>
+                    <option>Drive</option>
+                    <option>Revés</option>
+                    <option>No definido</option>
+                  </select>
+                </div>
+              </div>
 
-                  <!-- Foto de perfil -->
-                  <div class="row mb-4">
-                    <div class="col-12">
-                      <label class="form-label">Foto de Perfil</label>
-                      <div class="d-flex gap-3 align-items-center">
-                        <button type="button" class="btn btn-outline-primary" (click)="subirFoto()">
-                          Subir Foto
-                        </button>
-                        <span class="text-muted">o</span>
-                        <button
-                          type="button"
-                          class="btn btn-outline-success"
-                          (click)="usarFotoGoogle()"
-                        >
-                          Usar foto de Google
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
-                  <hr class="my-4" />
-
-                  <!-- PREFERENCIAS DE JUEGO -->
-                  <div class="mb-4">
-                    <h5 style="color: #275c6a">PREFERENCIAS DE JUEGO</h5>
-                  </div>
-
-                  <!-- Categoría y Posición -->
-                  <div class="row mb-4">
-                    <div class="col-md-6">
-                      <label for="categoria" class="form-label">Categoría</label>
-                      <select class="form-select" id="categoria" formControlName="categoria">
-                        <option value="">--Seleccionar--</option>
-                        <option>8va</option>
-                        <option>7ma</option>
-                        <option>6ta</option>
-                        <option>5ta</option>
-                        <option>4ta</option>
-                        <option>3ra</option>
-                        <option>2da</option>
-                        <option>1ra</option>
-                      </select>
-                    </div>
-                    <div class="col-md-6">
-                      <label for="posicion" class="form-label">Posición</label>
-                      <select class="form-select" id="posicion" formControlName="posicion">
-                        <option value="">--Seleccionar--</option>
-                        <option>Drive</option>
-                        <option>Revés</option>
-                        <option>No definido</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <!-- Esto no correspondería aca, chequear y eliminar -->
-                  <!-- ¿Tiene canchas?
+              <!-- Esto no correspondería aca, chequear y eliminar -->
+              <!-- ¿Tiene canchas?
                   <div class="mb-5">
                     <label class="form-check-label me-3">¿Tenés canchas para gestionar?</label>
                     <div class="form-check form-check-inline">
@@ -220,20 +219,20 @@
                     </div>
                   </div> -->
 
-                  <!-- Botones de acción -->
-                  <div class="d-flex justify-content-end mt-4">
-                    <button type="submit" class="btn btn-success">Actualizar perfil</button>
-                    <button type="submit" class="btn btn-skip" (click)="saltarPaso()">
-                      Completar luego
-                    </button>
-                  </div>
-                </div>
-              </form>
+              <!-- Botones de acción -->
+              <div class="d-flex justify-content-end mt-4">
+                <button type="submit" class="btn btn-success" [disabled]="submitting">
+                  Actualizar perfil
+                </button>
+
+                <button type="button" class="btn btn-skip" (click)="saltarPaso()">
+                  Completar luego
+                </button>
+              </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
-
-
-
+  </div>
+</div>
