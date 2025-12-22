@@ -54,4 +54,19 @@ export class UsuarioService {
   actualizarRoles(id: number, data: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/${id}/roles`, data);
   }
+
+  // GET /usuarios/me/matches
+listarMisPartidos(): Observable<any[]> {
+  const token = localStorage.getItem('token');
+
+  return this.http.get<any[]>(
+    `${this.apiUrl}/me/matches`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
+}
+
 }
