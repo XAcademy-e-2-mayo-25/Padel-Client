@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
   selector: 'app-player-profile',
   templateUrl: './player-profile.component.html',
   styleUrls: ['./player-profile.component.css'],
+  standalone: true,
   imports: [CommonModule]
 })
 export class PlayerProfileComponent implements OnInit {
@@ -17,17 +18,24 @@ export class PlayerProfileComponent implements OnInit {
   
   constructor(private authService: AuthService, private usuarioService: UsuarioService, private router: Router) {}
   ngOnInit(): void {
-  const userIdStr = localStorage.getItem('userId');
-  const userId = userIdStr ? parseInt(userIdStr, 10) : null;
-  
-  if (!userId) {
-    console.error('No se pudo obtener el ID del usuario autenticado');
-    this.loading = false;
-    return;
-  }
-  
-  console.log('UserID obtenido:', userId);
-  this.cargarPerfil(userId);
+    // Primero verifico el token para obtener el ID desde el backend
+    this.authService.verifyToken().subscribe({
+      next: (response) => {
+        const userId = response?.id ?? response?.user?.id ?? null;
+
+        if (!userId) {
+          console.error('No se pudo obtener el ID del usuario autenticado');
+          this.loading = false;
+          return;
+        }
+
+        this.cargarPerfil(userId);
+      },
+      error: (error) => {
+        console.error('Error verificando token', error);
+        this.loading = false;
+      }
+    });
 }
 
   cargarPerfil(id: number): void {
@@ -45,6 +53,11 @@ export class PlayerProfileComponent implements OnInit {
 
   goToUpdateProfile(): void {
   this.router.navigate(['/update-profile']);
+  }
+
+  goBack(): void {
+    // Vuelve al dashboard del jugador
+    this.router.navigate(['/player/player-dashboard']);
   }
   
   logout(): void {

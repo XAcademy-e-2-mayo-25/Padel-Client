@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Observable, switchMap, map, of } from 'rxjs';
-import { ClubService, CrearClubPayload, CrearCanchaPayload } from '../../../services/club/club.service';
+import { ClubService, CrearClubPayload } from '../../../services/club/club.service';
 import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
@@ -15,7 +15,6 @@ import { AuthService } from '../../../services/auth/auth.service';
 })
 export class CourtDataFormComponent implements OnInit {
   form: FormGroup;
-  horarios: string[] = [];
   loading = false;
   errorMessage: string | null = null;
 
@@ -31,47 +30,23 @@ export class CourtDataFormComponent implements OnInit {
       cuitCuil: ['', [Validators.required, Validators.minLength(11)]],
       provincia: ['', Validators.required],
       localidad: ['', Validators.required],
-      direccion: ['', Validators.required],
-      denominacion: ['', Validators.required],
-      superficie: [''],
-      iluminacion: ['si', Validators.required],
-      techada: ['no', Validators.required],
-      diasNoAbre: [''],
-      apertura: ['', Validators.required],
-      cierre: ['', Validators.required],
-      configurarLuego: [false]
+      direccion: ['', Validators.required]
     });
-
-    this.generarHorarios();
   }
 
   ngOnInit(): void {
     this.cargarDatosClubExistente();
   }
 
-  generarHorarios() {
-    for (let i = 0; i < 24; i++) {
-      for (let j = 0; j < 60; j += 30) {
-        const hora = i.toString().padStart(2, '0');
-        const minuto = j.toString().padStart(2, '0');
-        this.horarios.push(`${hora}:${minuto}`);
-      }
-    }
-  }
-
-  configurarDespues() {
-    this.procesarFormulario(false);
-  }
-
   continuar() {
-    this.procesarFormulario(true);
+    this.procesarFormulario();
   }
 
   volver() {
     this.router.navigate(['/update-profile']);
   }
 
-  private procesarFormulario(crearCancha: boolean): void {
+  private procesarFormulario(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
@@ -88,13 +63,7 @@ export class CourtDataFormComponent implements OnInit {
         }
         return this.obtenerOcrearClub(userId);
       }),
-      switchMap(idClub => {
-        if (!crearCancha) {
-          return of(idClub);
-        }
-        const payload = this.armarPayloadCancha(idClub);
-        return this.clubService.crearCancha(payload).pipe(map(() => idClub));
-      })
+      map(() => true)
     ).subscribe({
       next: () => {
         this.loading = false;
@@ -137,37 +106,6 @@ export class CourtDataFormComponent implements OnInit {
       localidad: value.localidad,
       direccion: value.direccion
     };
-  }
-
-  private armarPayloadCancha(idClub: number): CrearCanchaPayload {
-    const value = this.form.value;
-    return {
-      idClub,
-      denominacion: value.denominacion,
-      cubierta: value.techada === 'si',
-      observaciones: this.armarObservaciones()
-    };
-  }
-
-  private armarObservaciones(): string {
-    const value = this.form.value;
-    const partes: string[] = [];
-
-    if (value.superficie) {
-      partes.push(`Superficie: ${value.superficie}`);
-    }
-
-    partes.push(`Iluminación: ${value.iluminacion === 'si' ? 'Si' : 'No'}`);
-
-    if (value.diasNoAbre) {
-      partes.push(`No abre: ${value.diasNoAbre}`);
-    }
-
-    if (value.apertura && value.cierre) {
-      partes.push(`Horario: ${value.apertura} - ${value.cierre}`);
-    }
-
-    return partes.join(' | ');
   }
 
   private cargarDatosClubExistente(): void {

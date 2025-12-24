@@ -10,4 +10,5 @@ export interface Usuario {
   idCategoria: number | null;
   telefono: string | null;
   direccion: string | null;
+  bio?: string | null;
 }

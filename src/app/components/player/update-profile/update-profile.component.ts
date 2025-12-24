@@ -25,6 +25,7 @@ throw new Error('Method not implemented.');
   submitting = false;
   photoPreview: string | null = null; // para preview si subís foto
   userId: number | null = null;
+  displayName: string = 'Usuario';
 
   provincias = [
     'Buenos Aires','Catamarca','Chaco','Chubut','Ciudad Autónoma de Buenos Aires','Córdoba','Corrientes',
@@ -52,6 +53,7 @@ throw new Error('Method not implemented.');
       // foto: no lo guardamos como campo de formulario (podés agregar)
       categoria: [''],
       posicion: [''],
+      bio: [''],
       // campo para decidir el flujo: ¿tenés canchas?
       tieneCanchas: [false]
     });
@@ -87,6 +89,7 @@ throw new Error('Method not implemented.');
     this.usuarioService.obtenerUsuario(id).subscribe({
       next: (usuario) => {
         if (usuario) {
+          this.displayName = usuario.nombres || this.displayName;
           this.form.patchValue({
             nombres: usuario.nombres || '',
             apellidos: usuario.apellidos || '',
@@ -96,7 +99,8 @@ throw new Error('Method not implemented.');
             localidad: usuario.localidad || '',
             provincia: usuario.provincia || '',
             categoria: usuario.categoria || '',
-            posicion: usuario.posicion || ''
+            posicion: usuario.posicion || '',
+            bio: usuario.bio || ''
           });
         }
       },
@@ -143,7 +147,7 @@ throw new Error('Method not implemented.');
 
   // Volver (navegar a la página previa)
   volver() {
-    this.router.navigate(['/login']); // o la ruta que uses para "volver"
+    this.router.navigate(['/player/player-dashboard']); // Regresar al menú del jugador
   }
 
   // Continuar: validamos el formulario; luego decidimos a dónde ir según tieneCanchas
@@ -175,7 +179,8 @@ throw new Error('Method not implemented.');
       telefono: payload.telefono,
       direccion: payload.direccion,
       localidad: payload.localidad,
-      provincia: payload.provincia
+      provincia: payload.provincia,
+      bio: payload.bio, // el backend la guarda en bio/biografia/description
     };
 
     console.log('Datos filtrados para enviar:', datosParaEnviar);
@@ -184,14 +189,7 @@ throw new Error('Method not implemented.');
     this.usuarioService.editarUsuario(this.userId, datosParaEnviar).subscribe({
       next: (response) => {
         console.log('Usuario actualizado:', response);
-
-        // Redirecciones según tieneCanchas
-        const tieneCanchas = !!payload.tieneCanchas;
-        if (tieneCanchas) {
-          this.router.navigate(['/court-data']);
-        } else {
-          this.router.navigate(['/register-withouts']);
-        }
+        this.router.navigate(['/player/profile']);
         this.submitting = false;
       },
       error: (error) => {
@@ -207,7 +205,8 @@ throw new Error('Method not implemented.');
   }
 
   saltarPaso() {
-    this.router.navigate(['/home']);
+    // Volver al perfil sin guardar
+    this.router.navigate(['/player/profile']);
   }
 }
 

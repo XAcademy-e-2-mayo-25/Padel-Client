@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-player-matches.component',
-  imports: [],
+  selector: 'app-player-matches',
   templateUrl: './player-matches.component.html',
-  styleUrl: './player-matches.component.css'
+  styleUrls: ['./player-matches.component.css'],
+  standalone: true,
 })
 export class PlayerMatchesComponent {
-logout() {
-throw new Error('Method not implemented.');
-}
-
+  logout() {
+    throw new Error('Method not implemented.');
+  }
 }

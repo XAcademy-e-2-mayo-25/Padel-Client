@@ -11,10 +11,6 @@ import { PlayerProfileComponent } from './player-profile/player-profile.componen
   imports: [
     CommonModule,
     PlayerRoutingModule,
-    PlayerDashboardComponent,
-    PlayerReservationsComponent,
-    PlayerMatchesComponent,
-    PlayerProfileComponent,
   ],
 })
 export class PlayerModule {}

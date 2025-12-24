@@ -1,5 +1,5 @@
 <!-- BLOQUEO DE RENDER HASTA QUE PLAYER EXISTA -->
-
+<ng-container *ngIf="player; else loadingState">
   <!-- HEADER -->
   <div class="header-fixed-top bg-white shadow-sm">
     <div
@@ -21,6 +21,12 @@
       <button class="btn btn-danger btn-sm logout-btn" (click)="logout()">
         <i class="bi bi-box-arrow-right me-1"></i>
         Cerrar Sesión
+      </button>
+
+      <!-- Volver -->
+      <button class="btn btn-outline-secondary btn-sm ms-2" (click)="goBack()">
+        <i class="bi bi-arrow-left"></i>
+        Volver
       </button>
     </div>
   </div>
@@ -80,15 +86,16 @@
       <div class="profile-bio-card card">
         <h2 class="section-title">Bio</h2>
         <p class="bio-text">
-          Amante del pádel desde hace años. Me gusta jugar partidos dinámicos y disfruto competir
-          los fines de semana. Estoy buscando mejorar mi nivel y conocer nuevos jugadores para armar
-          partidos.
+          {{ player.bio || 'Aún no has completado tu bio.' }}
         </p>
       </div>
     </div>
   </div>
+</ng-container>
 
-<!-- OPCIONAL: MENSAJE DE CARGA -->
-<div *ngIf="loading" class="text-center mt-5">
-  <p>Cargando perfil...</p>
-</div>
+<!-- MENSAJE DE CARGA -->
+<ng-template #loadingState>
+  <div class="text-center mt-5">
+    <p>Cargando perfil...</p>
+  </div>
+</ng-template>

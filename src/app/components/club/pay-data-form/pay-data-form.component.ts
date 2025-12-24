@@ -5,6 +5,7 @@ import { RouterModule, Router } from '@angular/router';
 import { switchMap, map, of } from 'rxjs';
 import { ClubService, CrearDatosPagoPayload } from '../../../services/club/club.service';
 import { AuthService } from '../../../services/auth/auth.service';
+import { RolService, ROLES } from '../../../services/rol/rol.service';
 
 @Component({
   selector: 'app-pay-data-form',
@@ -22,7 +23,8 @@ export class PayDataFormComponent {
     private fb: FormBuilder,
     private router: Router,
     private clubService: ClubService,
-    private authService: AuthService
+    private authService: AuthService,
+    private rolService: RolService
   ) {
     this.form = this.fb.group({
       metodoPago: ['', Validators.required],
@@ -54,6 +56,14 @@ export class PayDataFormComponent {
     ).subscribe({
       next: () => {
         this.loading = false;
+        // Garantizar que el rol activo sea CLUB para que el guard no redirija
+        const roles = this.rolService.getUserRoles();
+        if (!roles.includes(ROLES.CLUB)) {
+          this.rolService.simulateRoles([...roles, ROLES.CLUB]);
+        } else {
+          this.rolService.setCurrentRole(ROLES.CLUB);
+        }
+        // Ir al menú de club (ruta directa protegida por ClubGuard)
         this.router.navigate(['/club-dashboard']);
       },
       error: (error) => {

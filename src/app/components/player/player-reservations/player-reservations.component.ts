@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-player-reservations',
   templateUrl: './player-reservations.component.html',
   styleUrls: ['./player-reservations.component.css'],
+  standalone: true,
   imports: [CommonModule],
 })
 export class PlayerReservationsComponent implements OnInit {

@@ -3,11 +3,13 @@ import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 import { Router, RouterModule } from "@angular/router";
 import { CalendarComponent } from "../../shared/calendar/calendar.component";
 import { RolService, ROLES } from "../../../services/rol/rol.service";
+import { AuthService } from "../../../services/auth/auth.service";
 
 @Component({
   selector: 'app-player-dashboard',
   templateUrl: './player-dashboard.component.html',
   styleUrls: ['./player-dashboard.component.css'],
+  standalone: true,
   imports: [CalendarComponent, RouterModule]
 })
 export class PlayerDashboardComponent implements OnInit {
@@ -19,7 +21,8 @@ export class PlayerDashboardComponent implements OnInit {
   constructor(
     private router: Router,
     private sanitizer: DomSanitizer,
-    private rolService: RolService
+    private rolService: RolService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -43,10 +46,7 @@ export class PlayerDashboardComponent implements OnInit {
   }
 
   logout(): void {
-    // Lógica para cerrar sesión
-    console.log('Cerrando sesión...');
-    // Ejemplo: this.authService.logout();
-    // this.router.navigate(['/login']);
+    this.authService.logout();
   }
 
   navigateTo(destination: string): void {

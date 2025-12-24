@@ -18,7 +18,15 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [
+    RouterModule.forChild(routes),
+    PlayerDashboardComponent,
+    PlayerReservationsComponent,
+    PlayerMatchesComponent,
+    PlayerProfileComponent,
+    CalendarComponent,
+    CourtBookingComponent
+  ],
   exports: [RouterModule]
 })
 export class PlayerRoutingModule { }
