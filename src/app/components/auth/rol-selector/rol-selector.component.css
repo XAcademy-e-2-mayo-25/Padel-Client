@@ -32,6 +32,24 @@ h1 {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn.active {
+  outline: 2px solid rgba(0, 0, 0, 0.15);
+}
+
+.role-status {
+  display: block;
+  font-size: 0.75rem;
+  margin-top: 0.35rem;
+  min-height: 1.1rem;
+  font-weight: 500;
+}
+
 /* Botón JUGADOR */
 .btn-jugador {
   background-color: #28a745;

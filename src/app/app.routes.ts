@@ -15,6 +15,9 @@ import { HomeComponent } from './components/shared/home/home.component';
 import { CourtDataFormComponent } from './components/club/court-data-form/court-data-form.component';
 import { PayDataFormComponent } from './components/club/pay-data-form/pay-data-form.component';
 import { RolSelectorComponent } from './components/auth/rol-selector/rol-selector.component';
+import { ClubCourtsComponent } from './components/club/club-courts/club-courts.component';
+import { ClubSchedulesComponent } from './components/club/club-schedules/club-schedules.component';
+import { ClubPricesComponent } from './components/club/club-prices/club-prices.component';
 
 // Dashboards por rol
 import { PlayerDashboardComponent } from './components/player/player-dashboard/player-dashboard.component';
@@ -30,37 +33,37 @@ import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 import { MainLayoutComponent } from './layouts/main/main-layout.component';
 
 export const routes: Routes = [
-  // ---------- AUTH LAYOUT ----------
+  // Layout Auth (para registro o inicio de sesión)
   {
     path: '',
     component: AuthLayoutComponent,
     canActivate: [NotAuthGuard],
     children: [
-      // 👈 REDIRECT QUE HACE QUE / VAYA A /register
       { path: '', redirectTo: 'register', pathMatch: 'full' },
-
       { path: 'register', component: RegisterComponent },
     ]
   },
 
-  // ---------- MAIN LAYOUT (PROTEGIDO POR LOGIN) ----------
+  // Layout Main (para contenido protegido)
   {
     path: '',
     component: MainLayoutComponent,
     canActivate: [AuthGuard],
     children: [
       { path: 'home', component: HomeComponent },
-      { path: 'update-profile', component: UpdateProfileComponent },
+      { path: 'update-profile', component: UpdateProfileComponent }, 
       { path: 'court-data', component: CourtDataFormComponent },
+      { path: 'club-form', component: CourtDataFormComponent },
       { path: 'pay-data', component: PayDataFormComponent },
+      { path: 'club/canchas', component: ClubCourtsComponent, canActivate: [ClubGuard] },
+      //{ path: 'club/horarios', component: ClubSchedulesComponent, canActivate: [ClubGuard] },
+      //{ path: 'club/precios', component: ClubPricesComponent, canActivate: [ClubGuard] },
       { path: 'rol-selector', component: RolSelectorComponent },
       {
         path: 'player',
-        loadChildren: () =>
-          import('./components/player/player.module').then(m => m.PlayerModule)
+        loadChildren: () => import('./components/player/player.module').then(m => m.PlayerModule)
       },
-
-      // Estas requieren login
+      //esta vistas van acá porque se necesita estar logueado para ver esa información
       { path: 'register-withouts', component: RegisterWithoutCourtsComponent },
       { path: 'register-success', component: RegisterSuccessComponent },
 
@@ -96,9 +99,7 @@ export const routes: Routes = [
     ]
   },
 
-  // ---------- ERRORES ----------
+  // Rutas de error (pueden acceder todos)
   { path: '404', component: Error404 },
-
-  // REDIRECT CATCH-ALL
   { path: '**', redirectTo: '404' },
 ];

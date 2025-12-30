@@ -39,16 +39,26 @@ export class RolService {
 
   constructor() {}
 
-  /**
-   * Guarda los datos del usuario incluyendo sus roles
-   */
+  // Guarda los datos del usuario incluyendo sus roles
   setUserData(user: UserWithRoles): void {
     localStorage.setItem(this.USER_DATA_KEY, JSON.stringify(user));
 
-    // Extraer solo los roles habilitados (idEstado = 2)
-    const roles = user.usuarioRoles
-      ?.filter(ur => ur.idEstado === 2)
-      .map(ur => ur.idRol) ?? [ROLES.JUGADOR];
+    // Extraer los roles del jugador, sin importar su estado
+    const rawRoles = (user.usuarioRoles ?? (user as any).roles ?? []) as any[];
+
+    const roles: number[] = rawRoles
+      .map(r => Number(r.idRol))
+      .filter((id): id is number => Number.isFinite(id) && id > 0);
+
+    const rolesFinal: number[] =
+      roles.length > 0 ? Array.from(new Set(roles)) : [ROLES.JUGADOR];
+
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(rolesFinal));
+
+    // Si no hay rol actual seleccionado, establecer el primero disponible
+    if (!this.getCurrentRole() && rolesFinal.length > 0) {
+      this.setCurrentRole(rolesFinal[0]);
+    }
 
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(roles));
 
@@ -58,25 +68,19 @@ export class RolService {
     }
   }
 
-  /**
-   * Obtiene los datos del usuario almacenados
-   */
+  // Obtiene los datos del usuario almacenados
   getUserData(): UserWithRoles | null {
     const data = localStorage.getItem(this.USER_DATA_KEY);
     return data ? JSON.parse(data) : null;
   }
 
-  /**
-   * Obtiene todos los roles del usuario
-   */
+  // Obtiene todos los roles del usuario
   getUserRoles(): number[] {
     const roles = localStorage.getItem(this.STORAGE_KEY);
     return roles ? JSON.parse(roles) : [];
   }
 
-  /**
-   * Establece el rol actualmente activo (para usuarios con múltiples roles)
-   */
+  // Establece el rol actualmente activo (para usuarios con múltiples roles)
   setCurrentRole(roleId: number): void {
     const userRoles = this.getUserRoles();
     if (userRoles.includes(roleId)) {
@@ -85,39 +89,29 @@ export class RolService {
     }
   }
 
-  /**
-   * Obtiene el rol actualmente activo
-   */
+  // Obtiene el rol actualmente activo
   getCurrentRole(): number | null {
     const role = localStorage.getItem(this.CURRENT_ROLE_KEY);
     return role ? Number(role) : null;
   }
 
-  /**
-   * Verifica si el usuario tiene un rol específico
-   */
+  // Verifica si el usuario tiene un rol específico
   hasRole(roleId: number): boolean {
     return this.getUserRoles().includes(roleId);
   }
 
-  /**
-   * Verifica si el usuario tiene alguno de los roles especificados
-   */
+  // Verifica si el usuario tiene alguno de los roles especificados
   hasAnyRole(roleIds: number[]): boolean {
     const userRoles = this.getUserRoles();
     return roleIds.some(id => userRoles.includes(id));
   }
 
-  /**
-   * Verifica si el rol actual es el especificado
-   */
+  // Verifica si el rol actual es el especificado
   isCurrentRole(roleId: number): boolean {
     return this.getCurrentRole() === roleId;
   }
 
-  /**
-   * Limpia todos los datos de roles (para logout)
-   */
+  // Limpia todos los datos de roles (para logout)
   clearRoles(): void {
     localStorage.removeItem(this.STORAGE_KEY);
     localStorage.removeItem(this.CURRENT_ROLE_KEY);
@@ -125,9 +119,7 @@ export class RolService {
     this.currentRoleSubject.next(null);
   }
 
-  /**
-   * Obtiene el nombre del rol por su ID
-   */
+  // Obtiene el nombre del rol por su ID
   getRoleName(roleId: number): string {
     switch (roleId) {
       case ROLES.ADMIN: return 'Administrador';
@@ -137,9 +129,7 @@ export class RolService {
     }
   }
 
-  // ============================================
   // MÉTODOS PARA TESTING - Permiten simular roles
-  // ============================================
 
   /**
    * [SOLO PARA TESTING] Simula que el usuario tiene ciertos roles

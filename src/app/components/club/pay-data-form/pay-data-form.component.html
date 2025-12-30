@@ -20,14 +20,14 @@
         <!-- Método de pago -->
         <div class="mb-3">
           <label class="form-label fw-medium">Método de pago:</label>
-          <select class="form-select" formControlName="metodo">
-            <option selected>--Seleccionar--</option>
+          <select class="form-select" formControlName="metodoPago">
+            <option value="">--Seleccionar--</option>
             <option>Efectivo</option>
             <option>Transferencia bancaria</option>
             <option>Tarjeta de crédito/débito</option>
           </select>
-          <div class="text-danger small mt-1">
-            Seleccioná un método
+          <div class="text-danger small mt-1" *ngIf="form.get('metodoPago')?.touched && form.get('metodoPago')?.invalid">
+            Seleccioná un método de pago.
           </div>
         </div>
 
@@ -49,29 +49,45 @@
           <input type="text" class="form-control" formControlName="alias" placeholder="Alias" />
         </div>
 
-        <!-- Checkboxes -->
-        <div class="form-check mb-2">
-          <input class="form-check-input" type="checkbox" id="aceptoDatos" formControlName="aceptoDatos" />
-          <label class="form-check-label small" for="aceptoDatos">
-            Declaro que los datos ingresados son verídicos y autorizo su uso conforme a los términos y condiciones
-            de Paddle Reserve.
-          </label>
-        </div>
-        <div class="text-danger small mb-2">
-          Debes aceptar los términos para continuar.
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label fw-medium">Titular:</label>
+            <input type="text" class="form-control" formControlName="titular" placeholder="Nombre del titular" />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label fw-medium">DNI / CUIT / CUIL:</label>
+            <input type="text" class="form-control" formControlName="dniCuitCuil" placeholder="Documento del titular" />
+          </div>
         </div>
 
-        <div class="form-check mb-3">
-          <input class="form-check-input" type="checkbox" id="aceptoConfidencial" formControlName="aceptoConfidencial" />
-          <label class="form-check-label small" for="aceptoConfidencial">
-            La información de mis medios de pago será tratada de forma segura y confidencial.
-          </label>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label fw-medium">Banco:</label>
+            <input type="text" class="form-control" formControlName="banco" placeholder="Banco o entidad" />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label fw-medium">Tipo de cuenta:</label>
+            <input type="text" class="form-control" formControlName="tipoCuenta" placeholder="Ej: Cuenta corriente" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label fw-medium">Número de cuenta:</label>
+            <input type="text" class="form-control" formControlName="numeroCuenta" placeholder="Número de cuenta" />
+          </div>
+        </div>
+
+        <div *ngIf="errorMessage" class="alert alert-danger">
+          {{ errorMessage }}
         </div>
 
         <!-- Botones -->
         <div class="d-flex justify-content-between mt-4">
-          <button type="button" class="btn btn-outline-primary px-3 py-2 fw-medium" (click)="goBack()">VOLVER</button>
-          <button type="submit" class="btn btn-success px-3 py-2 fw-medium">REGISTRARSE</button>
+          <button type="button" class="btn btn-outline-primary px-3 py-2 fw-medium" (click)="goBack()" [disabled]="loading">VOLVER</button>
+          <button type="submit" class="btn btn-success px-3 py-2 fw-medium" [disabled]="loading">
+            {{ loading ? 'Guardando...' : 'REGISTRARSE' }}
+          </button>
         </div>
       </form>
     </div>
