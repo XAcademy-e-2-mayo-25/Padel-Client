@@ -56,8 +56,8 @@ export const routes: Routes = [
       { path: 'club-form', component: CourtDataFormComponent },
       { path: 'pay-data', component: PayDataFormComponent },
       { path: 'club/canchas', component: ClubCourtsComponent, canActivate: [ClubGuard] },
-      { path: 'club/horarios', component: ClubSchedulesComponent, canActivate: [ClubGuard] },
-      { path: 'club/precios', component: ClubPricesComponent, canActivate: [ClubGuard] },
+      //{ path: 'club/horarios', component: ClubSchedulesComponent, canActivate: [ClubGuard] },
+      //{ path: 'club/precios', component: ClubPricesComponent, canActivate: [ClubGuard] },
       { path: 'rol-selector', component: RolSelectorComponent },
       {
         path: 'player',

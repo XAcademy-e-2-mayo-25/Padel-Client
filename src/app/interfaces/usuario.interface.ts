@@ -10,5 +10,15 @@ export interface Usuario {
   idCategoria: number | null;
   telefono: string | null;
   direccion: string | null;
-  bio?: string | null;
+  bio?: string | null; //este está demas
+  posiciones?: UsuarioPosicion[];
+}
+
+export interface UsuarioPosicion {
+  idUsuario: number;
+  idPosicion: number;
+  posicion?: {
+    idPosicion: number;
+    nombre: string;
+  };
 }

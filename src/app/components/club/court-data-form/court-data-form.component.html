@@ -117,7 +117,7 @@
                   </button>
 
                   <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-success" [disabled]="loading">
+                    <button type="button" class="btn btn-success" (click)="continuar()" [disabled]="loading">
                       {{ loading ? 'Guardando...' : 'Guardar y Continuar' }}
                     </button>
                   </div>

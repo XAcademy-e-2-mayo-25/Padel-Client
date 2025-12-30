@@ -2,9 +2,7 @@
 <ng-container *ngIf="player; else loadingState">
   <!-- HEADER -->
   <div class="header-fixed-top bg-white shadow-sm">
-    <div
-      class="container py-2 dashboard-container d-flex justify-content-between align-items-center"
-    >
+    <div class="container py-2 dashboard-container d-flex justify-content-between align-items-center">
       <!-- Logo -->
       <div class="logo-container">
         <img src="/brand.png" alt="logo de padel reserve" class="dashboard-logo" />
@@ -13,7 +11,6 @@
       <!-- Saludo centrado -->
       <div class="text-center flex-grow-1 mx-2">
         <h1 class="player-greeting-title">¡Hola, {{ player.nombres }}!</h1>
-
         <h3 class="player-greeting-subtitle">¿Listo para jugar un partido hoy?</h3>
       </div>
 
@@ -42,13 +39,27 @@
         alt="Foto de perfil"
       />
 
-      <h2 class="player-name">{{ player.nombres }} {{ player.apellidos }}</h2>
+      <h2 class="player-name">{{ player.apellidos }} {{ player.nombres }}</h2>
 
       <!-- TARJETA DE INFORMACIÓN -->
       <div class="profile-info-card card">
-        <h2 class="section-title">Información del Jugador</h2>
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+          <h2 class="section-title m-0">Información del Jugador</h2>
 
+          <button class="btn edit-btn" (click)="goToUpdateProfile()">
+            Editar perfil
+          </button>
+        </div>
+
+        <hr class="my-3" />
+
+        <!-- GRID DE DATOS -->
         <div class="info-grid">
+          <div class="info-item">
+            <label>Apellido y Nombre:</label>
+            <span>{{ player.apellidos }} {{ player.nombres }}</span>
+          </div>
+
           <div class="info-item">
             <label>DNI:</label>
             <span>{{ player.dni || '-' }}</span>
@@ -56,7 +67,12 @@
 
           <div class="info-item">
             <label>Email:</label>
-            <span>{{ player.email }}</span>
+            <span>{{ player.email || '-' }}</span>
+          </div>
+
+          <div class="info-item">
+            <label>Teléfono:</label>
+            <span>{{ player.telefono || '-' }}</span>
           </div>
 
           <div class="info-item">
@@ -70,24 +86,20 @@
           </div>
 
           <div class="info-item">
+            <label>Dirección:</label>
+            <span>{{ player.direccion || '-' }}</span>
+          </div>
+
+          <div class="info-item">
             <label>Categoría:</label>
-            <span>{{ player.idCategoria || '-' }}</span>
+            <span>{{ player.idCategoria ?? '-' }}</span>
+          </div>
+
+          <div class="info-item">
+            <label>Posición:</label>
+            <span>{{ player.posiciones?.[0]?.posicion?.nombre || '-' }}</span>
           </div>
         </div>
-
-        <div class="actions">
-          <button class="btn edit-btn" (click)="goToUpdateProfile()">Editar perfil</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- COLUMNA CENTRAL -->
-    <div class="profile-center">
-      <div class="profile-bio-card card">
-        <h2 class="section-title">Bio</h2>
-        <p class="bio-text">
-          {{ player.bio || 'Aún no has completado tu bio.' }}
-        </p>
       </div>
     </div>
   </div>

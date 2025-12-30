@@ -29,6 +29,12 @@
   background: transparent;
 }
 
+/* Selección visual en listado */
+.list-group-item.is-selected {
+  border-color: #b9dbe3;
+  box-shadow: 0 0 0 3px rgba(39, 92, 106, 0.10);
+}
+
 @media (max-width: 768px) {
   .courts-container {
     padding: 1rem !important;

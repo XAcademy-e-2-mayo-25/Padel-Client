@@ -1,9 +1,8 @@
-// court-data-form.component.ts
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Observable, switchMap, map, of } from 'rxjs';
+import { Observable, switchMap, map, of, catchError, tap } from 'rxjs';
 import { ClubService, CrearClubPayload } from '../../../services/club/club.service';
 import { AuthService } from '../../../services/auth/auth.service';
 
@@ -43,10 +42,12 @@ export class CourtDataFormComponent implements OnInit {
   }
 
   volver() {
-    this.router.navigate(['/update-profile']);
+    this.router.navigate(['/player/player-dashboard']);
   }
 
   private procesarFormulario(): void {
+    console.log('[CourtDataForm] submit, form.valid=', this.form.valid, 'value=', this.form.value);
+
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
@@ -55,19 +56,16 @@ export class CourtDataFormComponent implements OnInit {
     this.loading = true;
     this.errorMessage = null;
 
-    this.authService.verifyToken().pipe(
-      switchMap(response => {
-        const userId = response?.id;
-        if (!userId) {
-          throw new Error('No se pudo identificar el usuario.');
-        }
-        return this.obtenerOcrearClub(userId);
-      }),
+    this.authService.getVerifiedUserId().pipe(
+      tap(idUsuario => console.log('[CourtDataForm] idUsuario=', idUsuario)),
+      switchMap(idUsuario => this.obtenerOcrearClub(idUsuario)),
+      tap(idClub => console.log('[CourtDataForm] Club listo. idClub=', idClub)),
       map(() => true)
     ).subscribe({
       next: () => {
         this.loading = false;
-        this.router.navigate(['/pay-data']);
+        alert('Su solicitud será procesada por un administrador, le notificaremos cuando sea resuelta.');
+        this.router.navigate(['/player/player-dashboard']);
       },
       error: (error) => {
         this.loading = false;
@@ -76,12 +74,25 @@ export class CourtDataFormComponent implements OnInit {
     });
   }
 
+  /*
+   - Si hay current_club_id en localStorage, lo validamos contra backend.
+   - Si no existe, lo borramos y seguimos.
+   - Luego buscamos por idUsuario. Si no hay, creamos.
+   */
   private obtenerOcrearClub(idUsuario: number): Observable<number> {
-    const storedId = this.clubService.getCurrentClubId();
-    if (storedId) {
-      return of(storedId);
-    }
+    return this.clubService.buscarClubPorUsuario(idUsuario).pipe(
+      switchMap(club => {
+        if (club) return of(club.idClub);
 
+        const payload = this.armarPayloadClub(idUsuario);
+        return this.clubService.crearClub(payload).pipe(
+          map(resp => resp.club.idClub)
+        );
+      })
+    );
+  }
+
+  private obtenerOcrearClubSinCache(idUsuario: number): Observable<number> {
     return this.clubService.buscarClubPorUsuario(idUsuario).pipe(
       switchMap(club => {
         if (club) {
@@ -109,14 +120,9 @@ export class CourtDataFormComponent implements OnInit {
   }
 
   private cargarDatosClubExistente(): void {
-    this.authService.verifyToken().pipe(
-      switchMap(response => {
-        const userId = response?.id;
-        if (!userId) {
-          return of(null);
-        }
-        return this.clubService.buscarClubPorUsuario(userId);
-      })
+    this.authService.getVerifiedUserId().pipe(
+      switchMap(userId => this.clubService.buscarClubPorUsuario(userId)),
+      catchError(() => of(null))
     ).subscribe({
       next: (club) => {
         if (club) {

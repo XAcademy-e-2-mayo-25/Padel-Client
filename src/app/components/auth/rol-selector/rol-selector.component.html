@@ -21,6 +21,7 @@
 
       <div class="d-flex flex-wrap justify-content-center justify-content-md-start gap-2">
         <button
+          *ngIf="hasRole(ROLES.JUGADOR)"
           class="btn btn-jugador"
           [class.active]="isCurrentRole(ROLES.JUGADOR)"
           (click)="selectRole(ROLES.JUGADOR)">
@@ -28,6 +29,7 @@
         </button>
 
         <button
+          *ngIf="hasRole(ROLES.CLUB)"
           class="btn btn-club"
           [class.active]="isCurrentRole(ROLES.CLUB)"
           (click)="selectRole(ROLES.CLUB)">
@@ -35,6 +37,7 @@
         </button>
 
         <button
+          *ngIf="hasRole(ROLES.ADMIN)"
           class="btn btn-administrador"
           [class.active]="isCurrentRole(ROLES.ADMIN)"
           (click)="selectRole(ROLES.ADMIN)">

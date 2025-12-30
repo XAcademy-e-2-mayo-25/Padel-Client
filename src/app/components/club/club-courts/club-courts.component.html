@@ -9,54 +9,105 @@
   <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
   <div *ngIf="feedback" class="alert alert-success">{{ feedback }}</div>
 
+  <!-- FORM + LISTADO -->
   <div class="row g-4">
+    <!-- FORM -->
     <div class="col-lg-5">
       <div class="card h-100">
         <div class="card-body">
           <h5 class="card-title mb-3">Agregar nueva cancha</h5>
+
           <form [formGroup]="form" (ngSubmit)="addCourt()">
+            <!-- Denominación -->
             <div class="mb-3">
               <label class="form-label">Nombre / denominación</label>
-              <input type="text" class="form-control" formControlName="denominacion" placeholder="Ej: Cancha 1 Techada">
+              <input
+                type="text"
+                class="form-control"
+                formControlName="denominacion"
+                maxlength="200"
+                placeholder="Ej: Cancha 1 Techada"
+              />
+              <small class="text-muted">Máx. 200 caracteres</small>
+              <div
+                class="text-danger small"
+                *ngIf="form.get('denominacion')?.touched && form.get('denominacion')?.invalid"
+              >
+                La denominación es obligatoria (máx. 200).
+              </div>
             </div>
 
-            <div class="mb-3">
-              <label class="form-label">Superficie</label>
-              <input type="text" class="form-control" formControlName="superficie" placeholder="Césped sintético, cemento, etc.">
-            </div>
-
+            <!-- Cubierta -->
             <div class="form-check form-switch mb-3">
-              <input class="form-check-input" type="checkbox" formControlName="cubierta" id="cubiertaSwitch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="cubierta"
+                id="cubiertaSwitch"
+              />
               <label class="form-check-label" for="cubiertaSwitch">La cancha está cubierta</label>
             </div>
 
+            <!-- Días de la semana -->
+            <div class="mb-3" formGroupName="diasSemana">
+              <label class="form-label">Días habilitados</label>
+              <div class="d-flex flex-wrap gap-2">
+                <div class="form-check" *ngFor="let d of dias">
+                  <input class="form-check-input" type="checkbox" [id]="d.key" [formControlName]="d.key" />
+                  <label class="form-check-label" [for]="d.key">{{ d.label }}</label>
+                </div>
+              </div>
+              <small class="text-muted">Se guarda como bitmask (Domingo → Sábado).</small>
+            </div>
+
+            <!-- Horarios -->
+            <div class="row g-3 mb-3">
+              <div class="col">
+                <label class="form-label">Hora desde</label>
+                <input type="time" class="form-control" formControlName="horaDesde" />
+                <div class="text-danger small" *ngIf="form.get('horaDesde')?.touched && form.get('horaDesde')?.invalid">
+                  Campo obligatorio.
+                </div>
+              </div>
+
+              <div class="col">
+                <label class="form-label">Hora hasta</label>
+                <input type="time" class="form-control" formControlName="horaHasta" />
+                <div class="text-danger small" *ngIf="form.get('horaHasta')?.touched && form.get('horaHasta')?.invalid">
+                  Campo obligatorio.
+                </div>
+              </div>
+            </div>
+
+            <!-- Rango slot -->
             <div class="mb-3">
-              <label class="form-label">Iluminación</label>
-              <select class="form-select" formControlName="iluminacion">
-                <option value="si">Sí</option>
-                <option value="no">No</option>
+              <label class="form-label">Rango de slot (minutos)</label>
+              <select class="form-select" formControlName="rangoSlotMinutos">
+                <option [value]="30">30</option>
+                <option [value]="60">60</option>
               </select>
             </div>
 
+            <!-- Precio -->
             <div class="mb-3">
-              <label class="form-label">Días que no abre</label>
-              <input type="text" class="form-control" formControlName="diasNoAbre" placeholder="Ej: Lunes, feriados">
-            </div>
-
-            <div class="row g-3 mb-3">
-              <div class="col">
-                <label class="form-label">Hora de apertura</label>
-                <input type="time" class="form-control" formControlName="apertura">
-              </div>
-              <div class="col">
-                <label class="form-label">Hora de cierre</label>
-                <input type="time" class="form-control" formControlName="cierre">
+              <label class="form-label">Precio</label>
+              <input type="number" class="form-control" formControlName="precio" min="0" step="1" />
+              <div class="text-danger small" *ngIf="form.get('precio')?.touched && form.get('precio')?.invalid">
+                Precio obligatorio (>= 0).
               </div>
             </div>
 
+            <!-- Observaciones -->
             <div class="mb-3">
               <label class="form-label">Observaciones</label>
-              <textarea class="form-control" rows="3" formControlName="observaciones" placeholder="Notas adicionales sobre la cancha"></textarea>
+              <textarea
+                class="form-control"
+                rows="3"
+                formControlName="observaciones"
+                maxlength="300"
+                placeholder="Notas adicionales (máx. 300 caracteres)"
+              ></textarea>
+              <small class="text-muted">Máx. 300 caracteres</small>
             </div>
 
             <button class="btn btn-primary w-100" type="submit" [disabled]="submitting">
@@ -68,12 +119,20 @@
       </div>
     </div>
 
+    <!-- LISTADO -->
     <div class="col-lg-7">
       <div class="card h-100">
-        <div class="card-header bg-light d-flex justify-content-between align-items-center">
-          <h5 class="mb-0">Canchas registradas</h5>
-          <span class="badge bg-secondary">{{ canchas.length }}</span>
+        <div class="card-header bg-light d-flex justify-content-between align-items-center gap-2 flex-wrap">
+          <div class="d-flex align-items-center gap-2">
+            <h5 class="mb-0">Canchas registradas</h5>
+            <span class="badge bg-secondary">{{ canchas.length }}</span>
+          </div>
+
+          <button type="button" class="btn btn-outline-secondary btn-sm" (click)="goBack()">
+            ← Volver
+          </button>
         </div>
+
         <div class="card-body">
           <div *ngIf="loading" class="text-center text-muted py-3">
             Cargando canchas...
@@ -83,26 +142,73 @@
             Aún no registraste canchas. Completá el formulario para comenzar.
           </div>
 
-          <div class="list-group" *ngIf="canchas.length > 0">
-            <div class="list-group-item list-group-item-action mb-2 rounded shadow-sm" *ngFor="let cancha of canchas">
+          <div class="list-group" *ngIf="!loading && canchas.length > 0">
+            <button
+              type="button"
+              class="list-group-item list-group-item-action mb-2 rounded shadow-sm"
+              *ngFor="let cancha of canchas"
+              (click)="selectCancha(cancha)"
+              [class.is-selected]="selectedCancha?.idCancha === cancha.idCancha"
+            >
               <div class="d-flex justify-content-between flex-wrap gap-2">
                 <div>
                   <h6 class="mb-1 fw-bold">{{ cancha.denominacion }}</h6>
                   <p class="mb-1 text-muted">{{ cancha.observaciones || 'Sin observaciones adicionales' }}</p>
                   <div class="small text-muted d-flex flex-wrap gap-2">
-                    <span class="badge bg-light text-dark border">{{ cancha.cubierta ? 'Cubierta' : 'Descubierta' }}</span>
+                    <span class="badge bg-light text-dark border">
+                      {{ cancha.cubierta ? 'Cubierta' : 'Descubierta' }}
+                    </span>
                   </div>
                 </div>
+
                 <div class="text-end">
                   <small class="text-muted">ID #{{ cancha.idCancha }}</small>
                 </div>
               </div>
-            </div>
+            </button>
           </div>
-          <div *ngIf="!loading && canchas.length === 0" class="text-center text-muted py-3">
-            Aún no registraste canchas. Completá el formulario para comenzar.
+
+          <div *ngIf="!loading && canchas.length > 0" class="text-muted small mt-2">
+            Tip: seleccioná una cancha para ver el detalle completo abajo.
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL DETALLE (oculto hasta seleccionar) -->
+  <div class="card mt-4" *ngIf="selectedCancha as c">
+    <div class="card-header bg-light d-flex justify-content-between align-items-center flex-wrap gap-2">
+      <div>
+        <h5 class="mb-0">Detalle de cancha</h5>
+        <small class="text-muted">ID #{{ c.idCancha }}</small>
+      </div>
+
+      <button type="button" class="btn btn-outline-secondary btn-sm" (click)="clearSelection()">
+        Cerrar detalle
+      </button>
+    </div>
+
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="mb-2"><strong>Denominación:</strong> {{ c.denominacion }}</div>
+          <div class="mb-2"><strong>Cubierta:</strong> {{ c.cubierta ? 'Sí' : 'No' }}</div>
+          <div class="mb-2"><strong>Observaciones:</strong> {{ c.observaciones || '-' }}</div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="mb-2"><strong>Días habilitados:</strong> {{ formatDiasSemana(c) }}</div>
+          <div class="mb-2"><strong>Horario:</strong> {{ formatHorario(c) }}</div>
+          <div class="mb-2"><strong>Rango slot:</strong> {{ formatRango(c) }}</div>
+          <div class="mb-2"><strong>Precio:</strong> {{ formatPrecio(c) }}</div>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="text-muted small">
+        (Este panel lo vamos a reutilizar luego para acciones: editar cancha, gestionar turnos/slots, etc.)
       </div>
     </div>
   </div>

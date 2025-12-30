@@ -36,6 +36,12 @@ export interface CrearCanchaPayload {
   denominacion: string;
   cubierta?: boolean;
   observaciones?: string | null;
+
+  diasSemana: number;          // bitmask 7 bits (dom->sab)
+  horaDesde: string;           // HH:mm
+  horaHasta: string;           // HH:mm
+  rangoSlotMinutos: 30 | 60;
+  precio: number;              // int
 }
 
 export interface Cancha {
@@ -140,7 +146,7 @@ export class ClubService {
   }
 
   crearCancha(payload: CrearCanchaPayload): Observable<any> {
-    return this.http.post(`${this.apiUrl}/canchas`, payload);
+    return this.http.post(`${this.apiUrl}/${payload.idClub}/canchas`, payload);
   }
 
   crearDatosPago(payload: CrearDatosPagoPayload): Observable<any> {
@@ -162,7 +168,10 @@ export class ClubService {
     return this.http.patch<Club>(`${this.apiUrl}/${idClub}`, data);
   }
 
-  listarCanchas(idClub: number, params?: { page?: number; limit?: number }): Observable<Paginado<Cancha> | Cancha[]> {
+  listarCanchas(
+    idClub: number,
+    params?: { page?: number; limit?: number }
+  ): Observable<Paginado<Cancha> | Cancha[]> {
     let httpParams = new HttpParams();
     if (params) {
       Object.entries(params).forEach(([key, value]) => {
@@ -171,9 +180,7 @@ export class ClubService {
       });
     }
 
-    httpParams = httpParams.set('idClub', String(idClub));
-
-    return this.http.get<Paginado<Cancha> | Cancha[]>(`${this.apiUrl}/canchas`, {
+    return this.http.get<Paginado<Cancha> | Cancha[]>(`${this.apiUrl}/${idClub}/canchas`, {
       params: httpParams
     });
   }

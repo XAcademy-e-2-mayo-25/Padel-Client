@@ -10,6 +10,13 @@
     <div class="text-center flex-grow-1 mx-2">
       <h1 class="fw-bold mb-1 dashboard-title">¡Hola, {{ playerName }}!</h1>
       <h3 class="dashboard-subtitle">¿Listo para jugar un partido hoy?</h3>
+
+      <!-- Solo si YA tiene club -->
+      <div *ngIf="tieneClub" class="d-flex justify-content-center mt-2">
+        <button class="btn btn-outline-success btn-role-switch" (click)="goToRoleSelector()">
+          Cambiar de rol
+        </button>
+      </div>
     </div>
 
     <!-- Botón Cerrar Sesión -->
@@ -19,8 +26,11 @@
     </button>
   </div>
 
-  <!-- CTA para registrar club -->
-  <div class="alert alert-info d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
+  <!-- CTA para registrar club (solo si NO tiene club) -->
+  <div
+    *ngIf="!tieneClub"
+    class="alert alert-info d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4"
+  >
     <div>
       <h5 class="mb-1 fw-bold">
         <i class="bi bi-building me-2"></i>
@@ -28,6 +38,7 @@
       </h5>
       <p class="mb-0">Actualizá tus datos y sumá nuevas canchas para abrir más turnos.</p>
     </div>
+
     <div class="d-flex justify-content-center flex-wrap gap-2">
       <button class="btn btn-primary btn-role-switch" (click)="navigateTo('club-form')">
         Registrar mi club
@@ -37,6 +48,7 @@
       </button>
     </div>
   </div>
+
 
   <!-- Sección de Cards -->
   <div class="row g-3 mb-4">
@@ -148,6 +160,44 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="dashboard-page">
+  <div class="dashboard-content" [class.is-disabled]="isBlocked">
+    <div class="container py-3 dashboard-container">
+    </div>
+  </div>
+
+  <!-- OVERLAY (solo si está pendiente o baneado) -->
+  <div class="dashboard-overlay" *ngIf="isBlocked">
+    <div class="alert alert-light shadow-lg p-4 overlay-card" role="alert">
+      <h4 class="mb-2" *ngIf="roleEstado === 'BANEADO'">Acceso bloqueado</h4>
+      <h4 class="mb-2" *ngIf="roleEstado === 'PENDIENTE'">Acceso pendiente de aprobación</h4>
+
+      <p class="mb-3" *ngIf="roleEstado === 'BANEADO'">
+        Ud ha sido baneado
+        <span *ngIf="roleDescripcion">por: <strong>{{ roleDescripcion }}</strong></span>.
+      </p>
+
+      <p class="mb-3" *ngIf="roleEstado === 'PENDIENTE'">
+        Su usuario está pendiente de aprobación.
+      </p>
+
+      <p class="mb-0 text-muted">
+        Por dudas/consultas comuníquese con el administrador:
+        <strong>administracion@padelreserve.com</strong>
+      </p>
+
+      <div class="d-flex gap-2 mt-3 justify-content-end">
+        <button class="btn btn-outline-secondary" (click)="goToRoleSelector()">
+          Cambiar de rol
+        </button>
+        <button class="btn btn-danger" (click)="logout()">
+          Cerrar sesión
+        </button>
       </div>
     </div>
   </div>

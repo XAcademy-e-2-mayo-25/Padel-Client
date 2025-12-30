@@ -52,7 +52,7 @@ export class PlayerProfileComponent implements OnInit {
   }
 
   goToUpdateProfile(): void {
-  this.router.navigate(['/update-profile']);
+    this.router.navigate(['/update-profile'], { queryParams: { mode: 'edit' } });
   }
 
   goBack(): void {
