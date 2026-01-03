@@ -31,6 +31,7 @@ import { RoleSwitcherComponent } from './components/shared/role-switcher/role-sw
 import { Error404 } from './components/shared/error404/error404';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 import { MainLayoutComponent } from './layouts/main/main-layout.component';
+import { ClubStatistics } from './components/club/club-statistics/club-statistics';
 
 export const routes: Routes = [
   // Layout Auth (para registro o inicio de sesión)
@@ -56,6 +57,7 @@ export const routes: Routes = [
       { path: 'club-form', component: CourtDataFormComponent },
       { path: 'pay-data', component: PayDataFormComponent },
       { path: 'club/canchas', component: ClubCourtsComponent, canActivate: [ClubGuard] },
+       {path:  'club-estadisticas', component: ClubStatistics},
       //{ path: 'club/horarios', component: ClubSchedulesComponent, canActivate: [ClubGuard] },
       //{ path: 'club/precios', component: ClubPricesComponent, canActivate: [ClubGuard] },
       { path: 'rol-selector', component: RolSelectorComponent },
@@ -66,6 +68,7 @@ export const routes: Routes = [
       //esta vistas van acá porque se necesita estar logueado para ver esa información
       { path: 'register-withouts', component: RegisterWithoutCourtsComponent },
       { path: 'register-success', component: RegisterSuccessComponent },
+     
 
       // ========== RUTAS PROTEGIDAS POR ROL ==========
 

@@ -1,0 +1,77 @@
+<div class="container py-4">
+
+  <h2 class="mb-4">📊 Estadísticas del Club</h2>
+
+  <!-- LOADING -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary"></div>
+  </div>
+
+  <!-- ERROR -->
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <!-- SIN CANCHAS -->
+  <div *ngIf="!loading && !error && canchas.length === 0" class="alert alert-info">
+    No tenés canchas registradas todavía.
+  </div>
+
+  <!-- LISTA DE CANCHAS -->
+  <div *ngIf="!loading && canchas.length > 0">
+
+    <div *ngFor="let cancha of canchas" class="card mb-4 shadow-sm">
+
+      <div class="card-body">
+
+        <!-- HEADER CANCHA -->
+        <div class="d-flex justify-content-between align-items-center">
+          <h5 class="card-title mb-1">
+            🏟️ {{ cancha.denominacion }}
+          </h5>
+
+          <span class="badge bg-secondary">
+            {{ formatHorario(cancha) }}
+          </span>
+        </div>
+
+        <!-- INFO CANCHA -->
+        <div class="mt-2 small text-muted">
+          <div>Días: {{ formatDiasSemana(cancha.diasSemana) }}</div>
+          <div>Duración turno: {{ cancha.rangoSlotMinutos }} min</div>
+          <div *ngIf="cancha.precio !== undefined">
+            Precio: $ {{ cancha.precio | number:'1.0-0' }}
+          </div>
+        </div>
+
+        <hr />
+
+        <!-- TURNOS -->
+        <div>
+          <strong>Turnos del día ({{ fechaSeleccionada }})</strong>
+
+          <div
+            class="d-flex flex-wrap gap-2 mt-2"
+            *ngIf="turnosPorCancha[cancha.idCancha]?.length">
+
+            <span
+              *ngFor="let t of turnosPorCancha[cancha.idCancha]"
+              class="badge px-2 py-2"
+              [ngClass]="t.reservado ? 'bg-danger' : 'bg-success'">
+
+              {{ t.desde }} - {{ t.hasta }}
+            </span>
+          </div>
+
+          <small
+            class="text-muted"
+            *ngIf="!turnosPorCancha[cancha.idCancha]?.length">
+            No hay turnos configurados para esta cancha.
+          </small>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>

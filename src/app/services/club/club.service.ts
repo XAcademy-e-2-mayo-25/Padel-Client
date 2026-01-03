@@ -130,6 +130,30 @@ export interface ListarTurnosParams {
   horaHasta?: string;
 }
 
+export interface ReservaTurno {
+  idReservaTurno: number;
+  idCancha: number;
+  idJugador: number;
+  fecha: string;
+  slotIndexDesde: number;
+  slotCount: number;
+  pagado: boolean;
+  precioAplicado: number;
+
+  cancha?: {
+    idCancha: number;
+    denominacion: string;
+    horaDesde: string;
+    horaHasta: string;
+    rangoSlotMinutos: number;
+  };
+
+  horaInicio?: string;
+  horaFin?: string;
+
+
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -250,6 +274,16 @@ export class ClubService {
   clearCurrentClubId(): void {
     localStorage.removeItem(this.storageKey);
   }
+
+  listarReservasClub(idClub: number, params: { fecha?: string }) {
+  return this.http.get<any[]>(
+    `${this.apiUrl}/clubs/${idClub}/reservas`,
+    { params }
+  );
+}
+
+
+
 }
 export interface ListarSlotsParams {
   page?: number;
@@ -261,3 +295,4 @@ export interface ListarSlotsParams {
   idCancha?: number;
   disponible?: boolean;
 }
+
