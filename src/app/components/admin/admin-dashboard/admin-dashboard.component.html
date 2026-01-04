@@ -21,6 +21,12 @@
     <span class="badge bg-danger role-badge">ROL: ADMINISTRADOR</span>
   </div>
 
+  <div class="d-flex justify-content-center mb-4">
+    <button class="btn btn-outline-danger btn-role-switch" (click)="goToRoleSelector()">
+      Cambiar de rol
+    </button>
+  </div>
+
   <!-- Cards de opciones -->
   <div class="row g-3 mb-4">
     <div class="col-12">
@@ -118,69 +124,6 @@
                 <span class="btn btn-card-action">IR</span>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Solicitudes pendientes -->
-  <div class="row mb-4">
-    <div class="col-12">
-      <div class="card pending-card">
-        <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center">
-          <div>
-            <h5 class="mb-1">Solicitudes de clubes pendientes</h5>
-            <small class="text-muted">Aprobá para habilitar el rol de club a los usuarios</small>
-          </div>
-          <span class="badge bg-secondary mt-2 mt-md-0">{{ pendingClubs.length }} pendientes</span>
-        </div>
-        <div class="card-body">
-          <div *ngIf="pendingLoading" class="text-center text-muted py-3">
-            Cargando solicitudes...
-          </div>
-
-          <div *ngIf="pendingError" class="alert alert-danger py-2">
-            {{ pendingError }}
-          </div>
-
-          <div *ngIf="approveMessage" class="alert alert-success py-2">
-            {{ approveMessage }}
-          </div>
-
-          <div *ngIf="!pendingLoading && pendingClubs.length === 0 && !pendingError" class="text-muted text-center py-3">
-            No hay solicitudes pendientes por el momento.
-          </div>
-
-          <div class="table-responsive" *ngIf="pendingClubs.length > 0">
-            <table class="table table-hover pending-table align-middle mb-0">
-              <thead>
-                <tr>
-                  <th>Club</th>
-                  <th>CUIT/CUIL</th>
-                  <th>Ubicación</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let club of pendingClubs">
-                  <td>
-                    <div class="fw-semibold">{{ club.nombreFantasia || club.razonSocial || 'Sin nombre' }}</div>
-                    <small class="text-muted">ID: {{ club.idClub }}</small>
-                  </td>
-                  <td>{{ club.cuitCuil }}</td>
-                  <td>{{ club.localidad }}, {{ club.provincia }}</td>
-                  <td>
-                    <button class="btn btn-success btn-sm"
-                      [disabled]="approvingClubId === club.idClub"
-                      (click)="approveClub(club)">
-                      <span *ngIf="approvingClubId === club.idClub" class="spinner-border spinner-border-sm me-1"></span>
-                      Aprobar
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </div>
       </div>

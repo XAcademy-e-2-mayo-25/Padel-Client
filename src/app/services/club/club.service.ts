@@ -14,6 +14,8 @@ export interface Club {
   localidad: string;
   direccion: string;
   idEstadoClub: number;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface ClubResponse {

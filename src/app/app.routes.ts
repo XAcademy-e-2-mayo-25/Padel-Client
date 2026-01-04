@@ -23,6 +23,9 @@ import { ClubPricesComponent } from './components/club/club-prices/club-prices.c
 import { PlayerDashboardComponent } from './components/player/player-dashboard/player-dashboard.component';
 import { ClubDashboardComponent } from './components/club/club-dashboard/club-dashboard.component';
 import { AdminDashboardComponent } from './components/admin/admin-dashboard/admin-dashboard.component';
+import { AdminRolesComponent } from './components/admin/admin-roles/admin-roles.component';
+import { AdminClubsComponent } from './components/admin/admin-clubs/admin-clubs.component';
+import { AdminUsersComponent } from './components/admin/admin-users/admin-users.component';
 
 // Testing
 import { RoleSwitcherComponent } from './components/shared/role-switcher/role-switcher.component';
@@ -87,6 +90,27 @@ export const routes: Routes = [
       {
         path: 'admin-dashboard',
         component: AdminDashboardComponent,
+        canActivate: [AdminGuard]
+      },
+
+      // Roles y permisos (admin)
+      {
+        path: 'admin/roles',
+        component: AdminRolesComponent,
+        canActivate: [AdminGuard]
+      },
+
+      // Clubes (admin)
+      {
+        path: 'admin/clubes',
+        component: AdminClubsComponent,
+        canActivate: [AdminGuard]
+      },
+
+      // Usuarios (admin)
+      {
+        path: 'admin/usuarios',
+        component: AdminUsersComponent,
         canActivate: [AdminGuard]
       },
 

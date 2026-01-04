@@ -1,0 +1,44 @@
+/* Container */
+.roles-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Card */
+.pending-card {
+  border-radius: 12px;
+  border: 1px solid #e1e1e1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.pending-card .card-header {
+  background: #f8f9fa;
+  border-bottom: 1px solid #e1e1e1;
+}
+
+.pending-table th {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #6c757d;
+}
+
+.pending-table td {
+  font-size: 0.9rem;
+}
+
+.badge.bg-warning {
+  color: #664d03 !important;
+}
+
+/* Buttons */
+.btn-outline-secondary.btn-sm {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.btn-danger.btn-sm {
+  display: inline-flex;
+  align-items: center;
+}
