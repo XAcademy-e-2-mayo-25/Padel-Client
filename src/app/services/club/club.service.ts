@@ -130,6 +130,92 @@ export interface ListarTurnosParams {
   horaHasta?: string;
 }
 
+export interface CrearReservaTurnoPayload {
+  idCancha: number;
+  idJugador: number;
+  fecha: string;        // YYYY-MM-DD
+  slotIndexDesde: number;
+  slotCount: number;
+  precioAplicado?: number;
+  pagado?: boolean;
+}
+
+export interface CrearReservaJugadorPayload {
+  idCancha: number;
+  fecha: string;         // YYYY-MM-DD
+  slotIndexDesde: number;
+  slotCount: number;
+  precioAplicado?: number;
+  pagado?: boolean;
+}
+
+export interface ReservaTurno {
+  idReservaTurno: number;
+  idCancha: number;
+  idJugador: number;
+  fecha: string;          // YYYY-MM-DD
+  slotIndexDesde: number;
+  slotCount: number;
+  pagado: boolean;
+  precioAplicado: number;
+}
+
+export interface CrearReservaTurnoResponse {
+  mensaje: string;
+  reserva: ReservaTurno;
+}
+
+export interface CrearReservaJugadorPayload {
+  idCancha: number;
+  fecha: string;          // YYYY-MM-DD
+  slotIndexDesde: number;
+  slotCount: number;
+  precioAplicado?: number;
+  pagado?: boolean;
+}
+
+export interface PagarReservaPayload {
+  pagado?: boolean;
+}
+
+export interface DatosPago {
+  idDatosPago: number;
+  idClub: number;
+  metodoPago: string;
+  cbu: string | null;
+  cvu: string | null;
+  alias: string | null;
+  dniCuitCuil: string | null;
+  titular: string | null;
+  banco: string | null;
+  tipoCuenta: string | null;
+  numeroCuenta: string | null;
+  activo: boolean;
+}
+
+export interface CrearDatosPagoPayload {
+  idClub: number;
+  metodoPago: string;
+  cbu?: string;
+  cvu?: string;
+  alias?: string;
+  dniCuitCuil?: string;
+  titular?: string;
+  banco?: string;
+  tipoCuenta?: string;
+  numeroCuenta?: string;
+  activo?: boolean;
+}
+
+export interface ListarDatosPagoParams {
+  page?: number;
+  limit?: number;
+  sortBy?: string;
+  sortDir?: 'ASC' | 'DESC' | 'asc' | 'desc';
+  metodoPago?: string;
+  activo?: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -149,8 +235,24 @@ export class ClubService {
     return this.http.post(`${this.apiUrl}/${payload.idClub}/canchas`, payload);
   }
 
-  crearDatosPago(payload: CrearDatosPagoPayload): Observable<any> {
+  /*crearDatosPago(payload: CrearDatosPagoPayload): Observable<any> {
     return this.http.post(`${this.apiUrl}/datos-pago`, payload);
+  }*/
+
+  crearDatosPago(idClub: number, payload: any): Observable<any> {
+  return this.http.post(`${this.apiUrl}/${idClub}/datos-pago`, payload);
+}
+
+  listarDatosPagos(idClub: number, params: any): Observable<any> {
+    let httpParams = new HttpParams();
+
+    Object.entries(params || {}).forEach(([k, v]) => {
+      if (v === undefined || v === null) return;
+      if (typeof v === 'string' && v.trim() === '') return;
+      httpParams = httpParams.set(k, String(v));
+    });
+
+    return this.http.get(`${this.apiUrl}/${idClub}/datos-pago`, { params: httpParams });
   }
 
   listarClubs(params: ListarClubParams): Observable<Paginado<Club>> {
@@ -249,6 +351,54 @@ export class ClubService {
 
   clearCurrentClubId(): void {
     localStorage.removeItem(this.storageKey);
+  }
+
+  listarReservas(idClub: number, params: any): Observable<any> {
+    let httpParams = new HttpParams();
+    Object.entries(params || {}).forEach(([k, v]) => {
+      if (v === undefined || v === null || v === '') return;
+      httpParams = httpParams.set(k, String(v));
+    });
+
+    return this.http.get(`${this.apiUrl}/${idClub}/reservas`, { params: httpParams });
+  }
+
+  crearReserva(idClub: number, payload: CrearReservaTurnoPayload): Observable<CrearReservaTurnoResponse> {
+    return this.http.post<CrearReservaTurnoResponse>(`${this.apiUrl}/${idClub}/reservas`, payload);
+  }
+
+  crearReservaJugador(idClub: number, payload: CrearReservaJugadorPayload): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${idClub}/reservas`, payload);
+  }
+
+  pagarReservaJugador(idClub: number, idReserva: number, payload: PagarReservaPayload): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/${idClub}/reservas/${idReserva}/pagar-jugador`, payload);
+  }
+
+  eliminarReservaJugador(idClub: number, idReserva: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${idClub}/reservas/${idReserva}/jugador`);
+  }
+
+  crearDatosPagoClub(idClub: number, payload: Omit<CrearDatosPagoPayload, 'idClub'>): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${idClub}/datos-pago`, payload);
+  }
+
+  listarDatosPagoClub(idClub: number, params?: ListarDatosPagoParams): Observable<Paginado<DatosPago>> {
+    let httpParams = new HttpParams();
+    Object.entries(params || {}).forEach(([k, v]) => {
+      if (v === undefined || v === null || v === '') return;
+      httpParams = httpParams.set(k, String(v));
+    });
+
+    return this.http.get<Paginado<DatosPago>>(`${this.apiUrl}/${idClub}/datos-pago`, { params: httpParams });
+  }
+
+  actualizarDatosPagoClub(
+    idClub: number,
+    idDatosPago: number,
+    payload: Partial<Omit<CrearDatosPagoPayload, 'idClub'>>
+  ): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/${idClub}/datos-pago/${idDatosPago}`, payload);
   }
 }
 export interface ListarSlotsParams {

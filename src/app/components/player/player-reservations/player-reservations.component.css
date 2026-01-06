@@ -1,19 +1,11 @@
-/* ===== ESTILOS PARA RESERVATIONS ===== */
-
 .dashboard-container {
   max-width: 1200px;
   margin: 0 auto;
   min-height: 100vh;
 }
 
-.logo-container {
-  flex: 0 0 auto;
-}
-
-.dashboard-logo {
-  width: 80px;
-  height: auto;
-}
+.logo-container { flex: 0 0 auto; }
+.dashboard-logo { width: 80px; height: auto; }
 
 .dashboard-title {
   color: #1a4754;
@@ -26,7 +18,6 @@
   flex: 0 0 auto;
 }
 
-/* Cards */
 .card {
   border: 1px solid #e0e0e0;
   border-radius: 12px;
@@ -43,11 +34,7 @@
   border-bottom: 2px solid var(--main-color);
 }
 
-/* Formularios */
-.form-label {
-  font-size: 0.85rem;
-  font-weight: 600;
-}
+.form-label { font-size: 0.85rem; font-weight: 600; }
 
 .form-control, .form-select {
   border: 1px solid #e0e0e0;
@@ -60,14 +47,12 @@
   box-shadow: 0 0 0 0.2rem rgba(37, 90, 105, 0.25);
 }
 
-/* Panel disabled (grisado) */
 .panel-disabled {
   opacity: 0.55;
   filter: grayscale(0.5);
   pointer-events: none;
 }
 
-/* Selección visual */
 .list-group-item.is-selected {
   border-color: #b9dbe3;
   box-shadow: 0 0 0 3px rgba(39, 92, 106, 0.10);
@@ -91,40 +76,124 @@
   overflow: auto;
 }
 
-/* Slots */
-.btn-slot {
-  font-size: 0.85rem;
-  padding: 0.45rem 0.6rem;
+/*FullCalendar*/
+
+:host ::ng-deep .fc .fc-col-header-cell-cushion {
+  padding: 10px 6px !important;
+  font-weight: 700 !important;
+  color: #1a4754 !important;
+}
+
+:host ::ng-deep .fc .fc-timegrid-axis-cushion,
+:host ::ng-deep .fc .fc-timegrid-slot-label-cushion {
+  font-weight: 700 !important;
+  color: #1a4754 !important;
+}
+
+:host ::ng-deep .fc-timegrid-col.fc-day-past-custom,
+:host ::ng-deep .fc-daygrid-day.fc-day-past-custom {
+  background-color: #f3f3f3 !important;
+  opacity: 0.75;
+}
+
+:host ::ng-deep .fc-timegrid-col.fc-day-inactive-custom,
+:host ::ng-deep .fc-daygrid-day.fc-day-inactive-custom {
+  background-color: #efefef !important;
+  filter: grayscale(1);
+  opacity: 0.8;
+}
+
+:host ::ng-deep .fc-col-header-cell.fc-day-past-custom,
+:host ::ng-deep .fc-col-header-cell.fc-day-inactive-custom {
+  background-color: #efefef !important;
+  opacity: 0.9;
+}
+
+:host ::ng-deep .fc-col-header-cell.fc-day-past-custom .fc-col-header-cell-cushion,
+:host ::ng-deep .fc-col-header-cell.fc-day-inactive-custom .fc-col-header-cell-cushion {
+  color: #6c757d !important;
+}
+
+/* Fondo bloqueado para dias pasados */
+:host ::ng-deep .slot-blocked {
+  background: #f1f3f5 !important;
+  color: #6c757d !important;
+  border-color: #e0e0e0 !important;
+  opacity: 0.9;
+  cursor: not-allowed !important;
+}
+
+/* Slot como tarjeta */
+:host ::ng-deep .slot-event {
   border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  background: #ffffff;
+  color: #111 !important;
+  font-size: 0.78rem;
+  text-align: center;
+  cursor: pointer;
+
+  padding: 8px 6px;
+  min-height: 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.btn-slot.active {
-  color: white;
-  background-color: var(--main-color);
-  border-color: var(--main-color);
+:host ::ng-deep .slot-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  line-height: 1.05;
 }
 
-/* Responsive */
+:host ::ng-deep .slot-line {
+  font-size: 0.78rem;
+  color: #111 !important;
+}
+
+:host ::ng-deep .slot-title {
+  font-weight: 800;
+}
+
+/* Disponible */
+:host ::ng-deep .slot-free {
+  background: #ffffff !important;
+}
+
+/* Ocupado */
+:host ::ng-deep .slot-taken {
+  background: #ffe3e3 !important;
+  border-color: #ffc9c9 !important;
+  color: #c92a2a !important;
+  cursor: not-allowed !important;
+  opacity: 0.95;
+}
+
+:host ::ng-deep .slot-taken .slot-line {
+  color: #c92a2a !important;
+}
+
+/* Seleccionado */
+:host ::ng-deep .slot-selected {
+  background: #d3f9d8 !important;
+  border-color: #8ce99a !important;
+  color: #111 !important;
+  font-weight: 800;
+}
+
+:host ::ng-deep .slot-selected .slot-line {
+  color: #111 !important;
+}
+
+/* Tamaño de filas */
+:host ::ng-deep .fc-timegrid-slot {
+  height: 68px !important;
+}
+
 @media (max-width: 768px) {
-  .dashboard-container {
-    padding: 1rem !important;
-  }
-
-  .dashboard-title {
-    font-size: 1.25rem;
-  }
-
-  .dashboard-logo {
-    width: 60px;
-  }
-}
-
-@media (max-width: 576px) {
-  .dashboard-logo {
-    width: 55px;
-  }
-
-  .logout-btn {
-    margin-top: 0;
-  }
+  .dashboard-container { padding: 1rem !important; }
+  .dashboard-title { font-size: 1.25rem; }
+  .dashboard-logo { width: 60px; }
 }
