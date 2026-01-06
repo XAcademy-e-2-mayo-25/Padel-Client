@@ -49,12 +49,7 @@
 
           <div class="col-md-4">
             <label class="form-label small fw-bold text-secondary">Localidad</label>
-            <input
-              type="text"
-              class="form-control form-control-sm"
-              placeholder="Ej: Ceres"
-              formControlName="localidad"
-            />
+            <input type="text" class="form-control form-control-sm" placeholder="Ej: Ceres" formControlName="localidad"/>
           </div>
 
           <div class="col-md-4">
@@ -62,7 +57,7 @@
             <input
               type="text"
               class="form-control form-control-sm"
-              placeholder="Ej: Paddle Reserve"
+              placeholder="Razón social o nombre de fantasía..."
               formControlName="nombre"
             />
           </div>
@@ -70,7 +65,7 @@
       </form>
 
       <div class="text-muted small mt-2">
-        Tip: podés buscar con 1 solo filtro o combinarlos.
+        El nombre busca por <strong>contiene</strong> en Razón Social o Nombre de Fantasía.
       </div>
     </div>
   </div>
@@ -82,10 +77,6 @@
         <h5 class="mb-0">2) Resultados</h5>
         <small class="text-muted" *ngIf="!busquedaRealizada">Realizá una búsqueda para ver resultados</small>
         <small class="text-muted" *ngIf="busquedaRealizada">Encontrados: {{ clubs.length }}</small>
-      </div>
-
-      <div class="text-muted small" *ngIf="busquedaRealizada && clubs.length > 0">
-        Seleccioná un club y luego mirá sus canchas
       </div>
     </div>
 
@@ -106,13 +97,8 @@
         >
           <div class="d-flex justify-content-between flex-wrap gap-2">
             <div>
-              <h6 class="mb-1 fw-bold">
-                {{ c.nombreFantasia || 'Club sin nombre' }}
-              </h6>
-              <div class="small text-muted">
-                {{ c.provincia }} - {{ c.localidad }} · {{ c.direccion }}
-              </div>
-
+              <h6 class="mb-1 fw-bold">{{ c.nombreFantasia || 'Club sin nombre' }}</h6>
+              <div class="small text-muted">{{ c.provincia }} - {{ c.localidad }} · {{ c.direccion }}</div>
               <div class="mt-2 d-flex flex-wrap gap-2 align-items-center">
                 <span class="badge" [ngClass]="clubEstadoBadge(c.idEstadoClub)">
                   {{ clubEstadoLabel(c.idEstadoClub) }}
@@ -133,31 +119,21 @@
           </div>
         </div>
       </div>
-
-      <div *ngIf="!busquedaRealizada" class="text-center text-muted py-2">
-        Este panel se habilita después de buscar.
-      </div>
     </div>
   </div>
 
-  <!-- PANEL 3: Canchas del club -->
+  <!-- PANEL 3: Canchas -->
   <div class="card mb-4" *ngIf="selectedClub">
     <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
       <div>
         <h5 class="mb-0">3) Canchas de {{ selectedClub.nombreFantasia || 'Club' }}</h5>
-        <small class="text-muted">
-          {{ selectedClub.provincia }} - {{ selectedClub.localidad }} · {{ selectedClub.direccion }}
-        </small>
+        <small class="text-muted">{{ selectedClub.provincia }} - {{ selectedClub.localidad }} · {{ selectedClub.direccion }}</small>
       </div>
-
       <div class="badge bg-secondary">{{ canchas.length }}</div>
     </div>
 
     <div class="card-body">
-      <div *ngIf="cargandoCanchas" class="text-center text-muted py-3">
-        Cargando canchas...
-      </div>
-
+      <div *ngIf="cargandoCanchas" class="text-center text-muted py-3">Cargando canchas...</div>
       <div *ngIf="!cargandoCanchas && canchas.length === 0" class="text-center text-muted py-3">
         Este club aún no tiene canchas registradas.
       </div>
@@ -171,28 +147,16 @@
           <div class="d-flex justify-content-between flex-wrap gap-2">
             <div>
               <h6 class="mb-1 fw-bold">{{ cancha.denominacion }}</h6>
-
               <div class="small text-muted d-flex flex-wrap gap-2">
-                <span class="badge bg-light text-dark border">
-                  {{ cancha.cubierta ? 'Cubierta' : 'Descubierta' }}
-                </span>
-                <span class="badge bg-light text-dark border">
-                  Slot: {{ cancha.rangoSlotMinutos ?? '-' }} min
-                </span>
-                <span class="badge bg-light text-dark border">
-                  Precio: $ {{ cancha.precio ?? '-' }}
-                </span>
+                <span class="badge bg-light text-dark border">{{ cancha.cubierta ? 'Cubierta' : 'Descubierta' }}</span>
+                <span class="badge bg-light text-dark border">Slot: {{ cancha.rangoSlotMinutos ?? '-' }} min</span>
+                <span class="badge bg-light text-dark border">Precio: $ {{ cancha.precio ?? '-' }}</span>
               </div>
             </div>
 
             <div class="d-flex gap-2 align-items-center">
-              <button class="btn btn-outline-secondary btn-sm" (click)="openDetalleCancha(cancha)" title="Ver más">
-                👁
-              </button>
-
-              <button class="btn btn-outline-success btn-sm" (click)="verTurnos(cancha)">
-                Turnos
-              </button>
+              <button class="btn btn-outline-secondary btn-sm" (click)="openDetalleCancha(cancha)" title="Ver más">👁</button>
+              <button class="btn btn-outline-success btn-sm" (click)="verTurnos(cancha)">Turnos</button>
             </div>
           </div>
         </div>
@@ -200,7 +164,7 @@
     </div>
   </div>
 
-  <!-- OVERLAY DETALLE CANCHA (alert moderno) -->
+  <!-- OVERLAY DETALLE CANCHA -->
   <div class="overlay" *ngIf="detalleCancha as dc" (click)="closeDetalleCancha()">
     <div class="overlay-card card" (click)="$event.stopPropagation()">
       <div class="card-header bg-light d-flex justify-content-between align-items-center">
@@ -218,7 +182,6 @@
             <div class="mb-2"><strong>Cubierta:</strong> {{ dc.cubierta ? 'Sí' : 'No' }}</div>
             <div class="mb-2"><strong>Observaciones:</strong> {{ dc.observaciones || '-' }}</div>
           </div>
-
           <div class="col-md-6">
             <div class="mb-2"><strong>Días habilitados:</strong> {{ formatDiasSemana(dc.diasSemana) }}</div>
             <div class="mb-2"><strong>Horario:</strong> {{ dc.horaDesde || '-' }} - {{ dc.horaHasta || '-' }}</div>
@@ -230,7 +193,7 @@
     </div>
   </div>
 
-  <!-- PANEL TURNOS / CALENDARIO -->
+  <!-- PANEL TURNOS + FULLCALENDAR -->
   <div class="card" *ngIf="canchaTurnos as ct">
     <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
       <div>
@@ -240,46 +203,108 @@
         </small>
       </div>
 
-      <div class="d-flex gap-2 align-items-center">
-        <input type="date" class="form-control form-control-sm" [(ngModel)]="fechaTurnos" (change)="generarSlots()" />
-        <button class="btn btn-outline-secondary btn-sm" (click)="cerrarTurnos()">Cerrar</button>
-      </div>
+      <button class="btn btn-outline-secondary btn-sm" (click)="closeTurnos()">Cerrar</button>
     </div>
 
     <div class="card-body">
-      <div class="text-muted small mb-3">
-        (Prototipo) Estos slots se generan por horaDesde/horaHasta. Luego conectamos disponibilidad real y confirmación con POST de reserva.
-      </div>
 
-      <div *ngIf="slots.length === 0" class="text-center text-muted py-3">
-        No hay slots para mostrar.
-      </div>
+      <full-calendar [options]="calendarOptions"></full-calendar>
 
-      <div class="row g-2" *ngIf="slots.length > 0">
-        <div class="col-6 col-md-3 col-lg-2" *ngFor="let s of slots">
-          <button
-            type="button"
-            class="btn btn-outline-primary w-100 btn-slot"
-            (click)="selectSlot(s)"
-            [class.active]="slotSeleccionado?.index === s.index"
-          >
-            {{ s.label }}
-          </button>
-        </div>
-      </div>
-
-      <div class="mt-4" *ngIf="slotSeleccionado">
+      <div class="mt-3" *ngIf="selectedDateISO">
         <div class="alert alert-info d-flex justify-content-between align-items-center flex-wrap gap-2">
           <div>
-            <strong>Slot seleccionado:</strong> {{ slotSeleccionado.label }} ·
-            <strong>Precio:</strong> $ {{ ct.precio ?? '-' }}
+            <strong>Día seleccionado:</strong> {{ selectedDateISO }}
+            <span *ngIf="selectedSlotRange"> · <strong>Slots:</strong> {{ selectedSlotRange.from }}..{{ selectedSlotRange.to }}</span>
           </div>
 
-          <button class="btn btn-success btn-sm" (click)="reservarPrototipo()">
-            Reservar (prototipo)
+          <button class="btn btn-success btn-sm" (click)="iniciarReservaReal()" [disabled]="!canStartReserva()">
+            Iniciar reserva
           </button>
+        </div>
+
+        <div class="text-muted small">
+          Requisito: seleccionar al menos 1 slot (la selección es continua).
         </div>
       </div>
     </div>
   </div>
 </div>
+
+  <!-- OVERLAY PAGO FICTICIO -->
+  <div class="overlay" *ngIf="pagoModalOpen" (click)="$event.stopPropagation()">
+    <div class="overlay-card card" (click)="$event.stopPropagation()">
+      <div class="card-header bg-light d-flex justify-content-between align-items-center">
+        <div>
+          <h5 class="mb-0">Simular pago</h5>
+          <small class="text-muted">Reserva #{{ pagoReservaId }}</small>
+        </div>
+        <!-- Si NO querés permitir cerrar sin acción, sacá este botón -->
+        <button class="btn btn-outline-secondary btn-sm" (click)="closePagoModal()">Cerrar</button>
+      </div>
+
+      <div class="card-body">
+        <div class="mb-3">
+          <label class="form-label small fw-bold text-secondary">Método de pago</label>
+
+          <select
+            class="form-select form-select-sm"
+            [disabled]="cargandoMetodosPago || metodosPago.length === 0"
+            [ngModel]="metodoPagoSeleccionadoId"
+            (ngModelChange)="onMetodoPagoSeleccionadoChange($event)"
+          >
+            <option [ngValue]="null">Seleccionar...</option>
+            <option *ngFor="let m of metodosPago" [ngValue]="m.idDatosPago">
+              {{ m.metodoPago }}
+            </option>
+          </select>
+
+          <div class="text-muted small mt-2" *ngIf="cargandoMetodosPago">
+            Cargando métodos de pago...
+          </div>
+
+          <div class="alert alert-warning mt-2" *ngIf="!cargandoMetodosPago && metodosPago.length === 0">
+            Este club aún no tiene métodos de pago activos.
+          </div>
+        </div>
+
+        <div class="alert alert-info" *ngIf="metodoPagoSeleccionado as mp">
+          <div class="fw-bold mb-1">Detalle</div>
+          <div class="small">
+            <div><strong>Método:</strong> {{ mp.metodoPago }}</div>
+
+            <div *ngIf="mp.cbu"><strong>CBU:</strong> {{ mp.cbu }}</div>
+            <div *ngIf="mp.cvu"><strong>CVU:</strong> {{ mp.cvu }}</div>
+            <div *ngIf="mp.alias"><strong>Alias:</strong> {{ mp.alias }}</div>
+            <div *ngIf="mp.dniCuitCuil"><strong>DNI/CUIT/CUIL:</strong> {{ mp.dniCuitCuil }}</div>
+            <div *ngIf="mp.titular"><strong>Titular:</strong> {{ mp.titular }}</div>
+            <div *ngIf="mp.banco"><strong>Banco:</strong> {{ mp.banco }}</div>
+            <div *ngIf="mp.tipoCuenta"><strong>Tipo de cuenta:</strong> {{ mp.tipoCuenta }}</div>
+            <div *ngIf="mp.numeroCuenta"><strong>Número de cuenta:</strong> {{ mp.numeroCuenta }}</div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2">
+          <button
+            class="btn btn-outline-danger btn-sm"
+            (click)="cancelarReservaRecienCreada()"
+            [disabled]="procesandoPago"
+          >
+            Cancelar reserva
+          </button>
+
+          <button
+            class="btn btn-success btn-sm"
+            (click)="confirmarPagoFicticio()"
+            [disabled]="!metodoPagoSeleccionadoId || procesandoPago"
+          >
+            <span *ngIf="procesandoPago" class="spinner-border spinner-border-sm me-2"></span>
+            Ir a Mercado Pago
+          </button>
+        </div>
+
+        <div class="text-muted small mt-2">
+          Nota: esto es una simulación. Al confirmar, se marca <strong>pagado=true</strong>.
+        </div>
+      </div>
+    </div>
+  </div>
