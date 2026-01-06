@@ -9,7 +9,6 @@ import {
   ReservaTurno
 } from '../../../services/club/club.service';
 
-/* ===== Tipos UI ===== */
 
 type CanchaUI = Cancha & {
   precio?: number;
@@ -35,14 +34,10 @@ type SlotUI = {
 })
 export class ClubStatistics implements OnInit {
 
-  /* ===== Estado general ===== */
-
   loading = false;
   error: string | null = null;
 
   idClub: number | null = null;
-
-  /* ===== Datos ===== */
 
   canchas: CanchaUI[] = [];
   turnosPorCancha: Record<number, SlotUI[]> = {};
@@ -54,8 +49,6 @@ export class ClubStatistics implements OnInit {
     private authService: AuthService,
     private clubService: ClubService
   ) {}
-
-  /* ===== Ciclo de vida ===== */
 
   ngOnInit(): void {
     this.loading = true;
