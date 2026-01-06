@@ -1,47 +1,198 @@
 <div class="container py-3 dashboard-container">
   <!-- Header -->
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <!-- Logo -->
+  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
     <div class="logo-container">
       <img src="/brand.png" alt="logo de padel reserve" class="dashboard-logo" />
     </div>
 
-    <!-- Saludo centrado -->
     <div class="text-center flex-grow-1 mx-2">
-      <h1 class="fw-bold mb-1 dashboard-title">Mis Reservas</h1>
-      
+      <h1 class="fw-bold mb-0 dashboard-title">Reservas</h1>
+      <small class="text-muted">Buscá un club, elegí una cancha y reservá tu turno</small>
     </div>
 
-    <!-- Botón Cerrar Sesión -->
-    <button class="btn btn-danger btn-sm logout-btn" (click)="logout()">
-      <i class="bi bi-box-arrow-right me-1"></i>
-      Cerrar Sesión
-    </button>
+    <div class="d-flex gap-2">
+      <button class="btn btn-outline-secondary btn-sm" (click)="goBack()">
+        ← Volver
+      </button>
+
+      <button class="btn btn-danger btn-sm logout-btn" (click)="logout()">
+        <i class="bi bi-box-arrow-right me-1"></i>
+        Cerrar Sesión
+      </button>
+    </div>
   </div>
 
-  <!-- Controles de Filtro y Búsqueda -->
-  <div class="row mb-4">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-body">
-          <div class="row g-3 align-items-center">
-            <div class="col-md-4">
-              <label class="form-label small fw-bold text-secondary">Filtrar por estado</label>
-              <select class="form-select form-select-sm">
-                <option selected>Todas las reservas</option>
-                <option>Confirmadas</option>
-                <option>Pendientes</option>
-                <option>Canceladas</option>
-                <option>Completadas</option>
-              </select>
+  <!-- Mensajes -->
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  <div *ngIf="feedback" class="alert alert-success">{{ feedback }}</div>
+
+  <!-- PANEL 1: Búsqueda -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+        <h5 class="mb-0">1) Buscar club</h5>
+        <button class="btn btn-primary btn-sm" (click)="buscarClubs()" [disabled]="buscandoClubs">
+          <span *ngIf="buscandoClubs" class="spinner-border spinner-border-sm me-2"></span>
+          Buscar
+        </button>
+      </div>
+
+      <form [formGroup]="formBuscar" (ngSubmit)="buscarClubs()">
+        <div class="row g-3 align-items-end">
+          <div class="col-md-4">
+            <label class="form-label small fw-bold text-secondary">Provincia</label>
+            <select class="form-select form-select-sm" formControlName="provincia">
+              <option value="">Todas</option>
+              <option *ngFor="let p of provincias" [value]="p">{{ p }}</option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label small fw-bold text-secondary">Localidad</label>
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              placeholder="Ej: Ceres"
+              formControlName="localidad"
+            />
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label small fw-bold text-secondary">Nombre del club</label>
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              placeholder="Ej: Paddle Reserve"
+              formControlName="nombre"
+            />
+          </div>
+        </div>
+      </form>
+
+      <div class="text-muted small mt-2">
+        Tip: podés buscar con 1 solo filtro o combinarlos.
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 2: Resultados clubs -->
+  <div class="card mb-4" [class.panel-disabled]="!busquedaRealizada">
+    <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+      <div>
+        <h5 class="mb-0">2) Resultados</h5>
+        <small class="text-muted" *ngIf="!busquedaRealizada">Realizá una búsqueda para ver resultados</small>
+        <small class="text-muted" *ngIf="busquedaRealizada">Encontrados: {{ clubs.length }}</small>
+      </div>
+
+      <div class="text-muted small" *ngIf="busquedaRealizada && clubs.length > 0">
+        Seleccioná un club y luego mirá sus canchas
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div *ngIf="busquedaRealizada && !cargandoClubs && clubs.length === 0" class="text-center text-muted py-3">
+        No se encontraron clubs con esos filtros.
+      </div>
+
+      <div *ngIf="cargandoClubs" class="text-center text-muted py-3">
+        Cargando clubs...
+      </div>
+
+      <div class="list-group" *ngIf="busquedaRealizada && !cargandoClubs && clubs.length > 0">
+        <div
+          class="list-group-item list-group-item-action mb-2 rounded shadow-sm"
+          *ngFor="let c of clubs"
+          [class.is-selected]="selectedClub?.idClub === c.idClub"
+        >
+          <div class="d-flex justify-content-between flex-wrap gap-2">
+            <div>
+              <h6 class="mb-1 fw-bold">
+                {{ c.nombreFantasia || 'Club sin nombre' }}
+              </h6>
+              <div class="small text-muted">
+                {{ c.provincia }} - {{ c.localidad }} · {{ c.direccion }}
+              </div>
+
+              <div class="mt-2 d-flex flex-wrap gap-2 align-items-center">
+                <span class="badge" [ngClass]="clubEstadoBadge(c.idEstadoClub)">
+                  {{ clubEstadoLabel(c.idEstadoClub) }}
+                </span>
+              </div>
             </div>
-            <div class="col-md-4">
-              <label class="form-label small fw-bold text-secondary">Buscar por cancha</label>
-              <input type="text" class="form-control form-control-sm" placeholder="Nombre de la cancha...">
+
+            <div class="d-flex gap-2 align-items-center">
+              <button
+                class="btn btn-outline-primary btn-sm"
+                (click)="verCanchas(c)"
+                [disabled]="cargandoCanchas && selectedClub?.idClub === c.idClub"
+              >
+                <span *ngIf="cargandoCanchas && selectedClub?.idClub === c.idClub" class="spinner-border spinner-border-sm me-2"></span>
+                Canchas
+              </button>
             </div>
-            <div class="col-md-4">
-              <label class="form-label small fw-bold text-secondary">Rango de fechas</label>
-              <input type="date" class="form-control form-control-sm">
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="!busquedaRealizada" class="text-center text-muted py-2">
+        Este panel se habilita después de buscar.
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL 3: Canchas del club -->
+  <div class="card mb-4" *ngIf="selectedClub">
+    <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+      <div>
+        <h5 class="mb-0">3) Canchas de {{ selectedClub.nombreFantasia || 'Club' }}</h5>
+        <small class="text-muted">
+          {{ selectedClub.provincia }} - {{ selectedClub.localidad }} · {{ selectedClub.direccion }}
+        </small>
+      </div>
+
+      <div class="badge bg-secondary">{{ canchas.length }}</div>
+    </div>
+
+    <div class="card-body">
+      <div *ngIf="cargandoCanchas" class="text-center text-muted py-3">
+        Cargando canchas...
+      </div>
+
+      <div *ngIf="!cargandoCanchas && canchas.length === 0" class="text-center text-muted py-3">
+        Este club aún no tiene canchas registradas.
+      </div>
+
+      <div class="list-group" *ngIf="!cargandoCanchas && canchas.length > 0">
+        <div
+          class="list-group-item list-group-item-action mb-2 rounded shadow-sm"
+          *ngFor="let cancha of canchas"
+          [class.is-selected]="selectedCancha?.idCancha === cancha.idCancha"
+        >
+          <div class="d-flex justify-content-between flex-wrap gap-2">
+            <div>
+              <h6 class="mb-1 fw-bold">{{ cancha.denominacion }}</h6>
+
+              <div class="small text-muted d-flex flex-wrap gap-2">
+                <span class="badge bg-light text-dark border">
+                  {{ cancha.cubierta ? 'Cubierta' : 'Descubierta' }}
+                </span>
+                <span class="badge bg-light text-dark border">
+                  Slot: {{ cancha.rangoSlotMinutos ?? '-' }} min
+                </span>
+                <span class="badge bg-light text-dark border">
+                  Precio: $ {{ cancha.precio ?? '-' }}
+                </span>
+              </div>
+            </div>
+
+            <div class="d-flex gap-2 align-items-center">
+              <button class="btn btn-outline-secondary btn-sm" (click)="openDetalleCancha(cancha)" title="Ver más">
+                👁
+              </button>
+
+              <button class="btn btn-outline-success btn-sm" (click)="verTurnos(cancha)">
+                Turnos
+              </button>
             </div>
           </div>
         </div>
@@ -49,142 +200,84 @@
     </div>
   </div>
 
-  <!-- Lista de Reservas -->
-  <div class="row mb-4">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header bg-light">
-          <h5 class="card-title mb-0">Próximas Reservas</h5>
+  <!-- OVERLAY DETALLE CANCHA (alert moderno) -->
+  <div class="overlay" *ngIf="detalleCancha as dc" (click)="closeDetalleCancha()">
+    <div class="overlay-card card" (click)="$event.stopPropagation()">
+      <div class="card-header bg-light d-flex justify-content-between align-items-center">
+        <div>
+          <h5 class="mb-0">Detalle de cancha</h5>
+          <small class="text-muted">ID #{{ dc.idCancha }}</small>
         </div>
-        <div class="card-body">
-          <div class="reservation-list">
-            <!-- Reserva 1 -->
-            <div class="reservation-item border-bottom pb-3 mb-3">
-              <div class="row align-items-center">
-                <div class="col-md-3">
-                  <div class="d-flex align-items-center">
-                    <div class="reservation-icon me-3">
-                      <i class="fas fa-calendar-check text-success"></i>
-                    </div>
-                    <div>
-                      <h6 class="mb-1 fw-bold">Cancha 1 - Club Central</h6>
-                      <small class="text-muted">Reserva #001</small>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="text-center">
-                    <div class="fw-bold">15 Nov</div>
-                    <small class="text-muted">18:00 - 19:30</small>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <span class="badge bg-success">Confirmada</span>
-                </div>
-                <div class="col-md-2">
-                  <div class="text-end">
-                    <strong>$ 1.200</strong>
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="btn-group btn-group-sm">
-                    <button class="btn btn-outline-primary">Ver</button>
-                    <button class="btn btn-outline-danger">Cancelar</button>
-                  </div>
-                </div>
-              </div>
-            </div>
+        <button class="btn btn-outline-secondary btn-sm" (click)="closeDetalleCancha()">Cerrar</button>
+      </div>
 
-            <!-- Reserva 2 -->
-            <div class="reservation-item border-bottom pb-3 mb-3">
-              <div class="row align-items-center">
-                <div class="col-md-3">
-                  <div class="d-flex align-items-center">
-                    <div class="reservation-icon me-3">
-                      <i class="fas fa-clock text-warning"></i>
-                    </div>
-                    <div>
-                      <h6 class="mb-1 fw-bold">Cancha 2 - Sports Padel</h6>
-                      <small class="text-muted">Reserva #002</small>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="text-center">
-                    <div class="fw-bold">17 Nov</div>
-                    <small class="text-muted">20:00 - 21:30</small>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <span class="badge bg-warning text-dark">Pendiente</span>
-                </div>
-                <div class="col-md-2">
-                  <div class="text-end">
-                    <strong>$ 1.500</strong>
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="btn-group btn-group-sm">
-                    <button class="btn btn-outline-primary">Ver</button>
-                    <button class="btn btn-outline-danger">Cancelar</button>
-                  </div>
-                </div>
-              </div>
-            </div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="mb-2"><strong>Denominación:</strong> {{ dc.denominacion }}</div>
+            <div class="mb-2"><strong>Cubierta:</strong> {{ dc.cubierta ? 'Sí' : 'No' }}</div>
+            <div class="mb-2"><strong>Observaciones:</strong> {{ dc.observaciones || '-' }}</div>
+          </div>
 
-            <!-- Reserva 3 -->
-            <div class="reservation-item">
-              <div class="row align-items-center">
-                <div class="col-md-3">
-                  <div class="d-flex align-items-center">
-                    <div class="reservation-icon me-3">
-                      <i class="fas fa-users text-info"></i>
-                    </div>
-                    <div>
-                      <h6 class="mb-1 fw-bold">Cancha 3 - Padel Pro</h6>
-                      <small class="text-muted">Reserva #003</small>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="text-center">
-                    <div class="fw-bold">20 Nov</div>
-                    <small class="text-muted">16:00 - 17:30</small>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <span class="badge bg-info">En partido</span>
-                </div>
-                <div class="col-md-2">
-                  <div class="text-end">
-                    <strong>$ 1.800</strong>
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="btn-group btn-group-sm">
-                    <button class="btn btn-outline-primary">Ver</button>
-                    <button class="btn btn-outline-secondary" disabled>Cancelar</button>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div class="col-md-6">
+            <div class="mb-2"><strong>Días habilitados:</strong> {{ formatDiasSemana(dc.diasSemana) }}</div>
+            <div class="mb-2"><strong>Horario:</strong> {{ dc.horaDesde || '-' }} - {{ dc.horaHasta || '-' }}</div>
+            <div class="mb-2"><strong>Rango slot:</strong> {{ dc.rangoSlotMinutos || '-' }} min</div>
+            <div class="mb-2"><strong>Precio por slot:</strong> $ {{ dc.precio ?? '-' }}</div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Calendario de Reservas -->
-  <div class="row">
-    <div class="col-12">
-      <div class="calendar-full-width">
-        <div class="card">
-          <div class="card-body">
-            
-            <div class="calendar-container-wrapper">
-              <app-calendar></app-calendar>
-            </div>
+  <!-- PANEL TURNOS / CALENDARIO -->
+  <div class="card" *ngIf="canchaTurnos as ct">
+    <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+      <div>
+        <h5 class="mb-0">Turnos · {{ ct.denominacion }}</h5>
+        <small class="text-muted">
+          {{ formatDiasSemana(ct.diasSemana) }} · {{ ct.horaDesde }} - {{ ct.horaHasta }} · slot {{ ct.rangoSlotMinutos }} min
+        </small>
+      </div>
+
+      <div class="d-flex gap-2 align-items-center">
+        <input type="date" class="form-control form-control-sm" [(ngModel)]="fechaTurnos" (change)="generarSlots()" />
+        <button class="btn btn-outline-secondary btn-sm" (click)="cerrarTurnos()">Cerrar</button>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div class="text-muted small mb-3">
+        (Prototipo) Estos slots se generan por horaDesde/horaHasta. Luego conectamos disponibilidad real y confirmación con POST de reserva.
+      </div>
+
+      <div *ngIf="slots.length === 0" class="text-center text-muted py-3">
+        No hay slots para mostrar.
+      </div>
+
+      <div class="row g-2" *ngIf="slots.length > 0">
+        <div class="col-6 col-md-3 col-lg-2" *ngFor="let s of slots">
+          <button
+            type="button"
+            class="btn btn-outline-primary w-100 btn-slot"
+            (click)="selectSlot(s)"
+            [class.active]="slotSeleccionado?.index === s.index"
+          >
+            {{ s.label }}
+          </button>
+        </div>
+      </div>
+
+      <div class="mt-4" *ngIf="slotSeleccionado">
+        <div class="alert alert-info d-flex justify-content-between align-items-center flex-wrap gap-2">
+          <div>
+            <strong>Slot seleccionado:</strong> {{ slotSeleccionado.label }} ·
+            <strong>Precio:</strong> $ {{ ct.precio ?? '-' }}
           </div>
+
+          <button class="btn btn-success btn-sm" (click)="reservarPrototipo()">
+            Reservar (prototipo)
+          </button>
         </div>
       </div>
     </div>

@@ -57,6 +57,14 @@
   transform: translateX(3px);
 }
 
+.btn-role-switch {
+  min-width: 220px;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.75rem 2.5rem;
+  border-width: 2px;
+}
+
 /* ===== CARDS DE OPCIONES ===== */
 .option-card {
   transition: all 0.3s ease;
@@ -281,4 +289,32 @@ app-calendar {
   .calendar-full-width .card {
     min-height: 350px;
   }
+}
+
+.dashboard-page {
+  position: relative;
+  min-height: 100vh;
+}
+
+.dashboard-content.is-disabled {
+  filter: grayscale(1);
+  opacity: 0.55;
+  pointer-events: none; /* deshabilita clicks del dashboard */
+  user-select: none;
+}
+
+.dashboard-overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 9999;
+}
+
+.overlay-card {
+  max-width: 640px;
+  width: 100%;
+  border-radius: 14px;
 }

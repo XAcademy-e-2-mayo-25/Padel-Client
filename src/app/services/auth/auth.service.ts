@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, tap, switchMap, of } from 'rxjs';
+import { Observable, tap, switchMap, of, map } from 'rxjs';
 import { RolService, UserWithRoles } from '../rol/rol.service';
 
 const apiUrl = 'http://localhost:3000';
@@ -20,35 +20,52 @@ export class AuthService {
   ) {}
 
   loginWithGoogle() {
-    console.log('[AuthService] loginWithGoogle -> redirigiendo a', `${this.apiUrl}/google`);
     window.location.href = `${this.apiUrl}/google`;
   }
 
   verifyToken(): Observable<any> {
     const token = this.getToken();
-    console.log('[AuthService] verifyToken -> token actual:', token);
-    return this.http.get(`${this.apiUrl}/verify`, {
-      headers: { Authorization: `Bearer ${token}` }
+
+    // Evita confusión con 304/ETag en debug
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Cache-Control': 'no-cache',
+      Pragma: 'no-cache',
     });
+
+    return this.http.get(`${this.apiUrl}/verify`, { headers });
   }
 
-  /**
-   * Guarda el token y carga los datos del usuario incluyendo roles
-   */
-  setToken(token: string): void {
-    console.log('[AuthService] setToken -> guardando token:', token);
+  //Devuelve el ID del usuario verificado como number
+  getVerifiedUserId(): Observable<number> {
+    return this.verifyToken().pipe(
+      map((resp: any) => {
+        const raw =
+          resp?.id ??
+          resp?.user?.id ??
+          resp?.user?.idUsuario ??
+          resp?.sub ??
+          resp?.payload?.sub;
+
+        const id = Number(raw);
+        if (!Number.isFinite(id) || id <= 0) {
+          throw new Error('No se pudo identificar el usuario (id inválido)');
+        }
+        return id;
+      })
+    );
+  }
+
+  setToken(token: string) {
     localStorage.setItem('token', token);
   }
 
-  /**
-   * Carga los datos del usuario después del login para obtener los roles
-   */
   loadUserData(): Observable<UserWithRoles | null> {
     return this.verifyToken().pipe(
       switchMap(response => {
-        if (response.valid && response.user?.id) {
-          // Obtener datos completos del usuario incluyendo roles
-          return this.http.get<UserWithRoles>(`${this.usuariosUrl}/${response.user.id}`);
+        const id = response?.id ?? response?.user?.id;
+        if (response?.valid && id) {
+          return this.http.get<UserWithRoles>(`${this.usuariosUrl}/${id}`);
         }
         return of(null);
       }),
@@ -61,29 +78,21 @@ export class AuthService {
     );
   }
 
-  /**
-   * Obtiene el ID del usuario actual desde el token verificado
-   */
   getCurrentUserId(): number | null {
     const userData = this.rolService.getUserData();
     return userData?.idUsuario ?? null;
   }
 
   getToken(): string | null {
-    const t = localStorage.getItem('token');
-    console.log('[AuthService] getToken ->', t);
-    return t;
+    return localStorage.getItem('token');
   }
 
   isAuthenticated(): boolean {
     const token = this.getToken();
-    const result = !!token;
-    console.log('[AuthService] isAuthenticated ->', result);
-    return result;
+    return !!token;
   }
 
   logout() {
-    console.log('[AuthService] logout -> borrando token, roles y navegando a /register');
     localStorage.removeItem('token');
     this.rolService.clearRoles();
     this.router.navigate(['/register']);

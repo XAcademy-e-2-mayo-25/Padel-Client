@@ -1,28 +1,32 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
+import { CanActivate, Router } from '@angular/router';
 import { AuthService } from '../services/auth/auth.service';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotAuthGuard implements CanActivate {
 
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
-  canActivate(): boolean | UrlTree {
-    console.log('[NotAuthGuard] Ejecutando canActivate');
+  canActivate(): Observable<boolean> {
+    const token = this.authService.getToken();
 
-    // Si ya está autenticado (hay token en localStorage)
-    if (this.authService.isAuthenticated()) {
-      console.log('[NotAuthGuard] Usuario autenticado -> redirigiendo a /home');
-      return this.router.createUrlTree(['/home']);
-    }
+    if (!token) return of(true);
 
-    // Si no está autenticado, puede entrar a /register
-    console.log('[NotAuthGuard] Usuario NO autenticado -> permitiendo acceso a rutas públicas');
-    return true;
+    return this.authService.verifyToken().pipe(
+      map(() => {
+        // Si el token es válido, lo redirigimos al home
+        this.router.navigate(['/home']);
+        return false;
+      }),
+      catchError(() => {
+        // Si el token no es válido, puede acceder al login/register
+        this.authService.logout();
+        return of(true);
+      })
+    );
   }
 }

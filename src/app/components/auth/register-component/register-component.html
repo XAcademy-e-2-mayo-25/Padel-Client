@@ -1,17 +1,19 @@
+<!-- Padel-Client/src/app/components/register-component/register-component.html -->
 <div class="container text-center mt-5">
+  <!-- Logo -->
   <img src="/brand.png" alt="Logo Padel" width="150" class="mb-3" />
 
+  <!-- Título y descripción -->
   <h1>Bienvenido</h1>
-  <br />
-  <h3 class="description">
-    Gestiona tus canchas y reservas <br />
-    de forma centralizada
-  </h3>
+  <br>
+  <h3 class="description">Gestiona tus canchas y reservas <br>de forma centralizada</h3>
 
+  <!-- Botones principales -->
   <div class="my-5">
     <h4 class="mb-4">Ingresar</h4>
 
-    <button class="btn btn-google" (click)="loginWithGoogle()">
+    <!-- Botón de Google con icono -->
+    <button class="btn btn-google" routerLink="/home" (click)="loginWithGoogle()">
       <img
         src="https://developers.google.com/identity/images/g-logo.png"
         alt="Google"
@@ -21,10 +23,10 @@
       />
       Continuar con Google
     </button>
-
+    
+    <!-- leyenda debajo del boton de google -->
     <p class="text-muted mt-3 small">
-      "Al continuar, aceptas los Términos de Servicio <br />
-      y la Política de Privacidad"
+      "Al continuar, aceptas los Términos de Servicio <br />y la Política de Privacidad"
     </p>
   </div>
 </div>

@@ -4,7 +4,6 @@ import { PlayerRoutingModule } from './player-routing.module';
 import { PlayerDashboardComponent } from './player-dashboard/player-dashboard.component';
 import { PlayerReservationsComponent } from './player-reservations/player-reservations.component';
 import { PlayerMatchesComponent } from './player-matches/player-matches.component';
-import { FriendsComponent } from './friends/friends.component';
 import { PlayerProfileComponent } from './player-profile/player-profile.component';
 
 @NgModule({
@@ -12,11 +11,6 @@ import { PlayerProfileComponent } from './player-profile/player-profile.componen
   imports: [
     CommonModule,
     PlayerRoutingModule,
-    PlayerDashboardComponent,
-    PlayerReservationsComponent,
-    PlayerMatchesComponent,
-    FriendsComponent,    
-    PlayerProfileComponent,
   ],
 })
 export class PlayerModule {}

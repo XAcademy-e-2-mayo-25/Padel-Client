@@ -1,12 +1,9 @@
 <div class="container d-flex flex-column py-3" style="min-block-size: 70vh;">
-  <!-- Botón cerrar sesión -->
   <div class="d-flex justify-content-end mb-3">
     <button class="btn btn-danger btn-sm" (click)="logout()">Cerrar Sesión</button>
   </div>
 
-  <!-- Contenedor principal -->
   <div class="row border rounded p-3 align-items-center bg-container justify-content-center" style="min-block-size: 50vh;">
-    <!-- Columna del logo -->
     <div class="col-md-5 text-center mb-3 mb-md-0">
       <img
         src="/brand.png"
@@ -16,14 +13,38 @@
       />
     </div>
 
-    <!-- Columna del texto -->
     <div class="col-md-7 text-center text-md-start">
-      <h1 class="fw-bold mb-3" style="font-size: 1.8rem;">¿Cómo quieres ingresar?</h1>
-      <div class="d-flex flex-wrap justify-content-center justify-content-md-start gap-2">
-        <button class="btn btn-jugador">JUGADOR</button>
-        <button class="btn btn-club">CLUB</button>
-        <button class="btn btn-administrador">ADMINISTRADOR</button>
+      <h1 class="fw-bold mb-2" style="font-size: 1.8rem;">¿Cómo querés ingresar?</h1>
+      <div *ngIf="message" class="alert alert-info py-2">
+        {{ message }}
       </div>
+
+      <div class="d-flex flex-wrap justify-content-center justify-content-md-start gap-2">
+        <button
+          *ngIf="hasRole(ROLES.JUGADOR)"
+          class="btn btn-jugador"
+          [class.active]="isCurrentRole(ROLES.JUGADOR)"
+          (click)="selectRole(ROLES.JUGADOR)">
+          JUGADOR
+        </button>
+
+        <button
+          *ngIf="hasRole(ROLES.CLUB)"
+          class="btn btn-club"
+          [class.active]="isCurrentRole(ROLES.CLUB)"
+          (click)="selectRole(ROLES.CLUB)">
+          CLUB
+        </button>
+
+        <button
+          *ngIf="hasRole(ROLES.ADMIN)"
+          class="btn btn-administrador"
+          [class.active]="isCurrentRole(ROLES.ADMIN)"
+          (click)="selectRole(ROLES.ADMIN)">
+          ADMINISTRADOR
+        </button>
+      </div>
+
     </div>
   </div>
 </div>

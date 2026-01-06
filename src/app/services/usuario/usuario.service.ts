@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ParamListarUsuario } from '../../interfaces/lista-usuarios.interface';
 
@@ -11,6 +11,15 @@ export class UsuarioService {
   private apiUrl = 'http://localhost:3000/usuarios';
 
   constructor(private http: HttpClient) {}
+
+  private authHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    let headers = new HttpHeaders();
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+    return headers;
+  }
 
   // GET /usuarios (listar con filtros opcionales)
   listarUsuarios(p: ParamListarUsuario): Observable<any> {
@@ -26,13 +35,17 @@ export class UsuarioService {
 
   // GET /usuarios/:id
   obtenerUsuario(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${id}`);
+    return this.http.get(`${this.apiUrl}/${id}`, {
+      headers: this.authHeaders()
+    });
   }
 
 
   // PATCH /usuarios/:id
   editarUsuario(id: number, data: any): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/${id}`, data);
+    return this.http.patch(`${this.apiUrl}/${id}`, data, {
+      headers: this.authHeaders()
+    });
   }
 
   // PATCH /usuarios/:id/ban
@@ -54,4 +67,19 @@ export class UsuarioService {
   actualizarRoles(id: number, data: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/${id}/roles`, data);
   }
+
+  // GET /usuarios/me/matches
+listarMisPartidos(): Observable<any[]> {
+  const token = localStorage.getItem('token');
+
+  return this.http.get<any[]>(
+    `${this.apiUrl}/me/matches`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
+}
+
 }

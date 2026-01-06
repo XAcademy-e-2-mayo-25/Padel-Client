@@ -1,1 +1,113 @@
-<p>player-profile.component works!</p>
+<!-- BLOQUEO DE RENDER HASTA QUE PLAYER EXISTA -->
+<ng-container *ngIf="player; else loadingState">
+  <!-- HEADER -->
+  <div class="header-fixed-top bg-white shadow-sm">
+    <div class="container py-2 dashboard-container d-flex justify-content-between align-items-center">
+      <!-- Logo -->
+      <div class="logo-container">
+        <img src="/brand.png" alt="logo de padel reserve" class="dashboard-logo" />
+      </div>
+
+      <!-- Saludo centrado -->
+      <div class="text-center flex-grow-1 mx-2">
+        <h1 class="player-greeting-title">¡Hola, {{ player.nombres }}!</h1>
+        <h3 class="player-greeting-subtitle">¿Listo para jugar un partido hoy?</h3>
+      </div>
+
+      <!-- Logout -->
+      <button class="btn btn-danger btn-sm logout-btn" (click)="logout()">
+        <i class="bi bi-box-arrow-right me-1"></i>
+        Cerrar Sesión
+      </button>
+
+      <!-- Volver -->
+      <button class="btn btn-outline-secondary btn-sm ms-2" (click)="goBack()">
+        <i class="bi bi-arrow-left"></i>
+        Volver
+      </button>
+    </div>
+  </div>
+
+  <!-- PERFIL -->
+  <div class="profile-container">
+    <!-- COLUMNA IZQUIERDA -->
+    <div class="profile-left">
+      <!-- FOTO + INFO BÁSICA -->
+      <img
+        class="profile-photo"
+        [src]="player.fotoPerfil || 'assets/img/player-placeholder.jpg'"
+        alt="Foto de perfil"
+      />
+
+      <h2 class="player-name">{{ player.apellidos }} {{ player.nombres }}</h2>
+
+      <!-- TARJETA DE INFORMACIÓN -->
+      <div class="profile-info-card card">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+          <h2 class="section-title m-0">Información del Jugador</h2>
+
+          <button class="btn edit-btn" (click)="goToUpdateProfile()">
+            Editar perfil
+          </button>
+        </div>
+
+        <hr class="my-3" />
+
+        <!-- GRID DE DATOS -->
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Apellido y Nombre:</label>
+            <span>{{ player.apellidos }} {{ player.nombres }}</span>
+          </div>
+
+          <div class="info-item">
+            <label>DNI:</label>
+            <span>{{ player.dni || '-' }}</span>
+          </div>
+
+          <div class="info-item">
+            <label>Email:</label>
+            <span>{{ player.email || '-' }}</span>
+          </div>
+
+          <div class="info-item">
+            <label>Teléfono:</label>
+            <span>{{ player.telefono || '-' }}</span>
+          </div>
+
+          <div class="info-item">
+            <label>Provincia:</label>
+            <span>{{ player.provincia || '-' }}</span>
+          </div>
+
+          <div class="info-item">
+            <label>Localidad:</label>
+            <span>{{ player.localidad || '-' }}</span>
+          </div>
+
+          <div class="info-item">
+            <label>Dirección:</label>
+            <span>{{ player.direccion || '-' }}</span>
+          </div>
+
+          <div class="info-item">
+            <label>Categoría:</label>
+            <span>{{ player.idCategoria ?? '-' }}</span>
+          </div>
+
+          <div class="info-item">
+            <label>Posición:</label>
+            <span>{{ player.posiciones?.[0]?.posicion?.nombre || '-' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<!-- MENSAJE DE CARGA -->
+<ng-template #loadingState>
+  <div class="text-center mt-5">
+    <p>Cargando perfil...</p>
+  </div>
+</ng-template>
