@@ -1,76 +1,68 @@
-<div class="container py-4">
+<div class="container py-3 dashboard-container">
 
-  <h2 class="mb-4">📊 Estadísticas del Club</h2>
+  <!-- HEADER -->
+  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div class="d-flex align-items-center gap-3">
+      <img src="/brand.png" alt="logo" class="dashboard-logo" />
+
+      <div>
+        <h1 class="fw-bold mb-0 dashboard-title">Reservas del club</h1>
+        <small class="text-muted">
+          Visualizá y administrá los turnos por cancha
+        </small>
+      </div>
+    </div>
+
+    <div class="d-flex gap-2">
+      <button class="btn btn-outline-secondary btn-sm" (click)="goBack()">
+        ← Volver
+      </button>
+
+      <button class="btn btn-danger btn-sm logout-btn" (click)="logout()">
+        <i class="bi bi-box-arrow-right me-1"></i>
+        Cerrar Sesión
+      </button>
+    </div>
+  </div>
+
+
+   <div class="cancha-select-wrapper" *ngIf="canchas.length > 0">
+  <i class="bi bi-grid-3x3-gap-fill cancha-icon"></i>
+
+  <select
+    class="form-select form-select-sm cancha-select"
+    [ngModel]="selectedCanchaId"
+    (change)="onChangeCancha($event)"
+  >
+    <option *ngFor="let c of canchas" [value]="c.idCancha">
+      {{ c.denominacion }}
+    </option>
+  </select>
+</div>
 
   <!-- LOADING -->
-  <div *ngIf="loading" class="text-center py-5">
+  <div *ngIf="loading" class="text-center my-4">
     <div class="spinner-border text-primary"></div>
+    <div class="text-muted small mt-2">Cargando reservas...</div>
   </div>
 
-  <!-- ERROR -->
-  <div *ngIf="error" class="alert alert-danger">
-    {{ error }}
-  </div>
-
-  <!-- SIN CANCHAS -->
-  <div *ngIf="!loading && !error && canchas.length === 0" class="alert alert-info">
-    No tenés canchas registradas todavía.
-  </div>
-
-  <!-- LISTA DE CANCHAS -->
-  <div *ngIf="!loading && canchas.length > 0">
-
-    <div *ngFor="let cancha of canchas" class="card mb-4 shadow-sm">
-
-      <div class="card-body">
-
-        <!-- HEADER CANCHA -->
-        <div class="d-flex justify-content-between align-items-center">
-          <h5 class="card-title mb-1">
-            🏟️ {{ cancha.denominacion }}
-          </h5>
-
-          <span class="badge bg-secondary">
-            {{ formatHorario(cancha) }}
-          </span>
-        </div>
-
-        <!-- INFO CANCHA -->
-        <div class="mt-2 small text-muted">
-          <div>Días: {{ formatDiasSemana(cancha.diasSemana) }}</div>
-          <div>Duración turno: {{ cancha.rangoSlotMinutos }} min</div>
-          <div *ngIf="cancha.precio !== undefined">
-            Precio: $ {{ cancha.precio | number:'1.0-0' }}
-          </div>
-        </div>
-
-        <hr />
-
-        <!-- TURNOS -->
-        <div>
-          <strong>Turnos del día ({{ fechaSeleccionada }})</strong>
-
-          <div
-            class="d-flex flex-wrap gap-2 mt-2"
-            *ngIf="turnosPorCancha[cancha.idCancha]?.length">
-
-            <span
-              *ngFor="let t of turnosPorCancha[cancha.idCancha]"
-              class="badge px-2 py-2"
-              [ngClass]="t.reservado ? 'bg-danger' : 'bg-success'">
-
-              {{ t.desde }} - {{ t.hasta }}
-            </span>
-          </div>
-
-          <small
-            class="text-muted"
-            *ngIf="!turnosPorCancha[cancha.idCancha]?.length">
-            No hay turnos configurados para esta cancha.
-          </small>
-        </div>
-
+  <!-- CALENDARIO -->
+  <div class="card shadow-sm">
+    <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+      <div>
+        <h5 class="mb-0">Calendario de turnos</h5>
+        <small class="text-muted">
+          Disponibilidad y reservas por día
+        </small>
       </div>
+
+      <span class="badge bg-secondary">
+        {{ canchas.length }} canchas
+      </span>
+    </div>
+
+    <div class="card-body p-0">
+      <full-calendar #calendar [options]="calendarOptions"></full-calendar>
     </div>
   </div>
 

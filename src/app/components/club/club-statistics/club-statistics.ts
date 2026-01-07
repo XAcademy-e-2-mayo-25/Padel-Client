@@ -1,54 +1,86 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { finalize, switchMap } from 'rxjs';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms'; 
+import { finalize, switchMap, of, catchError } from 'rxjs';
+import { Router } from '@angular/router';
+
+import { FullCalendarModule, FullCalendarComponent } from '@fullcalendar/angular';
+import { CalendarOptions, DatesSetArg } from '@fullcalendar/core';
+import esLocale from '@fullcalendar/core/locales/es';
+import interactionPlugin from '@fullcalendar/interaction';
+import timeGridPlugin from '@fullcalendar/timegrid';
 
 import { AuthService } from '../../../services/auth/auth.service';
-import {
-  ClubService,
-  Cancha,
-  ReservaTurno
-} from '../../../services/club/club.service';
+import { ClubService, Cancha } from '../../../services/club/club.service';
 
-
-type CanchaUI = Cancha & {
-  precio?: number;
-  diasSemana?: number;
+type CanchaEstadistica = Cancha & {
   horaDesde?: string;
   horaHasta?: string;
+  diasSemana?: number;
   rangoSlotMinutos?: number;
-};
-
-type SlotUI = {
-  index: number;
-  desde: string;
-  hasta: string;
-  reservado: boolean;
+  precio?: number;
 };
 
 @Component({
   selector: 'app-club-statistics',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FullCalendarModule, FormsModule],
   templateUrl: './club-statistics.html',
   styleUrls: ['./club-statistics.css'],
 })
 export class ClubStatistics implements OnInit {
+  @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
 
   loading = false;
   error: string | null = null;
-
   idClub: number | null = null;
 
-  canchas: CanchaUI[] = [];
-  turnosPorCancha: Record<number, SlotUI[]> = {};
+  canchas: CanchaEstadistica[] = [];
+  selectedCanchaId: number | null = null;
+  canchaActual: CanchaEstadistica | null = null;
 
-  fechaSeleccionada: string = this.todayISO();
-  reservas: ReservaTurno[] = [];
+  currentRange: { start: Date; end: Date } | null = null;
+  takenSlotsByDate: Record<string, number[]> = {};
+
+
+ calendarOptions: CalendarOptions = {
+  plugins: [interactionPlugin, timeGridPlugin],
+  initialView: 'timeGridWeek',
+  locale: 'es',
+  locales: [esLocale],
+
+  height: 'auto',
+  allDaySlot: false,
+
+  slotMinTime: '07:00:00',
+  slotMaxTime: '24:00:00',
+
+  slotDuration: '00:30:00',
+  slotLabelInterval: '00:30:00',
+
+  headerToolbar: {
+    left: 'prev,next today',
+    center: 'title',
+    right: 'timeGridWeek,timeGridDay'
+  },
+
+  events: [],
+  datesSet: (arg) => this.onDatesSet(arg),
+
+  eventContent: (arg) => ({ html: arg.event.title }),
+};
+
 
   constructor(
     private authService: AuthService,
-    private clubService: ClubService
+    private clubService: ClubService,
+    private router:Router,
   ) {}
+
+  
+  logout() { this.authService.logout(); }
+
+  goBack(): void { this.router.navigate(['/club-dashboard']); }
 
   ngOnInit(): void {
     this.loading = true;
@@ -60,133 +92,147 @@ export class ClubStatistics implements OnInit {
         return this.clubService.buscarClubPorUsuario(userId);
       }),
       switchMap(club => {
-        if (!club?.idClub) throw new Error('No se encontró club');
+        if (!club?.idClub) throw new Error('No se encontró club vinculado');
         this.idClub = club.idClub;
-        return this.clubService.listarCanchas(this.idClub, { page: 1, limit: 50 });
+        return this.clubService.listarCanchas(this.idClub, { page: 1, limit: 100 });
       }),
       finalize(() => (this.loading = false))
     ).subscribe({
       next: (resp: any) => {
-        this.canchas = resp?.items ?? resp ?? [];
-
-        // Generar slots por cancha
-        this.canchas.forEach(c => this.generarTurnos(c));
-
-        // Cargar reservas del día
-        this.cargarReservas();
+        this.canchas = Array.isArray(resp) ? resp : (resp?.items ?? []);
+        
+        if (this.canchas.length > 0) {
+          this.seleccionarCancha(this.canchas[0].idCancha);
+        }
       },
-      error: () => {
-        this.error = 'No se pudieron cargar las canchas del club.';
-        this.canchas = [];
+      error: (e) => {
+        console.error(e);
+        this.error = 'No pudimos cargar tus canchas.';
       }
     });
   }
 
-  /* ===== Reservas ===== */
-
-  cargarReservas(): void {
-    if (!this.idClub) return;
-
-    this.clubService
-      .listarReservasClub(this.idClub, { fecha: this.fechaSeleccionada })
-      .subscribe({
-        next: (data) => {
-          this.reservas = Array.isArray(data) ? data : [];
-          this.aplicarReservasASlots();
-        },
-        error: () => {
-          this.reservas = [];
-        }
-      });
+  onChangeCancha(event: any) {
+    const id = Number(event.target.value);
+    this.seleccionarCancha(id);
   }
 
-  aplicarReservasASlots(): void {
-    this.canchas.forEach(cancha => {
-      const slots = this.turnosPorCancha[cancha.idCancha];
-      if (!slots) return;
+  seleccionarCancha(idCancha: number) {
+    this.selectedCanchaId = idCancha;
+    this.canchaActual = this.canchas.find(c => c.idCancha === idCancha) || null;
 
-      const reservasCancha = this.reservas.filter(
-        r => r.idCancha === cancha.idCancha
-      );
+    if (this.canchaActual) {
+      this.calendarOptions = {
+        ...this.calendarOptions,
+        slotMinTime: this.fixTimeFormat(this.canchaActual.horaDesde || '07:00'),
+        slotMaxTime: this.fixTimeFormat(this.canchaActual.horaHasta || '24:00'),
+        slotDuration: Number(this.canchaActual.rangoSlotMinutos) === 30 ? '00:30:00' : '01:00:00',
+        events: [] 
+      };
 
-      reservasCancha.forEach(reserva => {
-        for (let i = 0; i < reserva.slotCount; i++) {
-          const idx = reserva.slotIndexDesde + i;
-          if (slots[idx]) {
-            slots[idx].reservado = true;
-          }
-        }
-      });
+      if (this.currentRange) {
+        this.cargarReservasYRenderizar();
+      }
+    }
+  }
+
+  onDatesSet(arg: DatesSetArg) {
+    this.currentRange = { start: arg.start, end: arg.end };
+    if (this.idClub && this.selectedCanchaId) {
+      this.cargarReservasYRenderizar();
+    }
+  }
+
+  cargarReservasYRenderizar() {
+    if (!this.idClub || !this.selectedCanchaId || !this.currentRange) return;
+
+    const desdeISO = this.toISODate(this.currentRange.start);
+    const hastaISO = this.toISODate(this.currentRange.end);
+
+    this.loading = true;
+
+    this.clubService.listarReservas(this.idClub, {
+      page: 1, limit: 2000,
+      idCancha: this.selectedCanchaId,
+      fechaDesde: desdeISO,
+      fechaHasta: hastaISO
+    }).pipe(
+      catchError(() => of([])),
+      finalize(() => this.loading = false)
+    ).subscribe((resp: any) => {
+      const reservas = Array.isArray(resp) ? resp : (resp?.items ?? []);
+      this.procesarOcupacion(reservas);
+      this.generarEventosVisuales();
     });
   }
 
-  /* ===== Turnos ===== */
-
-  generarTurnos(cancha: CanchaUI): void {
-    if (
-      !cancha.horaDesde ||
-      !cancha.horaHasta ||
-      !cancha.rangoSlotMinutos
-    ) {
-      this.turnosPorCancha[cancha.idCancha] = [];
-      return;
-    }
-
-    const [dh, dm] = cancha.horaDesde.split(':').map(Number);
-    const [hh, hm] = cancha.horaHasta.split(':').map(Number);
-
-    const startMin = dh * 60 + dm;
-    const endMin = hh * 60 + hm;
-    const rango = Number(cancha.rangoSlotMinutos);
-
-    const slots: SlotUI[] = [];
-    let idx = 0;
-
-    for (let t = startMin; t + rango <= endMin; t += rango) {
-      slots.push({
-        index: idx++,
-        desde: this.minToHHmm(t),
-        hasta: this.minToHHmm(t + rango),
-        reservado: false,
-      });
-    }
-
-    this.turnosPorCancha[cancha.idCancha] = slots;
+  procesarOcupacion(reservas: any[]) {
+    this.takenSlotsByDate = {};
+    reservas.forEach(r => {
+      const fecha = String(r.fecha).split('T')[0];
+      const startIdx = Number(r.slotIndexDesde);
+      const count = Number(r.slotCount);
+      if (!this.takenSlotsByDate[fecha]) this.takenSlotsByDate[fecha] = [];
+      for (let i = 0; i < count; i++) {
+        this.takenSlotsByDate[fecha].push(startIdx + i);
+      }
+    });
   }
 
-  /* ===== Helpers UI ===== */
+  generarEventosVisuales() {
+    if (!this.canchaActual || !this.currentRange) return;
 
-  formatHorario(cancha: { horaDesde?: string; horaHasta?: string }): string {
-    const desde = cancha.horaDesde ?? '-';
-    const hasta = cancha.horaHasta ?? '-';
-    return `${desde} - ${hasta}`;
-  }
+    const events = [];
+    const rangoMinutos = Number(this.canchaActual.rangoSlotMinutos || 60);
+    const { startMin, endMin } = this.parseHorarios(this.canchaActual);
 
-  formatDiasSemana(mask?: number): string {
-    const m = Number(mask ?? 0);
-    if (!m) return '-';
+    const loopDate = new Date(this.currentRange.start);
+    while (loopDate < this.currentRange.end) {
+      const isoDate = this.toISODate(loopDate);
+      const diaSemana = loopDate.getDay();
+      const abreHoy = (Number(this.canchaActual.diasSemana || 0) & (1 << diaSemana)) !== 0;
 
-    const labels = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
-    const enabled: string[] = [];
+      if (abreHoy) {
+        let slotIndex = 0;
+        for (let time = startMin; time + rangoMinutos <= endMin; time += rangoMinutos) {
+          const start = new Date(loopDate);
+          start.setHours(Math.floor(time / 60), time % 60);
+          const end = new Date(loopDate);
+          end.setHours(Math.floor((time + rangoMinutos) / 60), (time + rangoMinutos) % 60);
 
-    for (let i = 0; i < 7; i++) {
-      if (m & (1 << i)) enabled.push(labels[i]);
+          const isTaken = (this.takenSlotsByDate[isoDate] || []).includes(slotIndex);
+          const cssClass = isTaken ? 'slot-occupied' : 'slot-available';
+          const titulo = isTaken ? 'OCUPADO' : 'LIBRE';
+          
+          events.push({
+            start: start,
+            end: end,
+            title: `<div class="slot-content"><div class="slot-status fw-bold">${titulo}</div></div>`,
+            classNames: [cssClass],
+            display: 'block'
+          });
+          slotIndex++;
+        }
+      }
+      loopDate.setDate(loopDate.getDate() + 1);
     }
-
-    return enabled.join(', ');
+    this.calendarOptions = { ...this.calendarOptions, events };
   }
 
-  private todayISO(): string {
-    const d = new Date();
+  private parseHorarios(c: CanchaEstadistica) {
+    const [h1, m1] = (c.horaDesde || '00:00').split(':').map(Number);
+    const [h2, m2] = (c.horaHasta || '23:59').split(':').map(Number);
+    return { startMin: h1 * 60 + m1, endMin: h2 * 60 + m2 };
+  }
+
+  private fixTimeFormat(time: string): string {
+    return time.length === 5 ? time + ':00' : time;
+  }
+
+  private toISODate(d: Date): string {
     const y = d.getFullYear();
     const m = String(d.getMonth() + 1).padStart(2, '0');
     const day = String(d.getDate()).padStart(2, '0');
     return `${y}-${m}-${day}`;
-  }
-
-  private minToHHmm(totalMin: number): string {
-    const h = Math.floor(totalMin / 60);
-    const m = totalMin % 60;
-    return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
   }
 }

@@ -1,95 +1,265 @@
-<div class="container-fluid d-flex align-items-center justify-content-center min-vh-100 p-3" >
-  <div class="row rounded-4 overflow-hidden align-items-center position-relative border"
-       style="max-inline-size: 1100px; inline-size: 100%; background: white; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);">
+<div class="container py-3 paydata-container">
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+    <div>
+      <h2 class="mb-0">Métodos de cobro</h2>
+      <small class="text-muted">Cargá métodos para que los jugadores puedan pagar reservas</small>
+    </div>
 
-    <!-- Columna del logo (izquierda) -->
-    <div class="col-md-4 d-flex justify-content-center align-items-center p-3 position-relative" style="z-index: 1;">
-      <div class="text-center">
-        <img src="/brand.png" alt="Paddle Reserve" class="img-fluid" />
+    <div class="d-flex gap-2 flex-wrap">
+      <button class="btn btn-outline-secondary btn-sm" (click)="loadList()" [disabled]="loading">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+        Refrescar
+      </button>
+
+      <button class="btn btn-outline-secondary btn-sm" (click)="resetForm()">
+        Limpiar
+      </button>
+
+      <button class="btn btn-outline-secondary btn-sm" (click)="goBack()">
+        Volver
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  <div *ngIf="feedback" class="alert alert-success">{{ feedback }}</div>
+
+  <div class="row g-3">
+    <!-- Form -->
+    <div class="col-12 col-lg-6">
+      <div class="card">
+        <div class="card-header">
+          <strong>Crear método</strong>
+        </div>
+
+        <div class="card-body">
+          <form [formGroup]="form" (ngSubmit)="submit()">
+            <!-- metodoPago (input libre) -->
+            <div class="mb-3">
+              <label class="form-label">Método (visible para el jugador)</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="metodoPago"
+                placeholder="Ej: Transferencia Bancaria / Mercado Pago / Efectivo..."
+                maxlength="80"
+                (input)="onTextMaxLenInput('metodoPago', 80)"
+              />
+              <div class="hint">Máximo 80 caracteres.</div>
+              <div class="text-danger small" *ngIf="ctrlInvalid('metodoPago')">
+                El método es obligatorio y no puede superar 80 caracteres.
+              </div>
+            </div>
+
+            <!-- CBU -->
+            <div class="mb-3">
+              <label class="form-label">CBU (22 dígitos)</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="cbu"
+                inputmode="numeric"
+                autocomplete="off"
+                maxlength="22"
+                placeholder="Solo números (22)"
+                (input)="onDigitsOnlyInput('cbu', 22)"
+              />
+
+              <div class="text-danger small" *ngIf="groupHas('cbuCvuBoth')">
+                No podés cargar CBU y CVU a la vez (solo uno).
+              </div>
+              <div class="text-danger small" *ngIf="groupHas('cbuInvalidLen')">
+                CBU inválido: debe tener 22 dígitos.
+              </div>
+            </div>
+
+            <!-- CVU -->
+            <div class="mb-3">
+              <label class="form-label">CVU (22 dígitos)</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="cvu"
+                inputmode="numeric"
+                autocomplete="off"
+                maxlength="22"
+                placeholder="Solo números (22)"
+                (input)="onDigitsOnlyInput('cvu', 22)"
+              />
+
+              <div class="text-danger small" *ngIf="groupHas('cbuCvuBoth')">
+                No podés cargar CBU y CVU a la vez (solo uno).
+              </div>
+              <div class="text-danger small" *ngIf="groupHas('cvuInvalidLen')">
+                CVU inválido: debe tener 22 dígitos.
+              </div>
+            </div>
+
+            <div class="text-danger small mb-3" *ngIf="groupHas('cbuCvuRequired')">
+              Debés cargar CBU o CVU (al menos uno).
+            </div>
+
+            <!-- Alias -->
+            <div class="mb-3">
+              <label class="form-label">Alias</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="alias"
+                maxlength="60"
+                placeholder="Alias (opcional)"
+                (input)="onTextMaxLenInput('alias', 60)"
+              />
+              <div class="hint">Máximo 60 caracteres.</div>
+            </div>
+
+            <!-- Titular (debajo de alias, mismo ancho) -->
+            <div class="mb-3">
+              <label class="form-label">Titular</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="titular"
+                maxlength="150"
+                placeholder="Nombre del titular (opcional)"
+                (input)="onTextMaxLenInput('titular', 150)"
+              />
+            </div>
+
+            <!-- DNI/CUIT/CUIL (debajo de titular, solo números) -->
+            <div class="mb-3">
+              <label class="form-label">DNI / CUIT / CUIL</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="dniCuitCuil"
+                inputmode="numeric"
+                autocomplete="off"
+                maxlength="20"
+                placeholder="Solo números (opcional)"
+                (input)="onDigitsOnlyInput('dniCuitCuil', 20)"
+              />
+              <div class="hint">Solo números. Máximo 20.</div>
+            </div>
+
+            <!-- Banco -->
+            <div class="mb-3">
+              <label class="form-label">Banco</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="banco"
+                maxlength="80"
+                placeholder="Banco (opcional)"
+                (input)="onTextMaxLenInput('banco', 80)"
+              />
+            </div>
+
+            <!-- Tipo cuenta -->
+            <div class="mb-3">
+              <label class="form-label">Tipo de cuenta</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="tipoCuenta"
+                maxlength="50"
+                placeholder="Ej: Caja de ahorro (opcional)"
+                (input)="onTextMaxLenInput('tipoCuenta', 50)"
+              />
+            </div>
+
+            <!-- Número cuenta -->
+            <div class="mb-3">
+              <label class="form-label">Número de cuenta</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="numeroCuenta"
+                maxlength="30"
+                placeholder="Número de cuenta (opcional)"
+                (input)="onTextMaxLenInput('numeroCuenta', 30)"
+              />
+            </div>
+
+            <!-- Activo -->
+            <div class="form-check form-switch mb-3">
+              <input class="form-check-input" type="checkbox" id="activoSwitch" formControlName="activo" />
+              <label class="form-check-label" for="activoSwitch">Activo</label>
+            </div>
+
+            <div class="d-flex gap-2">
+              <button class="btn btn-primary" type="submit" [disabled]="saving">
+                <span *ngIf="saving" class="spinner-border spinner-border-sm me-2"></span>
+                Guardar
+              </button>
+              <button class="btn btn-outline-secondary" type="button" (click)="resetForm()">
+                Limpiar
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
 
-    <!-- Columna del formulario (derecha) -->
-    <div class="col-md-8 p-4 position-relative" style="z-index: 1; background: linear-gradient(to bottom, #ffffff, #f8fafc);">
-      <div class="mb-3 text-center">
-        <h3 class="fw-bold mb-1" style="color: #275c6a;">DATOS DE PAGO</h3>
-        <h5 class="text-muted">Completá tu información de pagos</h5>
+    <!-- Listado -->
+    <div class="col-12 col-lg-6">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <strong>Existentes</strong>
+          <span class="badge bg-secondary">{{ items.length }}</span>
+        </div>
+
+        <div class="card-body">
+          <div *ngIf="loading" class="text-muted">Cargando...</div>
+          <div *ngIf="!loading && items.length === 0" class="text-muted">
+            No hay métodos de cobro cargados.
+          </div>
+
+          <div class="list-group" *ngIf="!loading && items.length > 0">
+            <button
+              type="button"
+              class="list-group-item list-group-item-action"
+              *ngFor="let it of items"
+              (click)="selectItem(it)"
+              [class.active]="selected?.idDatosPago === it.idDatosPago"
+            >
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <div class="fw-bold">{{ it.metodoPago }}</div>
+                  <div class="small opacity-75">
+                    {{ it.activo ? 'Activo' : 'Inactivo' }}
+                    · {{ it.cbu ? 'CBU' : (it.cvu ? 'CVU' : '---') }}
+                  </div>
+                </div>
+                <span class="badge" [class.bg-success]="it.activo" [class.bg-secondary]="!it.activo">
+                  #{{ it.idDatosPago }}
+                </span>
+              </div>
+            </button>
+          </div>
+
+          <div class="mt-3" *ngIf="selected as s">
+            <div class="card details-card">
+              <div class="card-header">
+                <strong>Detalle</strong>
+              </div>
+              <div class="card-body">
+                <div><strong>Método:</strong> {{ s.metodoPago }}</div>
+                <div><strong>CBU:</strong> {{ s.cbu || '-' }}</div>
+                <div><strong>CVU:</strong> {{ s.cvu || '-' }}</div>
+                <div><strong>Alias:</strong> {{ s.alias || '-' }}</div>
+                <div><strong>Titular:</strong> {{ s.titular || '-' }}</div>
+                <div><strong>DNI/CUIT/CUIL:</strong> {{ s.dniCuitCuil || '-' }}</div>
+                <div><strong>Banco:</strong> {{ s.banco || '-' }}</div>
+                <div><strong>Tipo cuenta:</strong> {{ s.tipoCuenta || '-' }}</div>
+                <div><strong>Número cuenta:</strong> {{ s.numeroCuenta || '-' }}</div>
+                <div><strong>Activo:</strong> {{ s.activo ? 'Sí' : 'No' }}</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
-
-      <form [formGroup]="form" (ngSubmit)="submit()">
-        <!-- Método de pago -->
-        <div class="mb-3">
-          <label class="form-label fw-medium">Método de pago:</label>
-          <select class="form-select" formControlName="metodoPago">
-            <option value="">--Seleccionar--</option>
-            <option>Efectivo</option>
-            <option>Transferencia bancaria</option>
-            <option>Tarjeta de crédito/débito</option>
-          </select>
-          <div class="text-danger small mt-1" *ngIf="form.get('metodoPago')?.touched && form.get('metodoPago')?.invalid">
-            Seleccioná un método de pago.
-          </div>
-        </div>
-
-        <!-- CBU / CVU -->
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label class="form-label fw-medium">CBU:</label>
-            <input type="text" class="form-control" formControlName="cbu" placeholder="0000000000000000000000" />
-          </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label fw-medium">CVU:</label>
-            <input type="text" class="form-control" formControlName="cvu" placeholder="0000000000000000000000" />
-          </div>
-        </div>
-
-        <!-- Alias -->
-        <div class="mb-3">
-          <label class="form-label fw-medium">Alias:</label>
-          <input type="text" class="form-control" formControlName="alias" placeholder="Alias" />
-        </div>
-
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label class="form-label fw-medium">Titular:</label>
-            <input type="text" class="form-control" formControlName="titular" placeholder="Nombre del titular" />
-          </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label fw-medium">DNI / CUIT / CUIL:</label>
-            <input type="text" class="form-control" formControlName="dniCuitCuil" placeholder="Documento del titular" />
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label class="form-label fw-medium">Banco:</label>
-            <input type="text" class="form-control" formControlName="banco" placeholder="Banco o entidad" />
-          </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label fw-medium">Tipo de cuenta:</label>
-            <input type="text" class="form-control" formControlName="tipoCuenta" placeholder="Ej: Cuenta corriente" />
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label class="form-label fw-medium">Número de cuenta:</label>
-            <input type="text" class="form-control" formControlName="numeroCuenta" placeholder="Número de cuenta" />
-          </div>
-        </div>
-
-        <div *ngIf="errorMessage" class="alert alert-danger">
-          {{ errorMessage }}
-        </div>
-
-        <!-- Botones -->
-        <div class="d-flex justify-content-between mt-4">
-          <button type="button" class="btn btn-outline-primary px-3 py-2 fw-medium" (click)="goBack()" [disabled]="loading">VOLVER</button>
-          <button type="submit" class="btn btn-success px-3 py-2 fw-medium" [disabled]="loading">
-            {{ loading ? 'Guardando...' : 'REGISTRARSE' }}
-          </button>
-        </div>
-      </form>
     </div>
   </div>
 </div>
