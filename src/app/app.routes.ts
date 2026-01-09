@@ -18,11 +18,16 @@ import { RolSelectorComponent } from './components/auth/rol-selector/rol-selecto
 import { ClubCourtsComponent } from './components/club/club-courts/club-courts.component';
 import { ClubSchedulesComponent } from './components/club/club-schedules/club-schedules.component';
 import { ClubPricesComponent } from './components/club/club-prices/club-prices.component';
+import { ClubReservationsComponent } from './components/club/club-reservations/club-reservations.component';
 
 // Dashboards por rol
 import { PlayerDashboardComponent } from './components/player/player-dashboard/player-dashboard.component';
 import { ClubDashboardComponent } from './components/club/club-dashboard/club-dashboard.component';
 import { AdminDashboardComponent } from './components/admin/admin-dashboard/admin-dashboard.component';
+import { AdminRolesComponent } from './components/admin/admin-roles/admin-roles.component';
+import { AdminClubsComponent } from './components/admin/admin-clubs/admin-clubs.component';
+import { AdminUsersComponent } from './components/admin/admin-users/admin-users.component';
+import { ClubProfileComponent } from './components/club/club-profile/club-profile.component';
 
 // Testing
 import { RoleSwitcherComponent } from './components/shared/role-switcher/role-switcher.component';
@@ -56,6 +61,8 @@ export const routes: Routes = [
       { path: 'club-form', component: CourtDataFormComponent },
       { path: 'club/pay-data', component: PayDataFormComponent },
       { path: 'club/canchas', component: ClubCourtsComponent, canActivate: [ClubGuard] },
+      { path: 'club/reservas', component: ClubReservationsComponent},
+      { path: 'club/profile', component: ClubProfileComponent },
       //{ path: 'club/horarios', component: ClubSchedulesComponent, canActivate: [ClubGuard] },
       //{ path: 'club/precios', component: ClubPricesComponent, canActivate: [ClubGuard] },
       { path: 'rol-selector', component: RolSelectorComponent },
@@ -87,6 +94,27 @@ export const routes: Routes = [
       {
         path: 'admin-dashboard',
         component: AdminDashboardComponent,
+        canActivate: [AdminGuard]
+      },
+
+      // Roles y permisos (admin)
+      {
+        path: 'admin/roles',
+        component: AdminRolesComponent,
+        canActivate: [AdminGuard]
+      },
+
+      // Clubes (admin)
+      {
+        path: 'admin/clubes',
+        component: AdminClubsComponent,
+        canActivate: [AdminGuard]
+      },
+
+      // Usuarios (admin)
+      {
+        path: 'admin/usuarios',
+        component: AdminUsersComponent,
         canActivate: [AdminGuard]
       },
 

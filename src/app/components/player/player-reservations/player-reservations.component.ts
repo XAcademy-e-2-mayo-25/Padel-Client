@@ -178,7 +178,7 @@ export class PlayerReservationsComponent implements OnInit {
 
     this.resetSeleccion();
 
-    const params: any = { page: 1, limit: 20 };
+    const params: any = { page: 1, limit: 20, idEstadoClub: 2 };
     if (provincia) params.provincia = provincia;
     if (localidad) params.localidad = localidad;
     if (nombre) params.q = nombre; // contains (razonSocial OR nombreFantasia)

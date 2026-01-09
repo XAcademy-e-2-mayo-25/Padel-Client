@@ -14,90 +14,146 @@
         <h3 class="player-greeting-subtitle">¿Listo para jugar un partido hoy?</h3>
       </div>
 
-      <!-- Logout -->
-      <button class="btn btn-danger btn-sm logout-btn" (click)="logout()">
-        <i class="bi bi-box-arrow-right me-1"></i>
-        Cerrar Sesión
+      <!-- Volver -->
+      <button class="btn btn-outline-secondary btn-sm" (click)="goBack()">
+        <i class="bi bi-arrow-left me-1"></i>
+        Volver
       </button>
 
-      <!-- Volver -->
-      <button class="btn btn-outline-secondary btn-sm ms-2" (click)="goBack()">
-        <i class="bi bi-arrow-left"></i>
-        Volver
+      <!-- Logout -->
+      <button class="btn btn-danger btn-sm ms-2 logout-btn" (click)="logout()">
+        <i class="bi bi-box-arrow-right me-1"></i>
+        Cerrar Sesión
       </button>
     </div>
   </div>
 
   <!-- PERFIL -->
-  <div class="profile-container">
-    <!-- COLUMNA IZQUIERDA -->
-    <div class="profile-left">
-      <!-- FOTO + INFO BÁSICA -->
-      <img
-        class="profile-photo"
-        [src]="player.fotoPerfil || 'assets/img/player-placeholder.jpg'"
-        alt="Foto de perfil"
-      />
+  <div class="profile-page">
+    <div class="profile-card card">
+      <!-- Header del card -->
+      <div class="profile-card-header">
+        <div class="profile-photo-wrap">
+          <img
+            class="profile-photo"
+            [src]="player.fotoPerfil || 'assets/img/player-placeholder.jpg'"
+            alt="Foto de perfil"
+          />
+          <span class="profile-photo-ring" aria-hidden="true"></span>
+        </div>
 
-      <h2 class="player-name">{{ player.apellidos }} {{ player.nombres }}</h2>
+        <div class="profile-header-text">
+          <h2 class="player-name">{{ player.apellidos }} {{ player.nombres }}</h2>
+          <div class="player-subline">
+            <span class="chip">
+              <i class="bi bi-person-badge me-1"></i>
+              Jugador
+            </span>
+            <span class="chip chip-muted">
+              <i class="bi bi-award me-1"></i>
+              Categoría: {{ player.idCategoria ?? '-' }}
+            </span>
+            <span class="chip chip-muted">
+              <i class="bi bi-diagram-3 me-1"></i>
+              Posición: {{ player.posiciones?.[0]?.posicion?.nombre || '-' }}
+            </span>
+          </div>
+        </div>
 
-      <!-- TARJETA DE INFORMACIÓN -->
-      <div class="profile-info-card card">
-        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
-          <h2 class="section-title m-0">Información del Jugador</h2>
-
-          <button class="btn edit-btn" (click)="goToUpdateProfile()">
+        <div class="profile-header-actions">
+          <button class="btn btn-primary btn-sm edit-btn" (click)="goToUpdateProfile()">
+            <i class="bi bi-pencil-square me-1"></i>
             Editar perfil
           </button>
         </div>
+      </div>
 
-        <hr class="my-3" />
+      <!-- Body del card -->
+      <div class="profile-card-body">
+        <div class="section-title-row">
+          <h3 class="section-title">
+            <i class="bi bi-info-circle me-2"></i>
+            Información del Jugador
+          </h3>
+          <span class="section-hint">Datos de tu cuenta y contacto</span>
+        </div>
 
-        <!-- GRID DE DATOS -->
         <div class="info-grid">
+          <!-- Nombre -->
           <div class="info-item">
-            <label>Apellido y Nombre:</label>
-            <span>{{ player.apellidos }} {{ player.nombres }}</span>
+            <div class="info-icon">
+              <i class="bi bi-person"></i>
+            </div>
+            <div class="info-content">
+              <div class="info-label">Apellido y Nombre</div>
+              <div class="info-value">{{ player.apellidos }} {{ player.nombres }}</div>
+            </div>
           </div>
 
+          <!-- DNI -->
           <div class="info-item">
-            <label>DNI:</label>
-            <span>{{ player.dni || '-' }}</span>
+            <div class="info-icon">
+              <i class="bi bi-credit-card-2-front"></i>
+            </div>
+            <div class="info-content">
+              <div class="info-label">DNI</div>
+              <div class="info-value">{{ player.dni || '-' }}</div>
+            </div>
           </div>
 
+          <!-- Email -->
           <div class="info-item">
-            <label>Email:</label>
-            <span>{{ player.email || '-' }}</span>
+            <div class="info-icon">
+              <i class="bi bi-envelope"></i>
+            </div>
+            <div class="info-content">
+              <div class="info-label">Email</div>
+              <div class="info-value">{{ player.email || '-' }}</div>
+            </div>
           </div>
 
+          <!-- Teléfono -->
           <div class="info-item">
-            <label>Teléfono:</label>
-            <span>{{ player.telefono || '-' }}</span>
+            <div class="info-icon">
+              <i class="bi bi-phone"></i>
+            </div>
+            <div class="info-content">
+              <div class="info-label">Teléfono</div>
+              <div class="info-value">{{ player.telefono || '-' }}</div>
+            </div>
           </div>
 
+          <!-- Provincia -->
           <div class="info-item">
-            <label>Provincia:</label>
-            <span>{{ player.provincia || '-' }}</span>
+            <div class="info-icon">
+              <i class="bi bi-geo"></i>
+            </div>
+            <div class="info-content">
+              <div class="info-label">Provincia</div>
+              <div class="info-value">{{ player.provincia || '-' }}</div>
+            </div>
           </div>
 
+          <!-- Localidad -->
           <div class="info-item">
-            <label>Localidad:</label>
-            <span>{{ player.localidad || '-' }}</span>
+            <div class="info-icon">
+              <i class="bi bi-geo-alt"></i>
+            </div>
+            <div class="info-content">
+              <div class="info-label">Localidad</div>
+              <div class="info-value">{{ player.localidad || '-' }}</div>
+            </div>
           </div>
 
-          <div class="info-item">
-            <label>Dirección:</label>
-            <span>{{ player.direccion || '-' }}</span>
-          </div>
-
-          <div class="info-item">
-            <label>Categoría:</label>
-            <span>{{ player.idCategoria ?? '-' }}</span>
-          </div>
-
-          <div class="info-item">
-            <label>Posición:</label>
-            <span>{{ player.posiciones?.[0]?.posicion?.nombre || '-' }}</span>
+          <!-- Dirección -->
+          <div class="info-item info-item-wide">
+            <div class="info-icon">
+              <i class="bi bi-house-door"></i>
+            </div>
+            <div class="info-content">
+              <div class="info-label">Dirección</div>
+              <div class="info-value">{{ player.direccion || '-' }}</div>
+            </div>
           </div>
         </div>
       </div>
